@@ -22,32 +22,29 @@
 
   <meta name="description" content="专注、思考、分享">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Front-enddevelopment">
-<meta property="og:url" content="https://violet000.top/Front-enddevelopment/index.html">
+<meta property="og:title" content="Klein&#39;s-blue的博客">
+<meta property="og:url" content="https://violet000.top/index.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
 <meta property="og:description" content="专注、思考、分享">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-12-30T02:41:40.000Z">
-<meta property="article:modified_time" content="2025-12-30T02:41:40.708Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://violet000.top/Front-enddevelopment/">
+<link rel="canonical" href="https://violet000.top/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Front-enddevelopment | Klein's-blue的博客
-</title>
+  <title>Klein's-blue的博客</title>
   
 
 
@@ -170,43 +167,264 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content index posts-expand">
             
 
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
+<style>
+.category-hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 20px;
+  margin: 0 0 50px;
+}
 
-<h1 class="post-title" itemprop="name headline">Front-enddevelopment
-</h1>
+.hero-title {
+  font-size: 2.5em;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-<div class="post-meta">
+.hero-subtitle {
+  font-size: 1.2em;
+  color: #666;
+  margin: 0;
+}
+
+.category-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+.category-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-link {
+  display: block;
+  padding: 40px 30px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.card-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 18px;
+  color: #fff;
+  font-size: 32px;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.card-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+  text-align: center;
+}
+
+.card-description {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.card-arrow {
+  text-align: center;
+  color: #667eea;
+  font-size: 1.2em;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .category-cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
   
+  .hero-title {
+    font-size: 2em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1em;
+  }
+  
+  .card-link {
+    padding: 30px 20px;
+  }
+}
 
+.category-card[data-category="Front-enddevelopment"] .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.category-card[data-category="Back-enddevelopment"] .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.category-card[data-category="Mobiledevelopment"] .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.category-card[data-category="AIdevelopment"] .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.category-card[data-category="Gamedevelopment"] .card-icon {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.category-card[data-category="Othersdevelopment"] .card-icon {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+</style>
+
+<div class="category-hero">
+  <h1 class="hero-title">欢迎来到我的博客</h1>
+  <p class="hero-subtitle">记录生活，分享技术</p>
 </div>
 
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          
+<div class="category-cards-container">
+  <div class="category-card" data-category="Front-enddevelopment">
+    <a href="/Front-enddevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-code"></i>
       </div>
-      
-      
-      
-    </div>
-    
+      <h3 class="card-title">前端开发</h3>
+      <p class="card-description">探索现代前端技术，包括 React、Vue、JavaScript 等</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
 
-    
-    
-    
+  <div class="category-card" data-category="Back-enddevelopment">
+    <a href="/Back-enddevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-server"></i>
+      </div>
+      <h3 class="card-title">后端开发</h3>
+      <p class="card-description">服务器端开发、数据库设计、API 架构等后端技术</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Mobiledevelopment">
+    <a href="/Mobiledevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-mobile"></i>
+      </div>
+      <h3 class="card-title">移动开发</h3>
+      <p class="card-description">iOS、Android 开发，跨平台移动应用开发技术</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="AIdevelopment">
+    <a href="/AIdevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-brain"></i>
+      </div>
+      <h3 class="card-title">AI开发</h3>
+      <p class="card-description">人工智能、机器学习、深度学习相关技术分享</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Gamedevelopment">
+    <a href="/Gamedevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-gamepad"></i>
+      </div>
+      <h3 class="card-title">游戏开发</h3>
+      <p class="card-description">游戏引擎、游戏设计、游戏开发技巧和经验</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Othersdevelopment">
+    <a href="/Othersdevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-globe"></i>
+      </div>
+      <h3 class="card-title">其他开发</h3>
+      <p class="card-description">其他技术领域的学习笔记和心得体会</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+</div>
 
 
           </div>
