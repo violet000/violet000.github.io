@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="一个专注于技术分享和个人思考的博客">
+  <meta name="description" content="专注、思考、分享">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Klein&#39;s-blue的博客">
 <meta property="og:url" content="https://violet000.top/index.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="一个专注于技术分享和个人思考的博客">
+<meta property="og:description" content="专注、思考、分享">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
@@ -119,32 +119,32 @@
   </li>
         <li class="menu-item menu-item-front-enddevelopment">
 
-    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>Front-enddevelopment</a>
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
 
   </li>
         <li class="menu-item menu-item-back-enddevelopment">
 
-    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>Back-enddevelopment</a>
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
 
   </li>
         <li class="menu-item menu-item-mobiledevelopment">
 
-    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>Mobiledevelopment</a>
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
 
   </li>
         <li class="menu-item menu-item-aidevelopment">
 
-    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AIdevelopment</a>
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
 
   </li>
         <li class="menu-item menu-item-gamedevelopment">
 
-    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>Gamedevelopment</a>
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
 
   </li>
         <li class="menu-item menu-item-othersdevelopment">
 
-    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>Othersdevelopment</a>
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
 
   </li>
   </ul>
@@ -170,86 +170,261 @@
 
           <div class="content index posts-expand">
             
-      
+
+<style>
+.category-hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 20px;
+  margin: 0 0 50px;
+}
+
+.hero-title {
+  font-size: 2.5em;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.2em;
+  color: #666;
+  margin: 0;
+}
+
+.category-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+.category-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-link {
+  display: block;
+  padding: 40px 30px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.card-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 18px;
+  color: #fff;
+  font-size: 32px;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.card-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+  text-align: center;
+}
+
+.card-description {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.card-arrow {
+  text-align: center;
+  color: #667eea;
+  font-size: 1.2em;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .category-cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
   
+  .hero-title {
+    font-size: 2em;
+  }
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://violet000.top/2025/12/30/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Klein's-blue">
-      <meta itemprop="description" content="一个专注于技术分享和个人思考的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klein's-blue的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/12/30/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-12-30 10:28:09" itemprop="dateCreated datePublished" datetime="2025-12-30T10:28:09+08:00">2025-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-12-26 13:52:22" itemprop="dateModified" datetime="2025-12-26T13:52:22+08:00">2025-12-26</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
+  .hero-subtitle {
+    font-size: 1em;
+  }
   
-  
-  
+  .card-link {
+    padding: 30px 20px;
+  }
+}
 
+.category-card[data-category="Front-enddevelopment"] .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
 
-  
+.category-card[data-category="Back-enddevelopment"] .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
 
+.category-card[data-category="Mobiledevelopment"] .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.category-card[data-category="AIdevelopment"] .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.category-card[data-category="Gamedevelopment"] .card-icon {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.category-card[data-category="Othersdevelopment"] .card-icon {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+</style>
+
+<div class="category-hero">
+  <h1 class="hero-title">欢迎来到我的博客</h1>
+  <p class="hero-subtitle">记录生活，分享技术</p>
+</div>
+
+<div class="category-cards-container">
+  <div class="category-card" data-category="Front-enddevelopment">
+    <a href="/Front-enddevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-code"></i>
+      </div>
+      <h3 class="card-title">前端开发</h3>
+      <p class="card-description">探索现代前端技术，包括 React、Vue、JavaScript 等</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Back-enddevelopment">
+    <a href="/Back-enddevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-server"></i>
+      </div>
+      <h3 class="card-title">后端开发</h3>
+      <p class="card-description">服务器端开发、数据库设计、API 架构等后端技术</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Mobiledevelopment">
+    <a href="/Mobiledevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-mobile"></i>
+      </div>
+      <h3 class="card-title">移动开发</h3>
+      <p class="card-description">iOS、Android 开发，跨平台移动应用开发技术</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="AIdevelopment">
+    <a href="/AIdevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-brain"></i>
+      </div>
+      <h3 class="card-title">AI开发</h3>
+      <p class="card-description">人工智能、机器学习、深度学习相关技术分享</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Gamedevelopment">
+    <a href="/Gamedevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-gamepad"></i>
+      </div>
+      <h3 class="card-title">游戏开发</h3>
+      <p class="card-description">游戏引擎、游戏设计、游戏开发技巧和经验</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Othersdevelopment">
+    <a href="/Othersdevelopment/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-globe"></i>
+      </div>
+      <h3 class="card-title">其他开发</h3>
+      <p class="card-description">其他技术领域的学习笔记和心得体会</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+</div>
 
 
           </div>
@@ -306,7 +481,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Klein's-blue</p>
-  <div class="site-description" itemprop="description">一个专注于技术分享和个人思考的博客</div>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -346,8 +521,6 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Klein's-blue</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
 
         
 
