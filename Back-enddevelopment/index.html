@@ -175,37 +175,480 @@
 
           <div class="content page posts-expand">
             
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">Back-enddevelopment
-</h1>
+<style>
+.category-hero {
+  text-align: center;
+  padding: 80px 20px 50px;
+  margin-bottom: 60px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 159, 64, 0.08) 100%);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
 
-<div class="post-meta">
+.category-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 107, 107, 0.1), transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(255, 159, 64, 0.1), transparent 50%);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 3em;
+  font-weight: 700;
+  margin: 0 0 20px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff9f40 50%, #ffd93d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.3em;
+  color: #666;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  font-weight: 400;
+}
+
+.category-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px 0;
+  max-width: 1400px;
+  margin: 0 auto 80px;
+}
+
+.category-card {
+  position: relative;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06),
+              0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.category-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+              0 16px 48px rgba(0, 0, 0, 0.08);
+}
+
+.category-card:hover::after {
+  opacity: 1;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--card-color-1) 0%, var(--card-color-2) 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.category-card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-link {
+  display: block;
+  padding: 36px 28px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  z-index: 1;
+  border: none;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--card-color-1) 0%, var(--card-color-2) 100%);
+  border-radius: 22px;
+  color: #fff;
+  font-size: 36px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.card-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.category-card:hover .card-icon {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.card-title {
+  font-size: 1.4em;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #2d3748;
+  text-align: center;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.card-description {
+  font-size: 0.92em;
+  line-height: 1.7;
+  color: #64748b;
+  margin: 0 0 24px;
+  text-align: center;
+  min-height: 48px;
+}
+
+.card-arrow {
+  text-align: center;
+  color: var(--card-color-1);
+  font-size: 1.3em;
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+}
+
+.category-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 1024px) {
+  .category-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
   
+  .hero-title {
+    font-size: 2.2em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1em;
+  }
+  
+  .card-link {
+    padding: 32px 24px;
+  }
+  
+  .category-hero {
+    padding: 60px 20px 40px;
+  }
+}
 
+.category-card[data-category="Java基础"] {
+  --card-color-1: #ed8b00;
+  --card-color-2: #f8981d;
+}
+
+.category-card[data-category="Java并发编程"] {
+  --card-color-1: #ff6b6b;
+  --card-color-2: #ee5a6f;
+}
+
+.category-card[data-category="Java集合框架"] {
+  --card-color-1: #ff9f40;
+  --card-color-2: #ff6b6b;
+}
+
+.category-card[data-category="Linux"] {
+  --card-color-1: #ffd93d;
+  --card-color-2: #ff9f40;
+}
+
+.category-card[data-category="MyBatis框架"] {
+  --card-color-1: #ff6b9d;
+  --card-color-2: #c44569;
+}
+
+.category-card[data-category="Spring框架"] {
+  --card-color-1: #6bcf7f;
+  --card-color-2: #4ecdc4;
+}
+
+.category-card[data-category="MySQL语句"] {
+  --card-color-1: #00758f;
+  --card-color-2: #00a0b0;
+}
+
+.category-card[data-category="分布式基础"] {
+  --card-color-1: #667eea;
+  --card-color-2: #764ba2;
+}
+
+.category-card[data-category="Redis"] {
+  --card-color-1: #dc382d;
+  --card-color-2: #ff6b6b;
+}
+
+.category-card[data-category="RocketMQ"] {
+  --card-color-1: #ff6b6b;
+  --card-color-2: #ff9f40;
+}
+
+.category-card[data-category="操作系统基础"] {
+  --card-color-1: #4ecdc4;
+  --card-color-2: #44a08d;
+}
+
+.category-card[data-category="数据结构与算法"] {
+  --card-color-1: #f093fb;
+  --card-color-2: #f5576c;
+}
+
+.category-card[data-category="计算机网络基础"] {
+  --card-color-1: #4facfe;
+  --card-color-2: #00f2fe;
+}
+
+.category-card[data-category="微服务"] {
+  --card-color-1: #fa709a;
+  --card-color-2: #fee140;
+}
+</style>
+
+<div class="category-hero">
+  <h1 class="hero-title">欢迎来到我的博客</h1>
+  <p class="hero-subtitle">记录生活，分享技术</p>
 </div>
 
-</header>
-
-      
-      
-      
-      <div class="post-body">
-            
+<div class="category-cards-container">
+  <div class="category-card" data-category="Java基础">
+    <a href="/Back-enddevelopment/Java基础/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-java"></i>
       </div>
-      
-      
-      
-    </div>
-    
+      <h3 class="card-title">Java基础</h3>
+      <p class="card-description">Java 语言基础，语法特性、面向对象编程、核心API使用</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
 
-    
-    
-    
+  <div class="category-card" data-category="Java并发编程">
+    <a href="/Back-enddevelopment/Java并发编程/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-code-branch"></i>
+      </div>
+      <h3 class="card-title">Java并发编程</h3>
+      <p class="card-description">多线程、线程池、并发集合、锁机制、异步编程实践</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Java集合框架">
+    <a href="/Back-enddevelopment/Java集合框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-layer-group"></i>
+      </div>
+      <h3 class="card-title">Java集合框架</h3>
+      <p class="card-description">List、Set、Map 集合，数据结构实现、性能优化技巧</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Linux">
+    <a href="/Back-enddevelopment/Linux/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-linux"></i>
+      </div>
+      <h3 class="card-title">Linux</h3>
+      <p class="card-description">Linux 系统操作，命令使用、文件管理、系统配置</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="MyBatis框架">
+    <a href="/Back-enddevelopment/MyBatis框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-database"></i>
+      </div>
+      <h3 class="card-title">MyBatis框架</h3>
+      <p class="card-description">MyBatis ORM 框架，SQL映射、动态SQL、性能优化</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Spring框架">
+    <a href="/Back-enddevelopment/Spring框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-leaf"></i>
+      </div>
+      <h3 class="card-title">Spring框架</h3>
+      <p class="card-description">Spring 核心框架，IoC、AOP、事务管理、Spring Boot</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="MySQL语句">
+    <a href="/Back-enddevelopment/MySQL语句/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-database"></i>
+      </div>
+      <h3 class="card-title">MySQL语句</h3>
+      <p class="card-description">MySQL 数据库，SQL 语法、查询优化、索引设计</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="分布式基础">
+    <a href="/Back-enddevelopment/分布式基础/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-network-wired"></i>
+      </div>
+      <h3 class="card-title">分布式基础</h3>
+      <p class="card-description">分布式系统理论，CAP定理、一致性、分布式事务</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Redis">
+    <a href="/Back-enddevelopment/Redis/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-memory"></i>
+      </div>
+      <h3 class="card-title">Redis</h3>
+      <p class="card-description">Redis 缓存数据库，数据结构、持久化、集群部署</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="RocketMQ">
+    <a href="/Back-enddevelopment/RocketMQ/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-rocket"></i>
+      </div>
+      <h3 class="card-title">RocketMQ</h3>
+      <p class="card-description">RocketMQ 消息队列，消息发送、消费、事务消息</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="操作系统基础">
+    <a href="/Back-enddevelopment/操作系统基础/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-server"></i>
+      </div>
+      <h3 class="card-title">操作系统基础</h3>
+      <p class="card-description">操作系统原理，进程管理、内存管理、文件系统</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="数据结构与算法">
+    <a href="/Back-enddevelopment/数据结构与算法/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-sitemap"></i>
+      </div>
+      <h3 class="card-title">数据结构与算法</h3>
+      <p class="card-description">数据结构与算法，排序、查找、动态规划、图论</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="计算机网络基础">
+    <a href="/Back-enddevelopment/计算机网络基础/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-network-wired"></i>
+      </div>
+      <h3 class="card-title">计算机网络基础</h3>
+      <p class="card-description">网络协议，TCP/IP、HTTP、WebSocket、网络安全</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="微服务">
+    <a href="/Back-enddevelopment/微服务/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-microchip"></i>
+      </div>
+      <h3 class="card-title">微服务</h3>
+      <p class="card-description">微服务架构，服务拆分、服务治理、Spring Cloud</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+</div>
 
 
           </div>
@@ -300,7 +743,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、Linux 文件系统基础Linux 文件系统采用 树形结构，最顶层为根目录&#x2F;。所有文件与设备都在此树结构下。 1.1 根目录结构含义  目录    含义    &#x2F;       根目录  &#x2F;bin    基本命令（普通用户可执行）  &#x2F;sbin   系统管理命令（root 使用）  &#x2F;etc    配置文件目录  &#x2F;home   普通用户家目录">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Linux 常用命令与文件系统操作">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Linux/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="一、Linux 文件系统基础Linux 文件系统采用 树形结构，最顶层为根目录&#x2F;。所有文件与设备都在此树结构下。 1.1 根目录结构含义  目录    含义    &#x2F;       根目录  &#x2F;bin    基本命令（普通用户可执行）  &#x2F;sbin   系统管理命令（root 使用）  &#x2F;etc    配置文件目录  &#x2F;home   普通用户家目录">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-05T08:58:41.559Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Linux/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux 常用命令与文件系统操作 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Linux 常用命令与文件系统操作
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Linux/">LINUX</a></li>
+            <li>LINUX 常用命令与文件系统操作</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="一、Linux-文件系统基础"><a href="#一、Linux-文件系统基础" class="headerlink" title="一、Linux 文件系统基础"></a>一、Linux 文件系统基础</h2><p>Linux 文件系统采用 <strong>树形结构</strong>，最顶层为根目录<code>/</code>。所有文件与设备都在此树结构下。</p>
+<h3 id="1-1-根目录结构含义"><a href="#1-1-根目录结构含义" class="headerlink" title="1.1 根目录结构含义"></a>1.1 根目录结构含义</h3><p>  目录    含义</p>
+<hr>
+<p>  &#x2F;       根目录<br>  &#x2F;bin    基本命令（普通用户可执行）<br>  &#x2F;sbin   系统管理命令（root 使用）<br>  &#x2F;etc    配置文件目录<br>  &#x2F;home   普通用户家目录<br>  &#x2F;root   超级管理员家目录<br>  &#x2F;var    变量数据（日志、缓存、队列）<br>  &#x2F;tmp    临时文件<br>  &#x2F;usr    系统软件资源目录<br>  &#x2F;lib    库文件<br>  &#x2F;boot   启动引导文件<br>  &#x2F;dev    设备文件<br>  &#x2F;proc   内核与进程信息（伪文件系统）</p>
+<hr>
+<h3 id="1-2-绝对路径与相对路径"><a href="#1-2-绝对路径与相对路径" class="headerlink" title="1.2 绝对路径与相对路径"></a>1.2 绝对路径与相对路径</h3><h4 id="✅-绝对路径"><a href="#✅-绝对路径" class="headerlink" title="✅ 绝对路径"></a>✅ 绝对路径</h4><ul>
+<li>从根目录 <code>/</code> 开始</li>
+<li>示例：<ul>
+<li><code>/home/user/file.txt</code></li>
+<li><code>/etc/ssh/sshd_config</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="✅-相对路径"><a href="#✅-相对路径" class="headerlink" title="✅ 相对路径"></a>✅ 相对路径</h4><ul>
+<li>相对于当前工作目录</li>
+<li>特殊符号：<ul>
+<li><code>.</code> 当前目录</li>
+<li><code>..</code> 上一级目录</li>
+</ul>
+</li>
+<li>示例：<ul>
+<li><code>../logs</code></li>
+<li><code>./script.sh</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="二、文件与目录操作命令"><a href="#二、文件与目录操作命令" class="headerlink" title="二、文件与目录操作命令"></a>二、文件与目录操作命令</h2><h3 id="2-1-路径与位置查看"><a href="#2-1-路径与位置查看" class="headerlink" title="2.1 路径与位置查看"></a>2.1 路径与位置查看</h3><h4 id="🔹-查看当前目录"><a href="#🔹-查看当前目录" class="headerlink" title="🔹 查看当前目录"></a>🔹 查看当前目录</h4><pre><code>pwd
+</code></pre>
+<h4 id="🔹-切换目录"><a href="#🔹-切换目录" class="headerlink" title="🔹 切换目录"></a>🔹 切换目录</h4><pre><code>cd /etc
+cd ~
+cd ..
+</code></pre>
+<h4 id="🔹-查看目录内容"><a href="#🔹-查看目录内容" class="headerlink" title="🔹 查看目录内容"></a>🔹 查看目录内容</h4><pre><code>ls
+ls -l
+ls -a
+ls -lh
+</code></pre>
+<hr>
+<h3 id="2-2-文件与目录创建"><a href="#2-2-文件与目录创建" class="headerlink" title="2.2 文件与目录创建"></a>2.2 文件与目录创建</h3><h4 id="🔹-创建文件"><a href="#🔹-创建文件" class="headerlink" title="🔹 创建文件"></a>🔹 创建文件</h4><pre><code>touch file.txt
+</code></pre>
+<h4 id="🔹-创建目录"><a href="#🔹-创建目录" class="headerlink" title="🔹 创建目录"></a>🔹 创建目录</h4><pre><code>mkdir test
+mkdir -p a/b/c
+</code></pre>
+<hr>
+<h3 id="2-3-复制、移动与删除"><a href="#2-3-复制、移动与删除" class="headerlink" title="2.3 复制、移动与删除"></a>2.3 复制、移动与删除</h3><h4 id="🔹-复制"><a href="#🔹-复制" class="headerlink" title="🔹 复制"></a>🔹 复制</h4><pre><code>cp file1 file2
+cp -r dir1 dir2
+</code></pre>
+<h4 id="🔹-移动或重命名"><a href="#🔹-移动或重命名" class="headerlink" title="🔹 移动或重命名"></a>🔹 移动或重命名</h4><pre><code>mv old new
+mv file /tmp/
+</code></pre>
+<h4 id="🔹-删除"><a href="#🔹-删除" class="headerlink" title="🔹 删除"></a>🔹 删除</h4><pre><code>rm file
+rm -r dir
+rm -rf dir
+</code></pre>
+<p>⚠️ <code>rm -rf /</code> 会删除系统，请务必慎用</p>
+<hr>
+<h2 id="三、权限管理"><a href="#三、权限管理" class="headerlink" title="三、权限管理"></a>三、权限管理</h2><p>Linux 中每个文件都具有以下信息： - 所有者 - 所属组 - 访问权限</p>
+<h3 id="3-1-权限含义-rwx"><a href="#3-1-权限含义-rwx" class="headerlink" title="3.1 权限含义 rwx"></a>3.1 权限含义 rwx</h3><pre><code>r  读  read
+w  写  write
+x  执行 execute
+</code></pre>
+<p>示例：</p>
+<pre><code>-rwxr-xr--  1 root root  4096  test.sh
+</code></pre>
+<p>  字段    含义</p>
+<hr>
+<p>  rwx   文件所有者权限<br>  r-x   所属组权限<br>  r–   其他用户权限</p>
+<hr>
+<h3 id="3-2-权限数字表示法"><a href="#3-2-权限数字表示法" class="headerlink" title="3.2 权限数字表示法"></a>3.2 权限数字表示法</h3><p>  权限   数值</p>
+<hr>
+<p>  r      4<br>  w      2<br>  x      1<br>  rwx    7<br>  rw-    6<br>  r–    4</p>
+<p>示例：</p>
+<pre><code>chmod 755 file
+chmod 644 file
+</code></pre>
+<hr>
+<h3 id="3-3-修改权限-所有者-用户组"><a href="#3-3-修改权限-所有者-用户组" class="headerlink" title="3.3 修改权限&#x2F;所有者&#x2F;用户组"></a>3.3 修改权限&#x2F;所有者&#x2F;用户组</h3><h4 id="🔹-修改权限"><a href="#🔹-修改权限" class="headerlink" title="🔹 修改权限"></a>🔹 修改权限</h4><pre><code>chmod 755 file
+</code></pre>
+<h4 id="🔹-修改所有者"><a href="#🔹-修改所有者" class="headerlink" title="🔹 修改所有者"></a>🔹 修改所有者</h4><pre><code>chown user file
+</code></pre>
+<h4 id="🔹-修改所属组"><a href="#🔹-修改所属组" class="headerlink" title="🔹 修改所属组"></a>🔹 修改所属组</h4><pre><code>chgrp group file
+</code></pre>
+<hr>
+<h2 id="四、查找与统计命令"><a href="#四、查找与统计命令" class="headerlink" title="四、查找与统计命令"></a>四、查找与统计命令</h2><h3 id="4-1-find-查找文件"><a href="#4-1-find-查找文件" class="headerlink" title="4.1 find 查找文件"></a>4.1 find 查找文件</h3><p>按名称查找：</p>
+<pre><code>find /etc -name &quot;*.conf&quot;
+</code></pre>
+<p>按大小查找：</p>
+<pre><code>find / -size +100M
+</code></pre>
+<p>按类型查找：</p>
+<pre><code>find . -type f
+find . -type d
+</code></pre>
+<hr>
+<h3 id="4-2-grep-查找内容"><a href="#4-2-grep-查找内容" class="headerlink" title="4.2 grep 查找内容"></a>4.2 grep 查找内容</h3><p>查找包含某关键字行：</p>
+<pre><code>grep &quot;root&quot; /etc/passwd
+</code></pre>
+<p>忽略大小写：</p>
+<pre><code>grep -i
+</code></pre>
+<p>显示行号：</p>
+<pre><code>grep -n
+</code></pre>
+<hr>
+<h3 id="4-3-wc-统计"><a href="#4-3-wc-统计" class="headerlink" title="4.3 wc 统计"></a>4.3 wc 统计</h3><pre><code>wc -l file      # 行
+wc -w file      # 单词
+wc -c file      # 字节
+</code></pre>
+<hr>
+<h3 id="4-4-sort-排序"><a href="#4-4-sort-排序" class="headerlink" title="4.4 sort 排序"></a>4.4 sort 排序</h3><pre><code>sort file
+sort -r file
+</code></pre>
+<hr>
+<h3 id="4-5-uniq-去重"><a href="#4-5-uniq-去重" class="headerlink" title="4.5 uniq 去重"></a>4.5 uniq 去重</h3><pre><code>uniq file
+uniq -c file
+</code></pre>
+<hr>
+<h3 id="4-6-cut-按列截取"><a href="#4-6-cut-按列截取" class="headerlink" title="4.6 cut 按列截取"></a>4.6 cut 按列截取</h3><pre><code>cut -d: -f1 /etc/passwd
+</code></pre>
+<hr>
+<h3 id="4-7-awk-处理行列"><a href="#4-7-awk-处理行列" class="headerlink" title="4.7 awk 处理行列"></a>4.7 awk 处理行列</h3><pre><code>awk &#39;&#123;print $1,$3&#125;&#39; file
+</code></pre>
+<hr>
+<h3 id="4-8-sed-流编辑器"><a href="#4-8-sed-流编辑器" class="headerlink" title="4.8 sed 流编辑器"></a>4.8 sed 流编辑器</h3><pre><code>sed &#39;s/root/admin/g&#39; file
+</code></pre>
+<hr>
+<h2 id="五、经典面试题与答案"><a href="#五、经典面试题与答案" class="headerlink" title="五、经典面试题与答案"></a>五、经典面试题与答案</h2><h3 id="1️⃣-如何查找文件中包含某个关键字的行？"><a href="#1️⃣-如何查找文件中包含某个关键字的行？" class="headerlink" title="1️⃣ 如何查找文件中包含某个关键字的行？"></a>1️⃣ 如何查找文件中包含某个关键字的行？</h3><p>答：使用 grep</p>
+<pre><code>grep &quot;关键字&quot; 文件名
+</code></pre>
+<p>递归目录：</p>
+<pre><code>grep -r &quot;关键字&quot; 目录
+</code></pre>
+<hr>
+<h3 id="2️⃣-如何统计一个目录下所有文件大小？"><a href="#2️⃣-如何统计一个目录下所有文件大小？" class="headerlink" title="2️⃣ 如何统计一个目录下所有文件大小？"></a>2️⃣ 如何统计一个目录下所有文件大小？</h3><p>答：使用 du</p>
+<pre><code>du -sh *
+</code></pre>
+<p>统计当前目录总大小：</p>
+<pre><code>du -sh .
+</code></pre>
+<hr>
+<h2 id="📚-推荐练习"><a href="#📚-推荐练习" class="headerlink" title="📚 推荐练习"></a>📚 推荐练习</h2><ul>
+<li>切换目录并理解路径</li>
+<li>创建 10 个文件并批量删除</li>
+<li>改变文件权限验证效果</li>
+<li>用 grep 搜索日志关键字</li>
+<li>用 awk 提取文本列</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Linux/">LINUX</a></li>
+            <li>LINUX 常用命令与文件系统操作</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81Linux-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">一、Linux 文件系统基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%A0%B9%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%90%AB%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 根目录结构含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E4%B8%8E%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 绝对路径与相对路径</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%9C%85-%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.1.</span> <span class="nav-text">✅ 绝对路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%9C%85-%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.2.</span> <span class="nav-text">✅ 相对路径</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">二、文件与目录操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%B7%AF%E5%BE%84%E4%B8%8E%E4%BD%8D%E7%BD%AE%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 路径与位置查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">🔹 查看当前目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E5%88%87%E6%8D%A2%E7%9B%AE%E5%BD%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">🔹 切换目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9"><span class="nav-number">2.1.3.</span> <span class="nav-text">🔹 查看目录内容</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%88%9B%E5%BB%BA"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 文件与目录创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.1.</span> <span class="nav-text">🔹 创建文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-number">2.2.2.</span> <span class="nav-text">🔹 创建目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%A4%8D%E5%88%B6%E3%80%81%E7%A7%BB%E5%8A%A8%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 复制、移动与删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E5%A4%8D%E5%88%B6"><span class="nav-number">2.3.1.</span> <span class="nav-text">🔹 复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E7%A7%BB%E5%8A%A8%E6%88%96%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">2.3.2.</span> <span class="nav-text">🔹 移动或重命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E5%88%A0%E9%99%A4"><span class="nav-number">2.3.3.</span> <span class="nav-text">🔹 删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">三、权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%9D%83%E9%99%90%E5%90%AB%E4%B9%89-rwx"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 权限含义 rwx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%9D%83%E9%99%90%E6%95%B0%E5%AD%97%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 权限数字表示法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90-%E6%89%80%E6%9C%89%E8%80%85-%E7%94%A8%E6%88%B7%E7%BB%84"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 修改权限&#x2F;所有者&#x2F;用户组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="nav-number">3.3.1.</span> <span class="nav-text">🔹 修改权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E4%BF%AE%E6%94%B9%E6%89%80%E6%9C%89%E8%80%85"><span class="nav-number">3.3.2.</span> <span class="nav-text">🔹 修改所有者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%F0%9F%94%B9-%E4%BF%AE%E6%94%B9%E6%89%80%E5%B1%9E%E7%BB%84"><span class="nav-number">3.3.3.</span> <span class="nav-text">🔹 修改所属组</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%9F%A5%E6%89%BE%E4%B8%8E%E7%BB%9F%E8%AE%A1%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">四、查找与统计命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-find-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 find 查找文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-grep-%E6%9F%A5%E6%89%BE%E5%86%85%E5%AE%B9"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 grep 查找内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-wc-%E7%BB%9F%E8%AE%A1"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 wc 统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-sort-%E6%8E%92%E5%BA%8F"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 sort 排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-uniq-%E5%8E%BB%E9%87%8D"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 uniq 去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-cut-%E6%8C%89%E5%88%97%E6%88%AA%E5%8F%96"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 cut 按列截取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-awk-%E5%A4%84%E7%90%86%E8%A1%8C%E5%88%97"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 awk 处理行列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-sed-%E6%B5%81%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">4.8.</span> <span class="nav-text">4.8 sed 流编辑器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88"><span class="nav-number">5.</span> <span class="nav-text">五、经典面试题与答案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%B8%8F%E2%83%A3-%E5%A6%82%E4%BD%95%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E8%A1%8C%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">1️⃣ 如何查找文件中包含某个关键字的行？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%B8%8F%E2%83%A3-%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">2️⃣ 如何统计一个目录下所有文件大小？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E6%8E%A8%E8%8D%90%E7%BB%83%E4%B9%A0"><span class="nav-number">6.</span> <span class="nav-text">📚 推荐练习</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
