@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、List 接口体系概览List 是一个 有序、可重复 的集合，核心特点：  元素有索引（从 0 开始） 允许存储重复元素 允许存储 null 支持按位置访问元素（下标随机访问）  常见实现类总览   实现类 底层结构 是否线程安全 随机访问性能 插入删除性能 典型使用场景    ArrayList 动态数组 否 高效 中间较慢 读多写少   LinkedList 双向链表 否 较差 插入删除高">
+<meta property="og:type" content="website">
+<meta property="og:title" content="List 接口体系">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/List%20%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="一、List 接口体系概览List 是一个 有序、可重复 的集合，核心特点：  元素有索引（从 0 开始） 允许存储重复元素 允许存储 null 支持按位置访问元素（下标随机访问）  常见实现类总览   实现类 底层结构 是否线程安全 随机访问性能 插入删除性能 典型使用场景    ArrayList 动态数组 否 高效 中间较慢 读多写少   LinkedList 双向链表 否 较差 插入删除高">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-06T08:19:55.449Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/List%20%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>List 接口体系 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">List 接口体系
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">JAVA集合框架</a></li>
+            <li>LIST 接口体系</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="一、List-接口体系概览"><a href="#一、List-接口体系概览" class="headerlink" title="一、List 接口体系概览"></a>一、List 接口体系概览</h2><p><code>List</code> 是一个 <strong>有序、可重复</strong> 的集合，核心特点：</p>
+<ul>
+<li>元素有索引（从 0 开始）</li>
+<li>允许存储重复元素</li>
+<li>允许存储 <code>null</code></li>
+<li>支持按位置访问元素（下标随机访问）</li>
+</ul>
+<h3 id="常见实现类总览"><a href="#常见实现类总览" class="headerlink" title="常见实现类总览"></a>常见实现类总览</h3><table>
+<thead>
+<tr>
+<th>实现类</th>
+<th>底层结构</th>
+<th>是否线程安全</th>
+<th>随机访问性能</th>
+<th>插入删除性能</th>
+<th>典型使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ArrayList</td>
+<td>动态数组</td>
+<td>否</td>
+<td>高效</td>
+<td>中间较慢</td>
+<td>读多写少</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>双向链表</td>
+<td>否</td>
+<td>较差</td>
+<td>插入删除高效</td>
+<td>插入删除操作较多</td>
+</tr>
+<tr>
+<td>Vector</td>
+<td>动态数组</td>
+<td>是</td>
+<td>一般</td>
+<td>一般</td>
+<td>早期线程安全场景</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>记忆一句话：</strong>绝大多数业务场景用 <code>ArrayList</code>，极少数频繁插入删除用 <code>LinkedList</code>，<code>Vector</code> 主要存在于老代码和面试题里。</p>
+</blockquote>
+<hr>
+<h2 id="二、ArrayList-——-动态数组结构"><a href="#二、ArrayList-——-动态数组结构" class="headerlink" title="二、ArrayList —— 动态数组结构"></a>二、ArrayList —— 动态数组结构</h2><h3 id="1-底层结构与特性"><a href="#1-底层结构与特性" class="headerlink" title="1. 底层结构与特性"></a>1. 底层结构与特性</h3><ul>
+<li>基于 <strong>动态数组 <code>Object[]</code></strong> 实现</li>
+<li>支持 **随机访问 O(1)**，适合频繁按索引读取</li>
+<li>连续内存存储，<strong>CPU 缓存友好，遍历性能好</strong></li>
+</ul>
+<p>常见操作时间复杂度（n 为元素个数）：</p>
+<ul>
+<li>按索引访问：O(1)</li>
+<li>尾部插入：均摊 O(1)</li>
+<li>头部或中间插入&#x2F;删除：O(n)（需要搬移元素）</li>
+</ul>
+<h3 id="2-扩容机制（JDK-8-之后）"><a href="#2-扩容机制（JDK-8-之后）" class="headerlink" title="2. 扩容机制（JDK 8 之后）"></a>2. 扩容机制（JDK 8 之后）</h3><p>默认容量与初始化方式：</p>
+<ul>
+<li>无参构造：<strong>延迟初始化</strong>（第一次 <code>add</code> 时扩容为 10）</li>
+<li>有参构造：直接创建指定容量数组，如 <code>new ArrayList&lt;&gt;(100)</code></li>
+</ul>
+<p>扩容规则（简化理解）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">新容量 ≈ 旧容量 × 1.5</span><br></pre></td></tr></table></figure>
+
+<p>扩容步骤：</p>
+<ol>
+<li>创建更大的新数组</li>
+<li>将旧数组数据拷贝到新数组</li>
+<li>将内部引用指向新数组</li>
+</ol>
+<p>👉 扩容是一个 <strong>昂贵操作</strong>，涉及：</p>
+<ul>
+<li>新数组分配</li>
+<li>元素整体拷贝</li>
+<li>可能触发 GC</li>
+</ul>
+<p><strong>实践建议：</strong></p>
+<ul>
+<li>能预估元素数量时，优先：<code>new ArrayList&lt;&gt;(initialCapacity)</code></li>
+<li>大数据场景下，合理预估容量可以明显减少扩容带来的抖动</li>
+</ul>
+<h3 id="3-常用方法与-subList-注意事项"><a href="#3-常用方法与-subList-注意事项" class="headerlink" title="3. 常用方法与 subList 注意事项"></a>3. 常用方法与 subList 注意事项</h3><p>常用方法：</p>
+<ul>
+<li>增：<code>add(E e)</code>、<code>add(int index, E element)</code></li>
+<li>删：<code>remove(int index)</code>、<code>remove(Object o)</code></li>
+<li>改：<code>set(int index, E element)</code></li>
+<li>查：<code>get(int index)</code>、<code>indexOf(Object o)</code>、<code>lastIndexOf(Object o)</code></li>
+<li>其他：<code>subList(int from, int to)</code>、<code>ensureCapacity(int minCapacity)</code>、<code>trimToSize()</code></li>
+</ul>
+<p><strong><code>subList</code> 的常见坑：</strong></p>
+<ul>
+<li><code>subList</code> 返回的是 <strong>视图（view）</strong>，不是全新 List</li>
+<li>对 <code>subList</code> 结构修改会影响原 List，反之亦然</li>
+<li>原 List 结构改变后再操作 <code>subList</code>，可能出现 <code>ConcurrentModificationException</code></li>
+</ul>
+<p>面试可说的安全用法：</p>
+<blockquote>
+<p>如需得到真正独立的子列表，可使用：<code>new ArrayList&lt;&gt;(list.subList(from, to))</code>。</p>
+</blockquote>
+<h3 id="4-适用-不适用场景"><a href="#4-适用-不适用场景" class="headerlink" title="4. 适用&#x2F;不适用场景"></a>4. 适用&#x2F;不适用场景</h3><p><strong>适合：</strong></p>
+<ul>
+<li>读多写少的场景</li>
+<li>需要大量按索引随机访问</li>
+<li>插入删除主要集中在尾部</li>
+</ul>
+<p><strong>不适合：</strong></p>
+<ul>
+<li>频繁在头部或中间插入、删除元素</li>
+<li>强依赖实时插入&#x2F;删除性能的队列&#x2F;栈（可考虑 <code>LinkedList</code> 或并发集合）</li>
+</ul>
+<hr>
+<h2 id="三、LinkedList-——-双向链表结构"><a href="#三、LinkedList-——-双向链表结构" class="headerlink" title="三、LinkedList —— 双向链表结构"></a>三、LinkedList —— 双向链表结构</h2><h3 id="1-底层结构"><a href="#1-底层结构" class="headerlink" title="1. 底层结构"></a>1. 底层结构</h3><ul>
+<li>基于 <strong>双向链表</strong> 实现</li>
+<li>节点结构大致为：</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prev | item | next</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过 <code>first</code> 和 <code>last</code> 引用分别指向头节点和尾节点</li>
+</ul>
+<h3 id="2-时间复杂度"><a href="#2-时间复杂度" class="headerlink" title="2. 时间复杂度"></a>2. 时间复杂度</h3><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>头插入&#x2F;尾插入</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>删除当前节点</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>根据索引访问</td>
+<td>O(n)</td>
+</tr>
+</tbody></table>
+<p>说明：</p>
+<ul>
+<li>若已持有节点引用（例如来自迭代器），删除当前节点是 O(1)</li>
+<li>按索引访问时，会从头或尾开始遍历，平均复杂度仍为 O(n)</li>
+</ul>
+<h3 id="3-特性与使用方式"><a href="#3-特性与使用方式" class="headerlink" title="3. 特性与使用方式"></a>3. 特性与使用方式</h3><p><strong>优势：</strong></p>
+<ul>
+<li>非常适合<strong>频繁插入删除</strong>的场景（尤其是首尾）</li>
+<li>同时实现了 <code>Deque</code> 接口，可作为：<ul>
+<li>队列（Queue）</li>
+<li>双端队列（Deque）</li>
+<li>栈（Stack 的替代实现）</li>
+</ul>
+</li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul>
+<li>不支持高效随机访问</li>
+<li>每个节点多出两个指针，内存开销相对数组更大</li>
+</ul>
+<p>典型用法示例：</p>
+<ul>
+<li>作为队列：<code>offer()</code> &#x2F; <code>poll()</code> &#x2F; <code>peek()</code></li>
+<li>作为栈：<code>push()</code> &#x2F; <code>pop()</code> &#x2F; <code>peek()</code></li>
+</ul>
+<hr>
+<h2 id="四、Vector-——-线程安全的动态数组（历史遗留）"><a href="#四、Vector-——-线程安全的动态数组（历史遗留）" class="headerlink" title="四、Vector —— 线程安全的动态数组（历史遗留）"></a>四、Vector —— 线程安全的动态数组（历史遗留）</h2><h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1. 特点"></a>1. 特点</h3><ul>
+<li>大部分方法都加了 <code>synchronized</code> 关键字</li>
+<li>线程安全，但锁粒度非常粗</li>
+<li>底层同样是动态数组</li>
+<li>性能普遍逊于 <code>ArrayList</code></li>
+</ul>
+<h3 id="2-为什么逐渐被淘汰"><a href="#2-为什么逐渐被淘汰" class="headerlink" title="2. 为什么逐渐被淘汰"></a>2. 为什么逐渐被淘汰</h3><ul>
+<li>同步粒度大，无法充分利用多核</li>
+<li>与现代并发集合相比，扩展性与性能都较差</li>
+<li>存在更优的替代：<ul>
+<li><code>Collections.synchronizedList(new ArrayList&lt;&gt;())</code></li>
+<li><code>CopyOnWriteArrayList</code> 等并发集合</li>
+</ul>
+</li>
+</ul>
+<p>👉 面试常用表述：</p>
+<blockquote>
+<p>Vector 是 Java 早期的线程安全 List 实现，依靠方法级 synchronized 保证线程安全；<br>由于性能和扩展性问题，在新项目中基本被 ArrayList + 显式同步 或 并发集合替代。</p>
+</blockquote>
+<hr>
+<h2 id="五、List-遍历方式与-fail-fast-机制"><a href="#五、List-遍历方式与-fail-fast-机制" class="headerlink" title="五、List 遍历方式与 fail-fast 机制"></a>五、List 遍历方式与 fail-fast 机制</h2><h3 id="1-常见三种遍历方式"><a href="#1-常见三种遍历方式" class="headerlink" title="1. 常见三种遍历方式"></a>1. 常见三种遍历方式</h3><ul>
+<li><strong>普通 for（按索引）</strong><ul>
+<li>优点：可根据索引灵活访问、修改</li>
+<li>适合：<code>ArrayList</code> 这类支持 O(1) 随机访问的实现</li>
+</ul>
+</li>
+<li><strong>增强 for（for-each）</strong><ul>
+<li>底层依赖 <code>Iterator</code></li>
+<li>代码最简洁，但不方便安全删除元素</li>
+</ul>
+</li>
+<li><strong>迭代器（Iterator &#x2F; ListIterator）</strong><ul>
+<li><code>Iterator</code>：<code>hasNext()</code> &#x2F; <code>next()</code> &#x2F; <code>remove()</code></li>
+<li><code>ListIterator</code>：支持<strong>双向遍历</strong>，以及遍历过程中的 <code>add()</code>、<code>set()</code> 等操作</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-fail-fast-机制"><a href="#2-fail-fast-机制" class="headerlink" title="2. fail-fast 机制"></a>2. fail-fast 机制</h3><ul>
+<li>大部分 <code>List</code> 实现（如 <code>ArrayList</code>、<code>LinkedList</code>）的迭代器都是 <strong>fail-fast</strong> 的</li>
+<li>遍历过程中，如果集合被“非当前迭代器”结构性修改，会抛出 <code>ConcurrentModificationException</code></li>
+</ul>
+<p>常见错误写法（遍历过程中直接调用 <code>list.remove(i)</code>）：</p>
+<ul>
+<li>使用增强 for 或迭代器时，直接用 <code>list.remove(...)</code> 来删，会触发 fail-fast</li>
+</ul>
+<p><strong>正确做法：</strong></p>
+<ul>
+<li>使用迭代器的 <code>remove()</code> 方法</li>
+<li>或先记录要删除的元素，遍历结束后统一删除</li>
+</ul>
+<hr>
+<h2 id="六、面试高频题（List-专题）"><a href="#六、面试高频题（List-专题）" class="headerlink" title="六、面试高频题（List 专题）"></a>六、面试高频题（List 专题）</h2><h3 id="1-ArrayList-和-LinkedList-的区别？"><a href="#1-ArrayList-和-LinkedList-的区别？" class="headerlink" title="1. ArrayList 和 LinkedList 的区别？"></a>1. ArrayList 和 LinkedList 的区别？</h3><p><strong>推荐从 5 个角度答：底层结构、时间复杂度、内存占用、线程安全、适用场景。</strong></p>
+<p>1）底层结构：</p>
+<ul>
+<li>ArrayList：动态数组</li>
+<li>LinkedList：双向链表</li>
+</ul>
+<p>2）时间复杂度（大致）：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ArrayList</th>
+<th>LinkedList</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>随机访问</td>
+<td>O(1)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>头部插入删除</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>中间插入删除</td>
+<td>O(n)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>尾部插入</td>
+<td>O(1) 均摊</td>
+<td>O(1)</td>
+</tr>
+</tbody></table>
+<p>3）内存占用：</p>
+<ul>
+<li>ArrayList：连续内存，只存数据</li>
+<li>LinkedList：每个节点多出 <code>prev</code>、<code>next</code> 两个指针，内存开销更大</li>
+</ul>
+<p>4）线程安全：</p>
+<ul>
+<li>两者默认都 <strong>不是线程安全</strong> 的</li>
+</ul>
+<p>5）适用场景：</p>
+<ul>
+<li>ArrayList：读多写少、随机访问频繁</li>
+<li>LinkedList：插入删除多，尤其是首尾</li>
+</ul>
+<p><strong>一段可以直接背的总结：</strong></p>
+<blockquote>
+<p>ArrayList 底层是动态数组，随机访问效率高，但在中间插入删除需要移动大量元素；<br>LinkedList 底层是双向链表，适合频繁插入删除，但按索引访问需要遍历，性能较差。</p>
+</blockquote>
+<hr>
+<h3 id="2-ArrayList-的扩容机制？"><a href="#2-ArrayList-的扩容机制？" class="headerlink" title="2. ArrayList 的扩容机制？"></a>2. ArrayList 的扩容机制？</h3><p><strong>必答要点：</strong></p>
+<ul>
+<li>默认初始容量 10（第一次插入时分配）</li>
+<li>每次扩容大约为 <strong>1.5 倍</strong></li>
+<li>通过创建新数组 + 拷贝旧数组来完成扩容</li>
+<li>建议根据业务场景指定初始容量，减少扩容次数</li>
+</ul>
+<p><strong>可扩展点：</strong></p>
+<ul>
+<li><code>ensureCapacity(int minCapacity)</code>：手动触发容量检查，避免频繁扩容</li>
+<li><code>trimToSize()</code>：将内部数组容量缩减到当前 <code>size</code>，节省内存</li>
+</ul>
+<hr>
+<h3 id="3-Vector-为什么不推荐使用？"><a href="#3-Vector-为什么不推荐使用？" class="headerlink" title="3. Vector 为什么不推荐使用？"></a>3. Vector 为什么不推荐使用？</h3><p><strong>标准答案要点：</strong></p>
+<ul>
+<li>性能低：所有方法都加 <code>synchronized</code>，锁粒度大</li>
+<li>扩展性差：难以发挥多核优势</li>
+<li>扩容与设计偏陈旧</li>
+<li>已被更优集合替代：<code>ArrayList</code> + <code>Collections.synchronizedList</code> &#x2F; <code>CopyOnWriteArrayList</code></li>
+</ul>
+<p><strong>推荐替代：</strong></p>
+<ul>
+<li>单线程：<code>ArrayList</code></li>
+<li>多线程：<code>CopyOnWriteArrayList</code> 或 其他并发集合</li>
+</ul>
+<hr>
+<h2 id="🧠-总结：如何选择合适的-List？"><a href="#🧠-总结：如何选择合适的-List？" class="headerlink" title="🧠 总结：如何选择合适的 List？"></a>🧠 总结：如何选择合适的 List？</h2><table>
+<thead>
+<tr>
+<th>结论</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>频繁查询 → 选 ArrayList</td>
+<td>随机访问 O(1)</td>
+</tr>
+<tr>
+<td>频繁插入删除 → 选 LinkedList</td>
+<td>链表结构插删更高效</td>
+</tr>
+<tr>
+<td>多线程场景 → 不用 Vector</td>
+<td>更推荐并发集合</td>
+</tr>
+<tr>
+<td>大数据场景 → 预估容量</td>
+<td>降低扩容次数与成本</td>
+</tr>
+</tbody></table>
+<p><strong>一句收尾：</strong>实际开发中优先考虑 <code>ArrayList</code>，在少数插删非常密集的场景下用 <code>LinkedList</code>，<code>Vector</code> 基本只需要在面试中把它讲清楚即可。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">JAVA集合框架</a></li>
+            <li>LIST 接口体系</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81List-%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">一、List 接口体系概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%9E%E7%8E%B0%E7%B1%BB%E6%80%BB%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">常见实现类总览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81ArrayList-%E2%80%94%E2%80%94-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">二、ArrayList —— 动态数组结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">1. 底层结构与特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%EF%BC%88JDK-8-%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2. 扩容机制（JDK 8 之后）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E4%B8%8E-subList-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.3.</span> <span class="nav-text">3. 常用方法与 subList 注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%80%82%E7%94%A8-%E4%B8%8D%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.4.</span> <span class="nav-text">4. 适用&#x2F;不适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81LinkedList-%E2%80%94%E2%80%94-%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">三、LinkedList —— 双向链表结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">1. 底层结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">2. 时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%89%B9%E6%80%A7%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text">3. 特性与使用方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81Vector-%E2%80%94%E2%80%94-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%EF%BC%88%E5%8E%86%E5%8F%B2%E9%81%97%E7%95%99%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、Vector —— 线程安全的动态数组（历史遗留）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%89%B9%E7%82%B9"><span class="nav-number">4.1.</span> <span class="nav-text">1. 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%90%E6%B8%90%E8%A2%AB%E6%B7%98%E6%B1%B0"><span class="nav-number">4.2.</span> <span class="nav-text">2. 为什么逐渐被淘汰</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81List-%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F%E4%B8%8E-fail-fast-%E6%9C%BA%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">五、List 遍历方式与 fail-fast 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B8%B8%E8%A7%81%E4%B8%89%E7%A7%8D%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">1. 常见三种遍历方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-fail-fast-%E6%9C%BA%E5%88%B6"><span class="nav-number">5.2.</span> <span class="nav-text">2. fail-fast 机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%EF%BC%88List-%E4%B8%93%E9%A2%98%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">六、面试高频题（List 专题）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-ArrayList-%E5%92%8C-LinkedList-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">1. ArrayList 和 LinkedList 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ArrayList-%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">6.2.</span> <span class="nav-text">2. ArrayList 的扩容机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Vector-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="nav-number">6.3.</span> <span class="nav-text">3. Vector 为什么不推荐使用？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%A0-%E6%80%BB%E7%BB%93%EF%BC%9A%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84-List%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">🧠 总结：如何选择合适的 List？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

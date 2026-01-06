@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、运算符类型1. 算术运算符基本运算符： +、-、*、&#x2F;、% 12345678910111213int a &#x3D; 10;int b &#x3D; 3;System.out.println(a + b);  &#x2F;&#x2F; 13System.out.println(a - b);  &#x2F;&#x2F; 7System.out.println(a * b);  &#x2F;&#x2F; 30System.out.println(a &#x2F; b);  &#x2F;&#x2F; 3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="运算符与控制流程">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%B8%8E%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="一、运算符类型1. 算术运算符基本运算符： +、-、*、&#x2F;、% 12345678910111213int a &#x3D; 10;int b &#x3D; 3;System.out.println(a + b);  &#x2F;&#x2F; 13System.out.println(a - b);  &#x2F;&#x2F; 7System.out.println(a * b);  &#x2F;&#x2F; 30System.out.println(a &#x2F; b);  &#x2F;&#x2F; 3">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-06T01:50:25.884Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%B8%8E%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>运算符与控制流程 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">运算符与控制流程
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/">JAVA基础</a></li>
+            <li>运算符与控制流程</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="一、运算符类型"><a href="#一、运算符类型" class="headerlink" title="一、运算符类型"></a>一、运算符类型</h2><h3 id="1-算术运算符"><a href="#1-算术运算符" class="headerlink" title="1. 算术运算符"></a>1. 算术运算符</h3><p><strong>基本运算符：</strong> <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(a + b);  <span class="comment">// 13</span></span><br><span class="line">System.out.println(a - b);  <span class="comment">// 7</span></span><br><span class="line">System.out.println(a * b);  <span class="comment">// 30</span></span><br><span class="line">System.out.println(a / b);  <span class="comment">// 3（整数除法）</span></span><br><span class="line">System.out.println(a % b);  <span class="comment">// 1（取余）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 浮点数除法</span></span><br><span class="line"><span class="type">double</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10.0</span>;</span><br><span class="line"><span class="type">double</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">3.0</span>;</span><br><span class="line">System.out.println(x / y);  <span class="comment">// 3.3333333333333335</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>整数相除结果仍为整数（向下取整）</li>
+<li>取余运算符 <code>%</code> 的结果符号与被除数相同</li>
+<li>字符串使用 <code>+</code> 进行拼接</li>
+</ul>
+<h3 id="2-赋值运算符"><a href="#2-赋值运算符" class="headerlink" title="2. 赋值运算符"></a>2. 赋值运算符</h3><p><strong>基本赋值：</strong> <code>=</code><br><strong>复合赋值：</strong> <code>+=</code>、<code>-=</code>、<code>*=</code>、<code>/=</code>、<code>%=</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">a += <span class="number">5</span>;   <span class="comment">// 等价于 a = a + 5，结果：15</span></span><br><span class="line">a -= <span class="number">3</span>;   <span class="comment">// 等价于 a = a - 3，结果：12</span></span><br><span class="line">a *= <span class="number">2</span>;   <span class="comment">// 等价于 a = a * 2，结果：24</span></span><br><span class="line">a /= <span class="number">4</span>;   <span class="comment">// 等价于 a = a / 4，结果：6</span></span><br><span class="line">a %= <span class="number">4</span>;   <span class="comment">// 等价于 a = a % 4，结果：2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-自增自减运算符"><a href="#3-自增自减运算符" class="headerlink" title="3. 自增自减运算符"></a>3. 自增自减运算符</h3><p><strong>前缀形式：</strong> <code>++变量</code>、<code>--变量</code>（先运算后使用）<br><strong>后缀形式：</strong> <code>变量++</code>、<code>变量--</code>（先使用后运算）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> ++a;  <span class="comment">// a先自增为6，然后赋值给b，结果：a=6, b=6</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">d</span> <span class="operator">=</span> c++;  <span class="comment">// c先赋值给d，然后c自增，结果：c=6, d=5</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">System.out.println(x++);  <span class="comment">// 输出：5（先输出后自增）</span></span><br><span class="line">System.out.println(x);    <span class="comment">// 输出：6</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">System.out.println(++y);  <span class="comment">// 输出：6（先自增后输出）</span></span><br><span class="line">System.out.println(y);    <span class="comment">// 输出：6</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-关系运算符"><a href="#4-关系运算符" class="headerlink" title="4. 关系运算符"></a>4. 关系运算符</h3><p><strong>运算符：</strong> <code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>、<code>==</code>、<code>!=</code></p>
+<p>关系运算符返回 <code>boolean</code> 类型的值（<code>true</code> 或 <code>false</code>）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(a &gt; b);   <span class="comment">// true</span></span><br><span class="line">System.out.println(a &lt; b);   <span class="comment">// false</span></span><br><span class="line">System.out.println(a &gt;= b);  <span class="comment">// true</span></span><br><span class="line">System.out.println(a &lt;= b);  <span class="comment">// false</span></span><br><span class="line">System.out.println(a == b);  <span class="comment">// false</span></span><br><span class="line">System.out.println(a != b);  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-逻辑运算符"><a href="#5-逻辑运算符" class="headerlink" title="5. 逻辑运算符"></a>5. 逻辑运算符</h3><p><strong>运算符：</strong> <code>&amp;&amp;</code>（逻辑与）、<code>||</code>（逻辑或）、<code>!</code>（逻辑非）</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&amp;&amp;</code></td>
+<td>逻辑与</td>
+<td>两个条件都为 <code>true</code> 时结果为 <code>true</code>，具有短路特性</td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>逻辑或</td>
+<td>两个条件有一个为 <code>true</code> 时结果为 <code>true</code>，具有短路特性</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>逻辑非</td>
+<td>取反，<code>true</code> 变 <code>false</code>，<code>false</code> 变 <code>true</code></td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 逻辑与：两个条件都满足才为true</span></span><br><span class="line">System.out.println(a &gt; <span class="number">5</span> &amp;&amp; b &lt; <span class="number">10</span>);  <span class="comment">// true</span></span><br><span class="line">System.out.println(a &gt; <span class="number">5</span> &amp;&amp; b &gt; <span class="number">10</span>);  <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 逻辑或：至少一个条件满足就为true</span></span><br><span class="line">System.out.println(a &gt; <span class="number">20</span> || b &lt; <span class="number">10</span>);  <span class="comment">// true</span></span><br><span class="line">System.out.println(a &gt; <span class="number">20</span> || b &gt; <span class="number">10</span>);  <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 逻辑非：取反</span></span><br><span class="line">System.out.println(!(a &gt; <span class="number">5</span>));  <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 短路特性示例</span></span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="keyword">if</span> (x &gt; <span class="number">10</span> &amp;&amp; (x = <span class="number">20</span>) &gt; <span class="number">0</span>) &#123;  <span class="comment">// x &gt; 10为false，后面的赋值不会执行</span></span><br><span class="line">    System.out.println(<span class="string">&quot;执行&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(x);  <span class="comment">// 输出：5（证明短路特性）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>短路特性说明：</strong></p>
+<ul>
+<li><code>&amp;&amp;</code>：如果第一个条件为 <code>false</code>，不会执行第二个条件</li>
+<li><code>||</code>：如果第一个条件为 <code>true</code>，不会执行第二个条件</li>
+</ul>
+<h3 id="6-位运算符"><a href="#6-位运算符" class="headerlink" title="6. 位运算符"></a>6. 位运算符</h3><p><strong>运算符：</strong> <code>&amp;</code>（按位与）、<code>|</code>（按位或）、<code>^</code>（按位异或）、<code>~</code>（按位取反）、<code>&lt;&lt;</code>（左移）、<code>&gt;&gt;</code>（右移）、<code>&gt;&gt;&gt;</code>（无符号右移）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">5</span>;   <span class="comment">// 二进制：0101</span></span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">3</span>;   <span class="comment">// 二进制：0011</span></span><br><span class="line"></span><br><span class="line">System.out.println(a &amp; b);   <span class="comment">// 1（0001）- 按位与</span></span><br><span class="line">System.out.println(a | b);   <span class="comment">// 7（0111）- 按位或</span></span><br><span class="line">System.out.println(a ^ b);   <span class="comment">// 6（0110）- 按位异或</span></span><br><span class="line">System.out.println(~a);      <span class="comment">// -6（按位取反）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 位移运算</span></span><br><span class="line"><span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">8</span>;   <span class="comment">// 二进制：1000</span></span><br><span class="line">System.out.println(c &lt;&lt; <span class="number">1</span>);  <span class="comment">// 16（左移1位，相当于乘以2）</span></span><br><span class="line">System.out.println(c &gt;&gt; <span class="number">1</span>);  <span class="comment">// 4（右移1位，相当于除以2）</span></span><br><span class="line">System.out.println(c &gt;&gt;&gt; <span class="number">1</span>); <span class="comment">// 4（无符号右移）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 负数的位移</span></span><br><span class="line"><span class="type">int</span> <span class="variable">d</span> <span class="operator">=</span> -<span class="number">8</span>;</span><br><span class="line">System.out.println(d &gt;&gt; <span class="number">1</span>);  <span class="comment">// -4（保持符号位）</span></span><br><span class="line">System.out.println(d &gt;&gt;&gt; <span class="number">1</span>); <span class="comment">// 2147483644（不保持符号位，高位补0）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>应用场景：</strong></p>
+<ul>
+<li>位运算常用于性能优化和底层操作</li>
+<li>左移 <code>&lt;&lt;</code> 相当于乘以2的n次方</li>
+<li>右移 <code>&gt;&gt;</code> 相当于除以2的n次方（向下取整）</li>
+</ul>
+<h3 id="7-三目运算符（条件运算符）"><a href="#7-三目运算符（条件运算符）" class="headerlink" title="7. 三目运算符（条件运算符）"></a>7. 三目运算符（条件运算符）</h3><p><strong>语法：</strong> <code>条件 ? 表达式1 : 表达式2</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基本用法</span></span><br><span class="line"><span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> (a &gt; b) ? a : b;  <span class="comment">// max = 10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 嵌套使用</span></span><br><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> <span class="number">85</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">grade</span> <span class="operator">=</span> (score &gt;= <span class="number">90</span>) ? <span class="string">&quot;优秀&quot;</span> : </span><br><span class="line">               (score &gt;= <span class="number">60</span>) ? <span class="string">&quot;及格&quot;</span> : <span class="string">&quot;不及格&quot;</span>;</span><br><span class="line">System.out.println(grade);  <span class="comment">// 输出：及格</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 实际应用</span></span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> -<span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">abs</span> <span class="operator">=</span> (x &gt;= <span class="number">0</span>) ? x : -x;  <span class="comment">// 求绝对值</span></span><br><span class="line">System.out.println(abs);  <span class="comment">// 输出：5</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-instanceof-运算符"><a href="#8-instanceof-运算符" class="headerlink" title="8. instanceof 运算符"></a>8. instanceof 运算符</h3><p><strong>作用：</strong> 用于判断对象是否为指定类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(str <span class="keyword">instanceof</span> String);      <span class="comment">// true</span></span><br><span class="line">System.out.println(num <span class="keyword">instanceof</span> Integer);     <span class="comment">// true</span></span><br><span class="line">System.out.println(num <span class="keyword">instanceof</span> Number);      <span class="comment">// true（Integer是Number的子类）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于类型判断</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="string">&quot;test&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> (String) obj;  <span class="comment">// 可以安全转换</span></span><br><span class="line">    System.out.println(s.toUpperCase());  <span class="comment">// TEST</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="⭐-重点：-与-equals-的区别"><a href="#⭐-重点：-与-equals-的区别" class="headerlink" title="⭐ 重点：&#x3D;&#x3D; 与 equals() 的区别"></a>⭐ 重点：&#x3D;&#x3D; 与 equals() 的区别</h3><table>
+<thead>
+<tr>
+<th>比较方式</th>
+<th>含义</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>==</code></td>
+<td>比较两个变量是否指向同一块内存地址（引用比较）</td>
+<td>基本类型比较值，引用类型比较地址</td>
+</tr>
+<tr>
+<td><code>equals()</code></td>
+<td>比较内容是否相同（可被重写）</td>
+<td>引用类型的内容比较</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本类型使用 == 比较值</span></span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">System.out.println(a == b);  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用类型使用 == 比较地址</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">s3</span> <span class="operator">=</span> s1;</span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);      <span class="comment">// false（不同的对象，地址不同）</span></span><br><span class="line">System.out.println(s1 == s3);      <span class="comment">// true（指向同一个对象）</span></span><br><span class="line">System.out.println(s1.equals(s2)); <span class="comment">// true（内容相同）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// String 常量池的特殊情况</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s4</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">s5</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">System.out.println(s4 == s5);      <span class="comment">// true（字符串常量池，同一对象）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Integer 缓存机制（-128到127）</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">i3</span> <span class="operator">=</span> <span class="number">200</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">i4</span> <span class="operator">=</span> <span class="number">200</span>;</span><br><span class="line">System.out.println(i1 == i2);      <span class="comment">// true（在缓存范围内）</span></span><br><span class="line">System.out.println(i3 == i4);      <span class="comment">// false（超出缓存范围，创建新对象）</span></span><br><span class="line">System.out.println(i3.equals(i4)); <span class="comment">// true（内容相同）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li><code>String</code>、<code>Integer</code>、<code>Long</code> 等包装类重写了 <code>equals()</code> 方法</li>
+<li>自定义类需要重写 <code>equals()</code> 方法才能正确比较内容</li>
+<li>重写 <code>equals()</code> 时通常也要重写 <code>hashCode()</code> 方法</li>
+</ul>
+<hr>
+<h2 id="二、控制语句"><a href="#二、控制语句" class="headerlink" title="二、控制语句"></a>二、控制语句</h2><h3 id="1-条件语句"><a href="#1-条件语句" class="headerlink" title="1. 条件语句"></a>1. 条件语句</h3><h4 id="if-else-else-if"><a href="#if-else-else-if" class="headerlink" title="if &#x2F; else &#x2F; else if"></a>if &#x2F; else &#x2F; else if</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> <span class="number">85</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单分支</span></span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">60</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;及格&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 双分支</span></span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">60</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;及格&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;不及格&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多分支</span></span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">90</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;优秀&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;良好&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score &gt;= <span class="number">60</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;及格&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;不及格&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 嵌套 if</span></span><br><span class="line"><span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line"><span class="type">boolean</span> <span class="variable">hasLicense</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span> (age &gt;= <span class="number">18</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (hasLicense) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;可以驾驶&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;需要先取得驾照&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;未满18岁，不能驾驶&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="switch-语句"><a href="#switch-语句" class="headerlink" title="switch 语句"></a>switch 语句</h4><p><strong>传统语法（JDK 1.0+）：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">day</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">String dayName;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (day) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        dayName = <span class="string">&quot;星期一&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        dayName = <span class="string">&quot;星期二&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        dayName = <span class="string">&quot;星期三&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        dayName = <span class="string">&quot;其他&quot;</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(dayName);  <span class="comment">// 星期三</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// case 穿透示例（多个case共享同一逻辑）</span></span><br><span class="line"><span class="type">int</span> <span class="variable">month</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">switch</span> (month) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">12</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;31天&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;28或29天&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;30天&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>箭头语法（JDK 14+）：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">day</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">dayName</span> <span class="operator">=</span> <span class="keyword">switch</span> (day) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span> -&gt; <span class="string">&quot;星期一&quot;</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span> -&gt; <span class="string">&quot;星期二&quot;</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span> -&gt; <span class="string">&quot;星期三&quot;</span>;</span><br><span class="line">    <span class="keyword">default</span> -&gt; <span class="string">&quot;其他&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line">System.out.println(dayName);  <span class="comment">// 星期三</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 多行代码块</span></span><br><span class="line"><span class="type">String</span> <span class="variable">grade</span> <span class="operator">=</span> <span class="keyword">switch</span> (score) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">90</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">93</span>, <span class="number">94</span>, <span class="number">95</span>, <span class="number">96</span>, <span class="number">97</span>, <span class="number">98</span>, <span class="number">99</span>, <span class="number">100</span> -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;优秀&quot;</span>);</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">&quot;A&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">80</span>, <span class="number">81</span>, <span class="number">82</span>, <span class="number">83</span>, <span class="number">84</span>, <span class="number">85</span>, <span class="number">86</span>, <span class="number">87</span>, <span class="number">88</span>, <span class="number">89</span> -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;良好&quot;</span>);</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">&quot;B&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">default</span> -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;其他&quot;</span>);</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">&quot;C&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>switch 支持的类型：</strong></p>
+<ul>
+<li><code>byte</code>、<code>short</code>、<code>int</code>、<code>char</code>（JDK 1.0+）</li>
+<li><code>enum</code>（JDK 5.0+）</li>
+<li><code>String</code>（JDK 7.0+）</li>
+<li>包装类型（JDK 5.0+，会自动拆箱）</li>
+</ul>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li><code>case</code> 标签必须是常量或字面量</li>
+<li>每个 <code>case</code> 后通常需要 <code>break</code>，否则会继续执行下一个 <code>case</code>（case穿透）</li>
+<li><code>default</code> 子句可以放在任意位置，但通常放在最后</li>
+</ul>
+<hr>
+<h2 id="三、循环语句"><a href="#三、循环语句" class="headerlink" title="三、循环语句"></a>三、循环语句</h2><h3 id="1-for-循环"><a href="#1-for-循环" class="headerlink" title="1. for 循环"></a>1. for 循环</h3><p><strong>基本语法：</strong> <code>for (初始化; 条件判断; 迭代) &#123; 循环体 &#125;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标准 for 循环</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;i = &quot;</span> + i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：i = 0, i = 1, i = 2, i = 3, i = 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略部分表达式</span></span><br><span class="line"><span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (; j &lt; <span class="number">5</span>; j++) &#123;  <span class="comment">// 初始化在外部</span></span><br><span class="line">    System.out.println(j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无限循环</span></span><br><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    <span class="comment">// 需要在循环体内使用 break 退出</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多个变量</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = <span class="number">10</span>; i &lt; <span class="number">5</span> &amp;&amp; j &gt; <span class="number">5</span>; i++, j--) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;, j=&quot;</span> + j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-增强-for-循环（for-each）"><a href="#2-增强-for-循环（for-each）" class="headerlink" title="2. 增强 for 循环（for-each）"></a>2. 增强 for 循环（for-each）</h3><p><strong>语法：</strong> <code>for (元素类型 变量名 : 数组或集合) &#123; 循环体 &#125;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历数组</span></span><br><span class="line"><span class="type">int</span>[] arr = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> num : arr) &#123;</span><br><span class="line">    System.out.println(num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历集合</span></span><br><span class="line">List&lt;String&gt; list = Arrays.asList(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>);</span><br><span class="line"><span class="keyword">for</span> (String fruit : list) &#123;</span><br><span class="line">    System.out.println(fruit);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历 Map</span></span><br><span class="line">Map&lt;String, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;apple&quot;</span>, <span class="number">10</span>);</span><br><span class="line">map.put(<span class="string">&quot;banana&quot;</span>, <span class="number">20</span>);</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) &#123;</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">&quot; = &quot;</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>增强 for 循环不能修改集合&#x2F;数组的元素值</li>
+<li>无法获取当前元素的索引</li>
+<li>不能用于删除集合元素（会抛出 <code>ConcurrentModificationException</code>）</li>
+</ul>
+<h3 id="3-while-循环"><a href="#3-while-循环" class="headerlink" title="3. while 循环"></a>3. while 循环</h3><p><strong>语法：</strong> <code>while (条件) &#123; 循环体 &#125;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (count &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;count = &quot;</span> + count);</span><br><span class="line">    count++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：count = 0, 1, 2, 3, 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 无限循环</span></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="comment">// 需要在循环体内使用 break 退出</span></span><br><span class="line">    <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-do…while-循环"><a href="#4-do…while-循环" class="headerlink" title="4. do…while 循环"></a>4. do…while 循环</h3><p><strong>语法：</strong> <code>do &#123; 循环体 &#125; while (条件);</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;count = &quot;</span> + count);</span><br><span class="line">    count++;</span><br><span class="line">&#125; <span class="keyword">while</span> (count &lt; <span class="number">5</span>);</span><br><span class="line"><span class="comment">// 输出：count = 0, 1, 2, 3, 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 至少执行一次</span></span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;执行一次&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">while</span> (x &lt; <span class="number">5</span>);  <span class="comment">// 条件为false，但仍然会执行一次</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>while 与 do…while 的区别：</strong></p>
+<ul>
+<li><code>while</code>：先判断条件，条件为 <code>true</code> 才执行循环体</li>
+<li><code>do...while</code>：先执行循环体，再判断条件，至少执行一次</li>
+</ul>
+<hr>
+<h2 id="四、控制跳转语句"><a href="#四、控制跳转语句" class="headerlink" title="四、控制跳转语句"></a>四、控制跳转语句</h2><h3 id="1-break"><a href="#1-break" class="headerlink" title="1. break"></a>1. break</h3><p><strong>作用：</strong> 跳出当前循环或 <code>switch</code> 语句</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在循环中使用</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;  <span class="comment">// 跳出循环</span></span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：0, 1, 2, 3, 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 switch 中使用</span></span><br><span class="line"><span class="type">int</span> <span class="variable">day</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">switch</span> (day) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;周一&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;周二&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;  <span class="comment">// 跳出 switch</span></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;其他&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-continue"><a href="#2-continue" class="headerlink" title="2. continue"></a>2. continue</h3><p><strong>作用：</strong> 跳过本次循环，继续下一次循环</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;  <span class="comment">// 跳过本次循环</span></span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：0, 1, 3, 4（跳过了2）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-return"><a href="#3-return" class="headerlink" title="3. return"></a>3. return</h3><p><strong>作用：</strong> 结束当前方法，可以返回值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findIndex</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> i;  <span class="comment">// 找到目标，立即返回索引</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;  <span class="comment">// 未找到，返回-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-标签（Label）的使用"><a href="#4-标签（Label）的使用" class="headerlink" title="4. 标签（Label）的使用"></a>4. 标签（Label）的使用</h3><p><strong>作用：</strong> 配合 <code>break</code> 和 <code>continue</code> 使用，可以跳出或继续指定的循环</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// break 标签：跳出指定循环</span></span><br><span class="line">outer: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    inner: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span> &amp;&amp; j == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span> outer;  <span class="comment">// 跳出外层循环</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;, j=&quot;</span> + j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：i=0, j=0, i=0, j=1, i=0, j=2, i=1, j=0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// continue 标签：继续指定循环</span></span><br><span class="line">outer: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    inner: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span> &amp;&amp; j == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span> outer;  <span class="comment">// 继续外层循环的下一次迭代</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;, j=&quot;</span> + j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：i=0, j=0, i=0, j=1, i=0, j=2, i=1, j=0, i=2, j=0, i=2, j=1, i=2, j=2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>实际应用场景：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查找二维数组中的目标值</span></span><br><span class="line"><span class="type">int</span>[][] matrix = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;, &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;, &#123;<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;&#125;;</span><br><span class="line"><span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="type">boolean</span> <span class="variable">found</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">search: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; matrix.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; matrix[i].length; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix[i][j] == target) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;找到目标值，位置：(&quot;</span> + i + <span class="string">&quot;, &quot;</span> + j + <span class="string">&quot;)&quot;</span>);</span><br><span class="line">            found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span> search;  <span class="comment">// 找到后跳出外层循环</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、面试常见问题"><a href="#五、面试常见问题" class="headerlink" title="五、面试常见问题"></a>五、面试常见问题</h2><h3 id="1-与-equals-的区别？"><a href="#1-与-equals-的区别？" class="headerlink" title="1. &#x3D;&#x3D; 与 equals() 的区别？"></a>1. &#x3D;&#x3D; 与 equals() 的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>==</code> 是运算符，用于比较基本类型的值或引用类型的地址</li>
+<li><code>equals()</code> 是方法，用于比较对象的内容，可以被重写</li>
+<li>对于基本类型，只能使用 <code>==</code> 比较</li>
+<li>对于引用类型，<code>==</code> 比较地址，<code>equals()</code> 比较内容（如果重写了）</li>
+</ul>
+<p><strong>扩展：</strong></p>
+<ul>
+<li><code>String</code> 类重写了 <code>equals()</code> 方法</li>
+<li>自定义类重写 <code>equals()</code> 时，通常也要重写 <code>hashCode()</code> 方法</li>
+<li>字符串常量池的特殊性</li>
+</ul>
+<h3 id="2-switch-能否作用于-String？从哪个版本开始支持？"><a href="#2-switch-能否作用于-String？从哪个版本开始支持？" class="headerlink" title="2. switch 能否作用于 String？从哪个版本开始支持？"></a>2. switch 能否作用于 String？从哪个版本开始支持？</h3><p><strong>答案：</strong></p>
+<ul>
+<li>JDK 7 以后开始支持 <code>String</code> 类型</li>
+<li>实现原理：通过 <code>hashCode()</code> 和 <code>equals()</code> 方法进行比较</li>
+<li>需要注意 <code>case</code> 标签不能为 <code>null</code></li>
+</ul>
+<h3 id="3-while-与-do…while-的区别？"><a href="#3-while-与-do…while-的区别？" class="headerlink" title="3. while 与 do…while 的区别？"></a>3. while 与 do…while 的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>while</code>：先判断条件，条件为 <code>true</code> 才执行循环体（可能一次都不执行）</li>
+<li><code>do...while</code>：先执行循环体，再判断条件（至少执行一次）</li>
+</ul>
+<h3 id="4-break-和-continue-的区别？"><a href="#4-break-和-continue-的区别？" class="headerlink" title="4. break 和 continue 的区别？"></a>4. break 和 continue 的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>break</code>：跳出当前循环或 <code>switch</code> 语句</li>
+<li><code>continue</code>：跳过本次循环，继续下一次循环</li>
+<li>两者都可以配合标签使用，控制外层循环</li>
+</ul>
+<h3 id="5-逻辑运算符-和-的区别？"><a href="#5-逻辑运算符-和-的区别？" class="headerlink" title="5. 逻辑运算符 &amp;&amp; 和 &amp; 的区别？"></a>5. 逻辑运算符 &amp;&amp; 和 &amp; 的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>&amp;&amp;</code> 是逻辑运算符，具有短路特性，只能用于 <code>boolean</code> 类型</li>
+<li><code>&amp;</code> 是位运算符，也可以用于逻辑运算，但不具有短路特性</li>
+<li>推荐使用 <code>&amp;&amp;</code> 和 <code>||</code>，因为具有短路特性，性能更好</li>
+</ul>
+<h3 id="6-自增运算符-i-和-i-的区别？"><a href="#6-自增运算符-i-和-i-的区别？" class="headerlink" title="6. 自增运算符 i++ 和 ++i 的区别？"></a>6. 自增运算符 i++ 和 ++i 的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>i++</code>：后缀形式，先使用变量的值，再进行自增</li>
+<li><code>++i</code>：前缀形式，先自增，再使用变量的值</li>
+<li>单独使用时效果相同，但在表达式中使用时效果不同</li>
+</ul>
+<h3 id="7-for-循环和增强-for-循环的区别？"><a href="#7-for-循环和增强-for-循环的区别？" class="headerlink" title="7. for 循环和增强 for 循环的区别？"></a>7. for 循环和增强 for 循环的区别？</h3><p><strong>答案：</strong></p>
+<ul>
+<li><code>for</code> 循环可以获取索引，可以修改数组&#x2F;集合元素</li>
+<li>增强 <code>for</code> 循环语法简洁，但无法获取索引，不能修改元素</li>
+<li>增强 <code>for</code> 循环不能用于删除集合元素（会抛出异常）</li>
+</ul>
+<h3 id="8-switch-语句中-case-穿透是什么？"><a href="#8-switch-语句中-case-穿透是什么？" class="headerlink" title="8. switch 语句中 case 穿透是什么？"></a>8. switch 语句中 case 穿透是什么？</h3><p><strong>答案：</strong></p>
+<ul>
+<li>当 <code>case</code> 标签后没有 <code>break</code> 语句时，会继续执行下一个 <code>case</code> 的代码</li>
+<li>这叫做 case 穿透</li>
+<li>可以利用 case 穿透实现多个 case 共享同一段代码</li>
+<li>箭头语法（<code>case -&gt;</code>）不会发生 case 穿透</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/">JAVA基础</a></li>
+            <li>运算符与控制流程</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">一、运算符类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.1.</span> <span class="nav-text">1. 算术运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">2. 赋值运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%87%AA%E5%A2%9E%E8%87%AA%E5%87%8F%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">3. 自增自减运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">4. 关系运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">5. 逻辑运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.</span> <span class="nav-text">6. 位运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%89"><span class="nav-number">1.7.</span> <span class="nav-text">7. 三目运算符（条件运算符）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-instanceof-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.8.</span> <span class="nav-text">8. instanceof 运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%AD%90-%E9%87%8D%E7%82%B9%EF%BC%9A-%E4%B8%8E-equals-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.9.</span> <span class="nav-text">⭐ 重点：&#x3D;&#x3D; 与 equals() 的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.</span> <span class="nav-text">二、控制语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.1.</span> <span class="nav-text">1. 条件语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#if-else-else-if"><span class="nav-number">2.1.1.</span> <span class="nav-text">if &#x2F; else &#x2F; else if</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#switch-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.1.2.</span> <span class="nav-text">switch 语句</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.</span> <span class="nav-text">三、循环语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-for-%E5%BE%AA%E7%8E%AF"><span class="nav-number">3.1.</span> <span class="nav-text">1. for 循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A2%9E%E5%BC%BA-for-%E5%BE%AA%E7%8E%AF%EF%BC%88for-each%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2. 增强 for 循环（for-each）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-while-%E5%BE%AA%E7%8E%AF"><span class="nav-number">3.3.</span> <span class="nav-text">3. while 循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-do%E2%80%A6while-%E5%BE%AA%E7%8E%AF"><span class="nav-number">3.4.</span> <span class="nav-text">4. do…while 循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%8E%A7%E5%88%B6%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5"><span class="nav-number">4.</span> <span class="nav-text">四、控制跳转语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-break"><span class="nav-number">4.1.</span> <span class="nav-text">1. break</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-continue"><span class="nav-number">4.2.</span> <span class="nav-text">2. continue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-return"><span class="nav-number">4.3.</span> <span class="nav-text">3. return</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A0%87%E7%AD%BE%EF%BC%88Label%EF%BC%89%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">4. 标签（Label）的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">五、面试常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%8E-equals-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">1. &#x3D;&#x3D; 与 equals() 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-switch-%E8%83%BD%E5%90%A6%E4%BD%9C%E7%94%A8%E4%BA%8E-String%EF%BC%9F%E4%BB%8E%E5%93%AA%E4%B8%AA%E7%89%88%E6%9C%AC%E5%BC%80%E5%A7%8B%E6%94%AF%E6%8C%81%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">2. switch 能否作用于 String？从哪个版本开始支持？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-while-%E4%B8%8E-do%E2%80%A6while-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.3.</span> <span class="nav-text">3. while 与 do…while 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-break-%E5%92%8C-continue-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.4.</span> <span class="nav-text">4. break 和 continue 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.5.</span> <span class="nav-text">5. 逻辑运算符 &amp;&amp; 和 &amp; 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6-i-%E5%92%8C-i-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.6.</span> <span class="nav-text">6. 自增运算符 i++ 和 ++i 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-for-%E5%BE%AA%E7%8E%AF%E5%92%8C%E5%A2%9E%E5%BC%BA-for-%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">5.7.</span> <span class="nav-text">7. for 循环和增强 for 循环的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-switch-%E8%AF%AD%E5%8F%A5%E4%B8%AD-case-%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">5.8.</span> <span class="nav-text">8. switch 语句中 case 穿透是什么？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、Map 接口体系总览1. Map 的核心特点 以 Key-Value 形式存储 key 唯一，value 可重复 允许 null 键与 null 值（不同实现不同） 根据实现不同可：有序 &#x2F; 无序 &#x2F; 排序 迭代器多为 fail-fast（结构被并发修改时抛 ConcurrentModificationException）  2. 常见实现 HashMap —— 最常用 L">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Map 接口体系详解">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Map%20%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="一、Map 接口体系总览1. Map 的核心特点 以 Key-Value 形式存储 key 唯一，value 可重复 允许 null 键与 null 值（不同实现不同） 根据实现不同可：有序 &#x2F; 无序 &#x2F; 排序 迭代器多为 fail-fast（结构被并发修改时抛 ConcurrentModificationException）  2. 常见实现 HashMap —— 最常用 L">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-06T08:41:59.054Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Map%20%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Map 接口体系详解 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Map 接口体系详解
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">JAVA集合框架</a></li>
+            <li>MAP 接口体系</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="一、Map-接口体系总览"><a href="#一、Map-接口体系总览" class="headerlink" title="一、Map 接口体系总览"></a>一、Map 接口体系总览</h2><h3 id="1-Map-的核心特点"><a href="#1-Map-的核心特点" class="headerlink" title="1. Map 的核心特点"></a>1. Map 的核心特点</h3><ul>
+<li>以 <strong>Key-Value</strong> 形式存储</li>
+<li>key <strong>唯一</strong>，value <strong>可重复</strong></li>
+<li>允许 null 键与 null 值（不同实现不同）</li>
+<li>根据实现不同可：有序 &#x2F; 无序 &#x2F; 排序</li>
+<li>迭代器多为 fail-fast（结构被并发修改时抛 <code>ConcurrentModificationException</code>）</li>
+</ul>
+<h3 id="2-常见实现"><a href="#2-常见实现" class="headerlink" title="2. 常见实现"></a>2. 常见实现</h3><ul>
+<li>HashMap —— 最常用</li>
+<li>LinkedHashMap —— 有序 HashMap</li>
+<li>TreeMap —— 排序 Map</li>
+<li>Hashtable —— 早期同步 Map（不推荐）</li>
+<li>ConcurrentHashMap —— 并发容器</li>
+</ul>
+<hr>
+<h2 id="二、HashMap（重点）"><a href="#二、HashMap（重点）" class="headerlink" title="二、HashMap（重点）"></a>二、HashMap（重点）</h2><h3 id="1-底层结构"><a href="#1-底层结构" class="headerlink" title="1. 底层结构"></a>1. 底层结构</h3><p>JDK 7：数组 + 链表<br>JDK 8：数组 + 链表 + 红黑树</p>
+<h3 id="2-默认参数"><a href="#2-默认参数" class="headerlink" title="2. 默认参数"></a>2. 默认参数</h3><ul>
+<li>初始化容量：16</li>
+<li>加载因子：0.75</li>
+<li>扩容方式：容量 × 2</li>
+<li>触发扩容：<code>size &gt; capacity * loadFactor</code></li>
+<li>预估容量：<code>new HashMap&lt;&gt;((int)(expectedSize / 0.75f) + 1)</code></li>
+</ul>
+<h3 id="3-存储流程（简化源码）"><a href="#3-存储流程（简化源码）" class="headerlink" title="3. 存储流程（简化源码）"></a>3. 存储流程（简化源码）</h3><ol>
+<li><p>根据 key 计算 hash 值</p>
+</li>
+<li><p>扰动函数减少碰撞</p>
+</li>
+<li><p>定位数组索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n - 1) &amp; hash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>冲突 → 链表插入或红黑树插入</p>
+</li>
+<li><p><code>size</code> 超阈值 → <code>resize</code> 扩容 + rehash</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (table == <span class="literal">null</span>) resize();                <span class="comment">// 延迟初始化</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> (n - <span class="number">1</span>) &amp; hash(key);              <span class="comment">// 定位桶</span></span><br><span class="line">    <span class="comment">// 桶为空直接放；否则遍历链表/树，equals 决定覆盖还是插入</span></span><br><span class="line">    <span class="comment">// treeifyBin: 当桶内链表 ≥ 8 且容量 ≥ 64 时树化</span></span><br><span class="line">    <span class="comment">// resize: size 超过阈值时扩容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Hash-冲突解决方案"><a href="#4-Hash-冲突解决方案" class="headerlink" title="4. Hash 冲突解决方案"></a>4. Hash 冲突解决方案</h3><ul>
+<li>拉链法（数组 + 链表）</li>
+<li>当链表长度 ≥ 8 且数组长度 ≥ 64 时树化为红黑树</li>
+<li>桶节点数量 &lt; 6 时会退化回链表（untreeify）</li>
+</ul>
+<h3 id="5-非线程安全体现"><a href="#5-非线程安全体现" class="headerlink" title="5. 非线程安全体现"></a>5. 非线程安全体现</h3><ul>
+<li>put 导致数据覆盖</li>
+<li>扩容导致死循环（JDK7）</li>
+<li>size 统计错误</li>
+<li>失败的读写不可见</li>
+</ul>
+<h3 id="6-允许"><a href="#6-允许" class="headerlink" title="6. 允许"></a>6. 允许</h3><ul>
+<li>key &#x3D; null</li>
+<li>value &#x3D; null</li>
+<li>但只允许一个 null key（由哈希桶决定）</li>
+</ul>
+<h3 id="7-常见坑位"><a href="#7-常见坑位" class="headerlink" title="7. 常见坑位"></a>7. 常见坑位</h3><ul>
+<li>可变对象作 key，修改后 hash 改变导致“找不到”或重复存储</li>
+<li>迭代时结构被修改 → fail-fast 异常</li>
+<li>盲目扩容&#x2F;默认容量，导致频繁 resize，影响性能</li>
+<li>键的 <code>equals</code>&#x2F;<code>hashCode</code> 不一致或未重写，造成冲突&#x2F;重复存储</li>
+</ul>
+<h3 id="8-并发替代"><a href="#8-并发替代" class="headerlink" title="8. 并发替代"></a>8. 并发替代</h3><ul>
+<li>不要用 Hashtable；优先 <code>ConcurrentHashMap</code></li>
+<li>低并发可用：<code>Collections.synchronizedMap(new HashMap&lt;&gt;())</code>（整体锁，吞吐低）</li>
+</ul>
+<hr>
+<h2 id="三、LinkedHashMap"><a href="#三、LinkedHashMap" class="headerlink" title="三、LinkedHashMap"></a>三、LinkedHashMap</h2><h3 id="1-底层结构-1"><a href="#1-底层结构-1" class="headerlink" title="1. 底层结构"></a>1. 底层结构</h3><ul>
+<li>HashMap + 双向链表</li>
+</ul>
+<h3 id="2-特点"><a href="#2-特点" class="headerlink" title="2. 特点"></a>2. 特点</h3><ul>
+<li>插入顺序&#x2F;访问顺序可选</li>
+<li>遍历顺序稳定</li>
+<li>保留 HashMap 的 O(1) 平均查找</li>
+<li>允许一个 null key、多个 null value</li>
+</ul>
+<h3 id="3-LRU-缓存实现"><a href="#3-LRU-缓存实现" class="headerlink" title="3. LRU 缓存实现"></a>3. LRU 缓存实现</h3><p>通过构造 <code>new LinkedHashMap&lt;&gt;(初始容量, 0.75f, true)</code> 开启访问顺序，再重写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="type">boolean</span> <span class="title function_">removeEldestEntry</span><span class="params">(Map.Entry eldest)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> size() &gt; MAX_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>适合简易本地 LRU；并发场景配合锁或使用 Caffeine 等专用缓存。</p>
+<hr>
+<h2 id="四、TreeMap"><a href="#四、TreeMap" class="headerlink" title="四、TreeMap"></a>四、TreeMap</h2><h3 id="1-底层：红黑树"><a href="#1-底层：红黑树" class="headerlink" title="1. 底层：红黑树"></a>1. 底层：红黑树</h3><h3 id="2-排序规则"><a href="#2-排序规则" class="headerlink" title="2. 排序规则"></a>2. 排序规则</h3><ul>
+<li>key 实现 Comparable</li>
+<li>或传入 Comparator</li>
+</ul>
+<h3 id="3-特点"><a href="#3-特点" class="headerlink" title="3. 特点"></a>3. 特点</h3><ul>
+<li>自动排序</li>
+<li>不允许 null key</li>
+<li>时间复杂度：O(logN)</li>
+<li>迭代有序，支持范围查询：<code>subMap</code> &#x2F; <code>headMap</code> &#x2F; <code>tailMap</code> &#x2F; <code>ceiling</code> &#x2F; <code>floor</code></li>
+<li><code>Comparator</code>&#x2F;<code>Comparable</code> 必须自反、传递、与 equals 一致，否则会出现排序异常或看似重复</li>
+</ul>
+<h3 id="4-并发替代"><a href="#4-并发替代" class="headerlink" title="4. 并发替代"></a>4. 并发替代</h3><ul>
+<li>无内置线程安全</li>
+<li>需要有序并发：<code>ConcurrentSkipListMap</code></li>
+</ul>
+<hr>
+<h2 id="五、Hashtable（已过时，不推荐）"><a href="#五、Hashtable（已过时，不推荐）" class="headerlink" title="五、Hashtable（已过时，不推荐）"></a>五、Hashtable（已过时，不推荐）</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>JDK 1.0 遗留产物</li>
+<li>线程安全 —— <code>synchronized</code> 整体锁</li>
+<li>性能差</li>
+<li>不允许 null key 和 null value</li>
+<li>迭代弱一致，但锁粒度大导致吞吐差</li>
+</ul>
+<h3 id="替代方案"><a href="#替代方案" class="headerlink" title="替代方案"></a>替代方案</h3><p>✔ ConcurrentHashMap<br>✔ Collections.synchronizedMap()</p>
+<hr>
+<h2 id="六、ConcurrentHashMap"><a href="#六、ConcurrentHashMap" class="headerlink" title="六、ConcurrentHashMap"></a>六、ConcurrentHashMap</h2><h3 id="1-作用"><a href="#1-作用" class="headerlink" title="1. 作用"></a>1. 作用</h3><ul>
+<li>支持高并发</li>
+<li>线程安全 Map</li>
+<li>不允许 null key&#x2F;value，避免歧义</li>
+</ul>
+<h3 id="2-JDK7-实现"><a href="#2-JDK7-实现" class="headerlink" title="2. JDK7 实现"></a>2. JDK7 实现</h3><ul>
+<li>Segments 分段锁</li>
+<li>ReentrantLock</li>
+</ul>
+<h3 id="3-JDK8-实现（重点）"><a href="#3-JDK8-实现（重点）" class="headerlink" title="3. JDK8 实现（重点）"></a>3. JDK8 实现（重点）</h3><ul>
+<li>Node 数组 + 链表 + 红黑树</li>
+<li>CAS + synchronized</li>
+<li>更细粒度锁</li>
+</ul>
+<h3 id="4-为什么更快？"><a href="#4-为什么更快？" class="headerlink" title="4. 为什么更快？"></a>4. 为什么更快？</h3><ul>
+<li>放弃分段锁</li>
+<li>更少锁竞争</li>
+<li>使用 CAS 乐观锁</li>
+<li>红黑树加速查询</li>
+<li>桶级 synchronized，比全表锁粒度小</li>
+</ul>
+<h3 id="5-其他要点"><a href="#5-其他要点" class="headerlink" title="5. 其他要点"></a>5. 其他要点</h3><ul>
+<li>size &#x2F; forEach 为弱一致视图（不会抛 fail-fast）</li>
+<li><code>compute</code>&#x2F;<code>putIfAbsent</code>&#x2F;<code>merge</code> 原子复合操作，避免双重检查竞态</li>
+<li>预估并发度：<code>new ConcurrentHashMap&lt;&gt;(initialCapacity)</code></li>
+</ul>
+<hr>
+<h2 id="七、面试高频题（系列3）"><a href="#七、面试高频题（系列3）" class="headerlink" title="七、面试高频题（系列3）"></a>七、面试高频题（系列3）</h2><h3 id="1️⃣-HashMap-是如何定位数组下标的？"><a href="#1️⃣-HashMap-是如何定位数组下标的？" class="headerlink" title="1️⃣ HashMap 是如何定位数组下标的？"></a>1️⃣ HashMap 是如何定位数组下标的？</h3><p>答：通过 hash 扰动函数 + 位运算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index = (n - 1) &amp; hash</span><br></pre></td></tr></table></figure>
+
+<h3 id="2️⃣-HashMap-线程不安全表现在哪里？"><a href="#2️⃣-HashMap-线程不安全表现在哪里？" class="headerlink" title="2️⃣ HashMap 线程不安全表现在哪里？"></a>2️⃣ HashMap 线程不安全表现在哪里？</h3><ul>
+<li>put 数据丢失</li>
+<li>扩容死循环（JDK7）</li>
+<li>多线程 size 不准确</li>
+<li>读到旧数据</li>
+</ul>
+<h3 id="3️⃣-ConcurrentHashMap-如何实现线程安全？"><a href="#3️⃣-ConcurrentHashMap-如何实现线程安全？" class="headerlink" title="3️⃣ ConcurrentHashMap 如何实现线程安全？"></a>3️⃣ ConcurrentHashMap 如何实现线程安全？</h3><p>JDK7：分段锁<br>JDK8：</p>
+<ul>
+<li>CAS</li>
+<li>synchronized</li>
+<li>红黑树</li>
+<li>Node 数组</li>
+<li>分桶锁粒度</li>
+</ul>
+<h3 id="4️⃣-HashMap-与-ConcurrentHashMap-的区别？"><a href="#4️⃣-HashMap-与-ConcurrentHashMap-的区别？" class="headerlink" title="4️⃣ HashMap 与 ConcurrentHashMap 的区别？"></a>4️⃣ HashMap 与 ConcurrentHashMap 的区别？</h3><ul>
+<li>线程安全：前者否，后者是（桶级锁&#x2F;CAS）</li>
+<li>允许 null：前者允许，后者不允许</li>
+<li>迭代一致性：前者 fail-fast，后者弱一致</li>
+<li>性能：前者单线程快；并发场景后者优先</li>
+</ul>
+<hr>
+<h2 id="八、容器选择建议"><a href="#八、容器选择建议" class="headerlink" title="八、容器选择建议"></a>八、容器选择建议</h2><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>推荐容器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通存储</td>
+<td>HashMap</td>
+</tr>
+<tr>
+<td>需要顺序</td>
+<td>LinkedHashMap</td>
+</tr>
+<tr>
+<td>需要排序</td>
+<td>TreeMap</td>
+</tr>
+<tr>
+<td>高并发</td>
+<td>ConcurrentHashMap</td>
+</tr>
+<tr>
+<td>并发有序</td>
+<td>ConcurrentSkipListMap</td>
+</tr>
+<tr>
+<td>不推荐</td>
+<td>Hashtable</td>
+</tr>
+</tbody></table>
+<hr>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">JAVA集合框架</a></li>
+            <li>MAP 接口体系</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81Map-%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB%E6%80%BB%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">一、Map 接口体系总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Map-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">1. Map 的核心特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B8%B8%E8%A7%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">2. 常见实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81HashMap%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、HashMap（重点）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">1. 底层结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">2. 默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AD%98%E5%82%A8%E6%B5%81%E7%A8%8B%EF%BC%88%E7%AE%80%E5%8C%96%E6%BA%90%E7%A0%81%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">3. 存储流程（简化源码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Hash-%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.4.</span> <span class="nav-text">4. Hash 冲突解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9D%9E%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E4%BD%93%E7%8E%B0"><span class="nav-number">2.5.</span> <span class="nav-text">5. 非线程安全体现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%85%81%E8%AE%B8"><span class="nav-number">2.6.</span> <span class="nav-text">6. 允许</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%B8%B8%E8%A7%81%E5%9D%91%E4%BD%8D"><span class="nav-number">2.7.</span> <span class="nav-text">7. 常见坑位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%B9%B6%E5%8F%91%E6%9B%BF%E4%BB%A3"><span class="nav-number">2.8.</span> <span class="nav-text">8. 并发替代</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81LinkedHashMap"><span class="nav-number">3.</span> <span class="nav-text">三、LinkedHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84-1"><span class="nav-number">3.1.</span> <span class="nav-text">1. 底层结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%89%B9%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">2. 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-LRU-%E7%BC%93%E5%AD%98%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.3.</span> <span class="nav-text">3. LRU 缓存实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81TreeMap"><span class="nav-number">4.</span> <span class="nav-text">四、TreeMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BA%95%E5%B1%82%EF%BC%9A%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-number">4.1.</span> <span class="nav-text">1. 底层：红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99"><span class="nav-number">4.2.</span> <span class="nav-text">2. 排序规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%89%B9%E7%82%B9"><span class="nav-number">4.3.</span> <span class="nav-text">3. 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%B9%B6%E5%8F%91%E6%9B%BF%E4%BB%A3"><span class="nav-number">4.4.</span> <span class="nav-text">4. 并发替代</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81Hashtable%EF%BC%88%E5%B7%B2%E8%BF%87%E6%97%B6%EF%BC%8C%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五、Hashtable（已过时，不推荐）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">5.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">替代方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81ConcurrentHashMap"><span class="nav-number">6.</span> <span class="nav-text">六、ConcurrentHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BD%9C%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">1. 作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JDK7-%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.2.</span> <span class="nav-text">2. JDK7 实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JDK8-%E5%AE%9E%E7%8E%B0%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">3. JDK8 实现（重点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9B%B4%E5%BF%AB%EF%BC%9F"><span class="nav-number">6.4.</span> <span class="nav-text">4. 为什么更快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%85%B6%E4%BB%96%E8%A6%81%E7%82%B9"><span class="nav-number">6.5.</span> <span class="nav-text">5. 其他要点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E9%9D%A2%E8%AF%95%E9%AB%98%E9%A2%91%E9%A2%98%EF%BC%88%E7%B3%BB%E5%88%973%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">七、面试高频题（系列3）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%B8%8F%E2%83%A3-HashMap-%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9A%E4%BD%8D%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E7%9A%84%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">1️⃣ HashMap 是如何定位数组下标的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%B8%8F%E2%83%A3-HashMap-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E8%A1%A8%E7%8E%B0%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-number">7.2.</span> <span class="nav-text">2️⃣ HashMap 线程不安全表现在哪里？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%B8%8F%E2%83%A3-ConcurrentHashMap-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="nav-number">7.3.</span> <span class="nav-text">3️⃣ ConcurrentHashMap 如何实现线程安全？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%EF%B8%8F%E2%83%A3-HashMap-%E4%B8%8E-ConcurrentHashMap-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.4.</span> <span class="nav-text">4️⃣ HashMap 与 ConcurrentHashMap 的区别？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%AE%B9%E5%99%A8%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE"><span class="nav-number">8.</span> <span class="nav-text">八、容器选择建议</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

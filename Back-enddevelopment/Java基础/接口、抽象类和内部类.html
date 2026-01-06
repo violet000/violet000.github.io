@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、接口与抽象类概览1.1 什么是“抽象”？ 抽象是对一类事物共同特征的提取 只关注做什么（What），不关心怎么做（How） 在 Java 中，抽象主要通过抽象类和接口来体现   二、抽象类（abstract class）2.1 抽象类的特点 使用关键字 abstract 声明：public abstract class Animal &#123; ... &#125; 可以包含： 抽象方法（没">
+<meta property="og:type" content="website">
+<meta property="og:title" content="接口、抽象类与内部类">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/%E6%8E%A5%E5%8F%A3%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E5%86%85%E9%83%A8%E7%B1%BB.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="一、接口与抽象类概览1.1 什么是“抽象”？ 抽象是对一类事物共同特征的提取 只关注做什么（What），不关心怎么做（How） 在 Java 中，抽象主要通过抽象类和接口来体现   二、抽象类（abstract class）2.1 抽象类的特点 使用关键字 abstract 声明：public abstract class Animal &#123; ... &#125; 可以包含： 抽象方法（没">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-06T06:56:33.134Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/%E6%8E%A5%E5%8F%A3%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E5%86%85%E9%83%A8%E7%B1%BB">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>接口、抽象类与内部类 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">接口、抽象类与内部类
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/">JAVA基础</a></li>
+            <li>接口、抽象类和内部类</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="一、接口与抽象类概览"><a href="#一、接口与抽象类概览" class="headerlink" title="一、接口与抽象类概览"></a>一、接口与抽象类概览</h2><h3 id="1-1-什么是“抽象”？"><a href="#1-1-什么是“抽象”？" class="headerlink" title="1.1 什么是“抽象”？"></a>1.1 什么是“抽象”？</h3><ul>
+<li>抽象是对一类事物<strong>共同特征的提取</strong></li>
+<li>只关注<strong>做什么（What）</strong>，不关心<strong>怎么做（How）</strong></li>
+<li>在 Java 中，抽象主要通过<strong>抽象类</strong>和<strong>接口</strong>来体现</li>
+</ul>
+<hr>
+<h2 id="二、抽象类（abstract-class）"><a href="#二、抽象类（abstract-class）" class="headerlink" title="二、抽象类（abstract class）"></a>二、抽象类（<code>abstract class</code>）</h2><h3 id="2-1-抽象类的特点"><a href="#2-1-抽象类的特点" class="headerlink" title="2.1 抽象类的特点"></a>2.1 抽象类的特点</h3><ul>
+<li>使用关键字 <code>abstract</code> 声明：<code>public abstract class Animal &#123; ... &#125;</code></li>
+<li>可以包含：<ul>
+<li>抽象方法（没有方法体）</li>
+<li>普通方法（有方法体）</li>
+<li>成员变量</li>
+<li>构造方法（<strong>不能直接实例化，只能被子类调用</strong>）</li>
+</ul>
+</li>
+<li><strong>不能被实例化</strong>：<code>new AbstractClass()</code> ❌</li>
+<li><strong>只能单继承</strong>：一个类最多继承一个抽象类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 普通成员变量</span></span><br><span class="line">    <span class="keyword">protected</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 抽象方法：只规定“要做什么”</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">eat</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 普通具体方法：给出“怎么做”的默认实现</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sleep</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;sleeping...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造方法：给子类调用</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Animal</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>抽象类本身可以没有抽象方法，但一旦某个类中有抽象方法，这个类<strong>必须</strong>声明为 <code>abstract</code>。</p>
+</blockquote>
+<h3 id="2-2-抽象类的使用场景"><a href="#2-2-抽象类的使用场景" class="headerlink" title="2.2 抽象类的使用场景"></a>2.2 抽象类的使用场景</h3><ul>
+<li>作为<strong>模板 &#x2F; 父类骨架</strong>存在，抽取多个子类的<strong>共性行为和状态</strong></li>
+<li>提供<strong>部分默认实现</strong>，子类可以直接复用或选择重写</li>
+<li>常见于“<strong>模板方法模式</strong>”：在抽象类中定义算法骨架，让子类去实现其中某些步骤</li>
+</ul>
+<hr>
+<h2 id="三、接口（interface）"><a href="#三、接口（interface）" class="headerlink" title="三、接口（interface）"></a>三、接口（<code>interface</code>）</h2><h3 id="3-1-接口的特点（Java-8-之前）"><a href="#3-1-接口的特点（Java-8-之前）" class="headerlink" title="3.1 接口的特点（Java 8 之前）"></a>3.1 接口的特点（Java 8 之前）</h3><ul>
+<li>使用关键字 <code>interface</code> 定义：<code>public interface USB &#123; ... &#125;</code></li>
+<li>用于定义一组<strong>规范 &#x2F; 能力</strong>，侧重于“能做什么”</li>
+<li>一个类可以<strong>实现多个接口</strong>（解决多继承能力问题）</li>
+<li>成员特性（Java 7 及以前）：<ul>
+<li>接口中的方法默认是：<code>public abstract</code></li>
+<li>接口中的变量默认是：<code>public static final</code>（常量）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">USB</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">connect</span><span class="params">()</span>;   <span class="comment">// 实际等价于：public abstract void connect();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-Java-8-之后接口的增强"><a href="#3-2-Java-8-之后接口的增强" class="headerlink" title="3.2 Java 8 之后接口的增强"></a>3.2 Java 8 之后接口的增强</h3><p>Java 8 以后，接口不再是“<strong>只能有抽象方法的纯规范</strong>”，新增了两种方法：</p>
+<ul>
+<li><strong>默认方法</strong>：<code>default</code></li>
+<li><strong>静态方法</strong>：<code>static</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">USB</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 抽象方法</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">connect</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认方法（带方法体，可以被实现类继承 / 重写）</span></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;USB device&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 静态方法（只能通过接口名调用，不能被重写）</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">version</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;USB 3.0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>设计动机：</strong> 解决“<strong>接口升级问题</strong>”——在已有接口中新增方法时，不希望所有实现类都被迫立刻修改，可以通过<strong>默认方法给出默认实现</strong>。</p>
+<blockquote>
+<p>Java 9 之后接口还支持 <strong>私有方法</strong>（<code>private</code> &#x2F; <code>private static</code>），用于在接口内部给多个默认方法 &#x2F; 静态方法复用逻辑。</p>
+</blockquote>
+<h3 id="3-3-接口的典型使用场景"><a href="#3-3-接口的典型使用场景" class="headerlink" title="3.3 接口的典型使用场景"></a>3.3 接口的典型使用场景</h3><ul>
+<li>定义标准能力：如 <code>Comparable</code>、<code>Runnable</code>、<code>Serializable</code></li>
+<li>实现<strong>面向接口编程（依赖倒置原则）</strong>，提高扩展性和可测试性</li>
+<li>为不同类提供<strong>统一的对外行为</strong>，而不关心其内部具体实现</li>
+</ul>
+<hr>
+<h2 id="四、抽象类-vs-接口（核心对比）"><a href="#四、抽象类-vs-接口（核心对比）" class="headerlink" title="四、抽象类 vs 接口（核心对比）"></a>四、抽象类 vs 接口（核心对比）</h2><h3 id="4-1-文字对比"><a href="#4-1-文字对比" class="headerlink" title="4.1 文字对比"></a>4.1 文字对比</h3><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>抽象类（<code>abstract class</code>）</th>
+<th>接口（<code>interface</code>）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>关键字</td>
+<td><code>abstract class</code></td>
+<td><code>interface</code></td>
+</tr>
+<tr>
+<td>继承 &#x2F; 实现</td>
+<td><strong>单继承</strong></td>
+<td><strong>多实现</strong>（一个类可实现多个接口）</td>
+</tr>
+<tr>
+<td>成员变量</td>
+<td>可有普通成员变量</td>
+<td>默认是 <code>public static final</code> 常量</td>
+</tr>
+<tr>
+<td>构造方法</td>
+<td><strong>可以有</strong>，供子类调用</td>
+<td>❌ <strong>没有构造方法</strong></td>
+</tr>
+<tr>
+<td>方法类型</td>
+<td>抽象方法 + 普通方法</td>
+<td>抽象方法 + 默认方法 + 静态方法</td>
+</tr>
+<tr>
+<td>设计思想</td>
+<td>描述“<strong>是什么</strong>”（is-a 关系）</td>
+<td>描述“<strong>能做什么</strong>”（has-ability 关系）</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>作为<strong>父类模板 &#x2F; 公共骨架</strong></td>
+<td>作为<strong>规范 &#x2F; 协议 &#x2F; 能力扩展</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>面试常用回答：<strong>抽象类更偏“模板”，接口更偏“协议 &#x2F; 能力”。</strong></p>
+</blockquote>
+<h3 id="4-2-何时用抽象类，何时用接口？"><a href="#4-2-何时用抽象类，何时用接口？" class="headerlink" title="4.2 何时用抽象类，何时用接口？"></a>4.2 何时用抽象类，何时用接口？</h3><ul>
+<li><strong>用抽象类：</strong><ul>
+<li>多个子类之间有<strong>明显的共性属性和共同行为</strong></li>
+<li>需要提供<strong>部分默认实现</strong>，并在其中复用代码</li>
+</ul>
+</li>
+<li><strong>用接口：</strong><ul>
+<li>希望定义一组规范，允许多种完全不同的实现类来实现</li>
+<li>需要<strong>多继承能力</strong>（一个类本身已经有父类，还需要扩展额外能力）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="五、接口默认方法与静态方法（Java-8）"><a href="#五、接口默认方法与静态方法（Java-8）" class="headerlink" title="五、接口默认方法与静态方法（Java 8）"></a>五、接口默认方法与静态方法（Java 8）</h2><h3 id="5-1-默认方法-default"><a href="#5-1-默认方法-default" class="headerlink" title="5.1 默认方法 default"></a>5.1 默认方法 <code>default</code></h3><ul>
+<li>接口中允许包含<strong>带方法体的实例方法</strong></li>
+<li>默认方法可以被子类<strong>继承</strong>，也可以选择<strong>重写</strong></li>
+<li>主要用于：<ul>
+<li>接口升级时提供默认实现，避免破坏旧代码</li>
+<li>为多个实现类提供<strong>通用逻辑</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String msg)</span>;  <span class="comment">// 抽象方法</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">        log(<span class="string">&quot;[INFO] &quot;</span> + msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">error</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">        log(<span class="string">&quot;[ERROR] &quot;</span> + msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-静态方法-static"><a href="#5-2-静态方法-static" class="headerlink" title="5.2 静态方法 static"></a>5.2 静态方法 <code>static</code></h3><ul>
+<li>只能通过<strong>接口名调用</strong>：<code>Logger.format(...)</code></li>
+<li>不能被实现类重写</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">USB</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">version</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;USB 3.0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">USB.version();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、内部类（Inner-Class）"><a href="#六、内部类（Inner-Class）" class="headerlink" title="六、内部类（Inner Class）"></a>六、内部类（Inner Class）</h2><h3 id="6-1-什么是内部类？"><a href="#6-1-什么是内部类？" class="headerlink" title="6.1 什么是内部类？"></a>6.1 什么是内部类？</h3><ul>
+<li>定义在<strong>类内部</strong>的类</li>
+<li>主要作用：<ul>
+<li>逻辑分组：将<strong>只与外部类强相关的类</strong>放在一起，便于阅读和管理</li>
+<li>隐藏实现细节：对外部完全不可见，增强封装性</li>
+</ul>
+</li>
+</ul>
+<p>内部类常见 4 种形式：</p>
+<ol>
+<li>成员内部类</li>
+<li>静态内部类</li>
+<li>局部内部类</li>
+<li>匿名内部类</li>
+</ol>
+<hr>
+<h3 id="6-2-成员内部类"><a href="#6-2-成员内部类" class="headerlink" title="6.2 成员内部类"></a>6.2 成员内部类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Outer</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Inner</span> &#123;</span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="comment">// 可以直接访问外部类的成员</span></span><br><span class="line">            System.out.println(num);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义在外部类的成员位置</li>
+<li><strong>依赖外部类对象</strong>存在，创建方式：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Outer</span> <span class="variable">outer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Outer</span>();</span><br><span class="line">Outer.<span class="type">Inner</span> <span class="variable">inner</span> <span class="operator">=</span> outer.<span class="keyword">new</span> <span class="title class_">Inner</span>();</span><br><span class="line">inner.show();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="6-3-静态内部类"><a href="#6-3-静态内部类" class="headerlink" title="6.3 静态内部类"></a>6.3 静态内部类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Outer</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Inner</span> &#123;</span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;static inner&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 <code>static</code> 修饰</li>
+<li><strong>不依赖外部类对象</strong>，类似于一个被“包在 Outer 里面”的普通类</li>
+<li>创建方式：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Outer.<span class="type">Inner</span> <span class="variable">inner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Outer</span>.Inner();</span><br><span class="line">inner.show();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通常用于“<strong>只为外部类服务的工具类 &#x2F; 配置类</strong>”，不需要访问外部类的实例成员。</p>
+</blockquote>
+<hr>
+<h3 id="6-4-局部内部类"><a href="#6-4-局部内部类" class="headerlink" title="6.4 局部内部类"></a>6.4 局部内部类</h3><ul>
+<li>定义在<strong>方法或代码块内部</strong></li>
+<li>作用域<strong>仅在该方法内有效</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Outer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">Inner</span> &#123;</span><br><span class="line">            <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;local inner&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">Inner</span> <span class="variable">inner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Inner</span>();</span><br><span class="line">        inner.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>局部内部类常配合某些“只在一个方法中用一次的小逻辑”使用，一般在业务中较少直接手写，面试中需要知道概念。</p>
+</blockquote>
+<hr>
+<h3 id="6-5-匿名内部类（重点）"><a href="#6-5-匿名内部类（重点）" class="headerlink" title="6.5 匿名内部类（重点）"></a>6.5 匿名内部类（重点）</h3><ul>
+<li><strong>没有名字的内部类</strong></li>
+<li>通常用于：<ul>
+<li>快速创建接口 &#x2F; 抽象类的临时实现</li>
+<li>回调、事件监听等场景，<strong>简化代码</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Runnable</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;running&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(r).start();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在 Java 8 之后，很多匿名内部类可以被 <strong>Lambda 表达式</strong>替代（前提是函数式接口）。</p>
+</blockquote>
+<hr>
+<h2 id="七、高频面试题（系列-2）"><a href="#七、高频面试题（系列-2）" class="headerlink" title="七、高频面试题（系列 2）"></a>七、高频面试题（系列 2）</h2><h3 id="7-1-抽象类和接口的区别？"><a href="#7-1-抽象类和接口的区别？" class="headerlink" title="7.1 抽象类和接口的区别？"></a>7.1 抽象类和接口的区别？</h3><ul>
+<li>抽象类是<strong>模板</strong>，接口是<strong>规范 &#x2F; 能力</strong></li>
+<li>抽象类更强调“<strong>继承关系（is-a）</strong>”，接口更强调“<strong>行为能力（can-do）</strong>”</li>
+<li>接口支持多实现，抽象类只支持单继承</li>
+<li>抽象类可以有构造方法和普通成员变量，接口不行（变量默认是常量）</li>
+</ul>
+<hr>
+<h3 id="7-2-为什么-Java-不支持多继承？"><a href="#7-2-为什么-Java-不支持多继承？" class="headerlink" title="7.2 为什么 Java 不支持多继承？"></a>7.2 为什么 Java 不支持多继承？</h3><ul>
+<li>避免著名的“<strong>菱形继承问题</strong>”<ul>
+<li>多个父类有同名方法 &#x2F; 字段时，子类会产生<strong>二义性</strong></li>
+</ul>
+</li>
+<li>简化语言设计与实现，提升可维护性</li>
+<li>使用<strong>接口多实现</strong>来提供“多继承能力”</li>
+</ul>
+<hr>
+<h3 id="7-3-接口中可以有构造方法吗？"><a href="#7-3-接口中可以有构造方法吗？" class="headerlink" title="7.3 接口中可以有构造方法吗？"></a>7.3 接口中可以有构造方法吗？</h3><ul>
+<li>❌ 不可以</li>
+<li>接口<strong>不能被实例化</strong>，只用于被实现</li>
+<li>构造方法的作用是<strong>初始化对象</strong> → 接口本身不创建对象，因此不需要构造方法</li>
+</ul>
+<hr>
+<h3 id="7-4-抽象类中一定要有抽象方法吗？"><a href="#7-4-抽象类中一定要有抽象方法吗？" class="headerlink" title="7.4 抽象类中一定要有抽象方法吗？"></a>7.4 抽象类中一定要有抽象方法吗？</h3><ul>
+<li>❌ 不一定</li>
+<li>只要类被声明为 <code>abstract</code>，即使<strong>没有任何抽象方法</strong>也可以</li>
+<li>这种情况一般用于：<strong>不希望被实例化，但又想提供部分默认实现的基类</strong></li>
+</ul>
+<hr>
+<h2 id="✅-学习与练习建议"><a href="#✅-学习与练习建议" class="headerlink" title="✅ 学习与练习建议"></a>✅ 学习与练习建议</h2><ul>
+<li><strong>多写代码</strong>：各写 2～3 个接口与抽象类的例子（如：支付方式接口、动物抽象类）</li>
+<li><strong>画 UML 图</strong>：画出抽象类、接口、实现类之间的关系，加深“is-a &#x2F; can-do”的理解</li>
+<li><strong>练习匿名内部类到 Lambda 的迁移</strong>：比如将匿名 <code>Runnable</code> 改写成 <code>() -&gt; &#123;...&#125;</code></li>
+<li>在实际项目或练习中，刻意使用“<strong>面向接口编程</strong>”，体会解耦带来的好处</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%E5%9F%BA%E7%A1%80/">JAVA基础</a></li>
+            <li>接口、抽象类和内部类</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%8E%A5%E5%8F%A3%E4%B8%8E%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">一、接口与抽象类概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%8A%BD%E8%B1%A1%E2%80%9D%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是“抽象”？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB%EF%BC%88abstract-class%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、抽象类（abstract class）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 抽象类的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 抽象类的使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%8E%A5%E5%8F%A3%EF%BC%88interface%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、接口（interface）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%89%B9%E7%82%B9%EF%BC%88Java-8-%E4%B9%8B%E5%89%8D%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 接口的特点（Java 8 之前）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Java-8-%E4%B9%8B%E5%90%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%A2%9E%E5%BC%BA"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Java 8 之后接口的增强</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 接口的典型使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB-vs-%E6%8E%A5%E5%8F%A3%EF%BC%88%E6%A0%B8%E5%BF%83%E5%AF%B9%E6%AF%94%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、抽象类 vs 接口（核心对比）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%96%87%E5%AD%97%E5%AF%B9%E6%AF%94"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 文字对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BD%95%E6%97%B6%E7%94%A8%E6%8A%BD%E8%B1%A1%E7%B1%BB%EF%BC%8C%E4%BD%95%E6%97%B6%E7%94%A8%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 何时用抽象类，何时用接口？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%8E%A5%E5%8F%A3%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95%E4%B8%8E%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%EF%BC%88Java-8%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五、接口默认方法与静态方法（Java 8）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95-default"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 默认方法 default</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-static"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 静态方法 static</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%86%85%E9%83%A8%E7%B1%BB%EF%BC%88Inner-Class%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">六、内部类（Inner Class）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E9%83%A8%E7%B1%BB%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 什么是内部类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E6%88%90%E5%91%98%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 成员内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 静态内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-%E5%B1%80%E9%83%A8%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 局部内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">6.5.</span> <span class="nav-text">6.5 匿名内部类（重点）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E7%B3%BB%E5%88%97-2%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">七、高频面试题（系列 2）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 抽象类和接口的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E4%B8%BA%E4%BB%80%E4%B9%88-Java-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%A4%9A%E7%BB%A7%E6%89%BF%EF%BC%9F"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 为什么 Java 不支持多继承？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E5%8F%AF%E4%BB%A5%E6%9C%89%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 接口中可以有构造方法吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E4%B8%AD%E4%B8%80%E5%AE%9A%E8%A6%81%E6%9C%89%E6%8A%BD%E8%B1%A1%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">7.4.</span> <span class="nav-text">7.4 抽象类中一定要有抽象方法吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BB%83%E4%B9%A0%E5%BB%BA%E8%AE%AE"><span class="nav-number">8.</span> <span class="nav-text">✅ 学习与练习建议</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
