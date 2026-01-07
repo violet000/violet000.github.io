@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="目标：掌握 CommonJS 与 ES6 模块的差异与使用场景，理解模块作用域&#x2F;默认导出；熟练使用 class&#x2F;constructor&#x2F;静态成员&#x2F;Getter&#x2F;Setter&#x2F;继承与组合，以及迭代器与生成器的基本用法。  1. 模块化1.1 CommonJS（Node.js） 语法：const mod &#x3D; require(&#39;.&#x2F;m">
+<meta property="og:type" content="website">
+<meta property="og:title" content="模块与类">
+<meta property="og:url" content="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E6%A8%A1%E5%9D%97%E4%B8%8E%E7%B1%BB.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="目标：掌握 CommonJS 与 ES6 模块的差异与使用场景，理解模块作用域&#x2F;默认导出；熟练使用 class&#x2F;constructor&#x2F;静态成员&#x2F;Getter&#x2F;Setter&#x2F;继承与组合，以及迭代器与生成器的基本用法。  1. 模块化1.1 CommonJS（Node.js） 语法：const mod &#x3D; require(&#39;.&#x2F;m">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-07T09:09:25.271Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E6%A8%A1%E5%9D%97%E4%B8%8E%E7%B1%BB">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>模块与类 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">模块与类
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>模块与类</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <blockquote>
+<p>目标：掌握 CommonJS 与 ES6 模块的差异与使用场景，理解模块作用域&#x2F;默认导出；熟练使用 class&#x2F;constructor&#x2F;静态成员&#x2F;Getter&#x2F;Setter&#x2F;继承与组合，以及迭代器与生成器的基本用法。</p>
+</blockquote>
+<h2 id="1-模块化"><a href="#1-模块化" class="headerlink" title="1. 模块化"></a>1. 模块化</h2><h3 id="1-1-CommonJS（Node-js）"><a href="#1-1-CommonJS（Node-js）" class="headerlink" title="1.1 CommonJS（Node.js）"></a>1.1 CommonJS（Node.js）</h3><ul>
+<li>语法：<code>const mod = require(&#39;./mod&#39;);</code>；导出用 <code>module.exports = ...</code> 或 <code>exports.foo = ...</code>。</li>
+<li>加载特性：<strong>同步加载</strong>，按需执行；在 Node 中模块文件仅执行一次，之后走缓存。</li>
+<li>值拷贝&#x2F;引用：导出对象是引用，基本值拷贝值；循环依赖可能导出未完全初始化的内容。</li>
+<li>使用场景：Node.js 传统模块；打包工具会将 ESM 转 CommonJS 以兼容旧环境。</li>
+</ul>
+<h3 id="1-2-ES6-模块（ESM）"><a href="#1-2-ES6-模块（ESM）" class="headerlink" title="1.2 ES6 模块（ESM）"></a>1.2 ES6 模块（ESM）</h3><ul>
+<li>语法：<code>import</code> &#x2F; <code>export</code>；模块默认处于严格模式。</li>
+<li>加载特性：<strong>静态分析</strong>，编译期可确定依赖；浏览器&#x2F;Node 均支持（需开启 ESM）。</li>
+<li>导出形式：<ul>
+<li>命名导出：<code>export const foo = 1;</code> &#x2F; <code>export &#123; foo, bar &#125;;</code></li>
+<li>默认导出：<code>export default function () &#123;&#125;</code>；导入可改名：<code>import anyName from &#39;./mod.js&#39;</code></li>
+<li>混合导出：同时有默认和命名导出。</li>
+</ul>
+</li>
+<li>导入形式：<ul>
+<li><code>import &#123; foo as alias &#125; from &#39;./mod.js&#39;;</code></li>
+<li><code>import * as mod from &#39;./mod.js&#39;;</code></li>
+<li>动态导入：<code>const mod = await import(&#39;./mod.js&#39;);</code>（返回 Promise，适合懒加载）。</li>
+</ul>
+</li>
+<li>循环依赖：ESM 提供 live binding（活绑定），但初始化顺序仍可能出现暂时性未定义，需避免相互强耦合。</li>
+<li>浏览器落地：需 <code>&lt;script type=&quot;module&quot;&gt;</code>，默认延迟执行，支持 <code>import.meta.url</code>。</li>
+</ul>
+<h3 id="1-3-模块作用域与默认导出"><a href="#1-3-模块作用域与默认导出" class="headerlink" title="1.3 模块作用域与默认导出"></a>1.3 模块作用域与默认导出</h3><ul>
+<li>每个模块有自己的作用域，不会泄漏全局。</li>
+<li>默认导出每个模块只能有一个，导入时自定义名称：<ul>
+<li><code>export default function init() &#123;&#125;</code></li>
+<li><code>import initApp from &#39;./app.js&#39;</code></li>
+</ul>
+</li>
+<li>命名导出可有多个，导入时需解构式：<code>import &#123; run, stop &#125; from &#39;./runner.js&#39;</code></li>
+</ul>
+<h3 id="1-4-CommonJS-vs-ESM-对照"><a href="#1-4-CommonJS-vs-ESM-对照" class="headerlink" title="1.4 CommonJS vs ESM 对照"></a>1.4 CommonJS vs ESM 对照</h3><ul>
+<li>加载时机：CJS 运行时解析，ESM 编译期解析。</li>
+<li>执行&#x2F;阻塞：CJS 同步；ESM 在浏览器是异步加载文件、按依赖顺序执行。</li>
+<li>this：CJS 顶层 <code>this === module.exports</code>；ESM 顶层 <code>this === undefined</code>。</li>
+<li>导出绑定：CJS 导出的是拷贝&#x2F;对象引用；ESM 是 live binding（导出变量变更会被导入方感知）。</li>
+</ul>
+<hr>
+<h2 id="2-类与构造"><a href="#2-类与构造" class="headerlink" title="2. 类与构造"></a>2. 类与构造</h2><h3 id="2-1-class-与-constructor"><a href="#2-1-class-与-constructor" class="headerlink" title="2.1 class 与 constructor"></a>2.1 class 与 constructor</h3><ul>
+<li><code>class</code> 是构造函数+原型的语法糖；方法定义在 <code>Class.prototype</code> 上。</li>
+<li><code>constructor</code> 用于初始化实例字段；未写会有默认空构造。</li>
+<li>类字段（实例字段）可直接写在类体内（新语法）：<code>name = &#39;guest&#39;;</code></li>
+</ul>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  role = <span class="string">&#x27;guest&#x27;</span>;          <span class="comment">// 实例字段</span></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">say</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">`hi <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-静态方法与实例方法"><a href="#2-2-静态方法与实例方法" class="headerlink" title="2.2 静态方法与实例方法"></a>2.2 静态方法与实例方法</h3><ul>
+<li>静态方法&#x2F;属性：挂在构造函数本身，实例不继承。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Util</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> version = <span class="string">&#x27;1.0&#x27;</span>;</span><br><span class="line">  <span class="keyword">static</span> <span class="title function_">sum</span>(<span class="params">a, b</span>) &#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Util</span>.<span class="title function_">sum</span>(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure></li>
+<li>实例方法：定义在原型上，通过实例调用。</li>
+</ul>
+<h3 id="2-3-Getter-Setter"><a href="#2-3-Getter-Setter" class="headerlink" title="2.3 Getter &#x2F; Setter"></a>2.3 Getter &#x2F; Setter</h3><ul>
+<li>提供访问控制与派生属性：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rect</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">w, h</span>) &#123; <span class="variable language_">this</span>.<span class="property">w</span> = w; <span class="variable language_">this</span>.<span class="property">h</span> = h; &#125;</span><br><span class="line">  <span class="keyword">get</span> <span class="title function_">area</span>() &#123; <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">w</span> * <span class="variable language_">this</span>.<span class="property">h</span>; &#125;</span><br><span class="line">  <span class="keyword">set</span> <span class="title function_">width</span>(<span class="params">v</span>) &#123; <span class="variable language_">this</span>.<span class="property">w</span> = v; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>注意：避免在 getter 里做副作用或高成本操作。</li>
+</ul>
+<h3 id="2-4-继承、super-与组合"><a href="#2-4-继承、super-与组合" class="headerlink" title="2.4 继承、super 与组合"></a>2.4 继承、super 与组合</h3><ul>
+<li>继承：<code>class Sub extends Base &#123; constructor(...) &#123; super(...); &#125; &#125;</code><ul>
+<li>在派生类构造中必须先 <code>super()</code> 再用 <code>this</code>。</li>
+</ul>
+</li>
+<li>方法重写：同名方法覆盖；可在子类中使用 <code>super.method()</code> 调用父方法。</li>
+<li>组合优先：当“有一个”关系优先用组合而非继承，避免过深的继承树。</li>
+</ul>
+<h3 id="2-5-抽象-模板式写法（轻量实践）"><a href="#2-5-抽象-模板式写法（轻量实践）" class="headerlink" title="2.5 抽象&#x2F;模板式写法（轻量实践）"></a>2.5 抽象&#x2F;模板式写法（轻量实践）</h3><ul>
+<li>JS 没有原生抽象类，可用约定或抛错实现：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Repo</span> &#123;</span><br><span class="line">  <span class="title function_">save</span>(<span class="params"></span>) &#123; <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;save() must be implemented&#x27;</span>); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>也可用接口约定（TypeScript）或 mixin 组合能力。</li>
+</ul>
+<hr>
+<h2 id="3-Generator-函数与迭代器"><a href="#3-Generator-函数与迭代器" class="headerlink" title="3. Generator 函数与迭代器"></a>3. Generator 函数与迭代器</h2><h3 id="3-1-迭代器协议"><a href="#3-1-迭代器协议" class="headerlink" title="3.1 迭代器协议"></a>3.1 迭代器协议</h3><ul>
+<li>迭代器对象需实现 <code>next()</code>，返回 <code>&#123; value, done &#125;</code>。</li>
+<li>可选的 <code>return/throw</code> 用于提前结束或抛错。</li>
+<li>可迭代对象需实现 <code>Symbol.iterator</code>，返回一个迭代器。</li>
+</ul>
+<h3 id="3-2-生成器（Generator）"><a href="#3-2-生成器（Generator）" class="headerlink" title="3.2 生成器（Generator）"></a>3.2 生成器（Generator）</h3><ul>
+<li>语法：<code>function* gen() &#123; ... &#125;</code>；<code>yield</code> 产出值，<code>next()</code> 恢复执行。</li>
+<li>生成器天然实现迭代器协议（<code>gen()[Symbol.iterator]() === gen()</code>）。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">counter</span>(<span class="params">limit = <span class="number">3</span></span>) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; limit; i++) &#123;</span><br><span class="line">    <span class="keyword">yield</span> i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> n <span class="keyword">of</span> <span class="title function_">counter</span>(<span class="number">3</span>)) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(n); <span class="comment">// 0 1 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-迭代器-生成器的应用"><a href="#3-3-迭代器-生成器的应用" class="headerlink" title="3.3 迭代器&#x2F;生成器的应用"></a>3.3 迭代器&#x2F;生成器的应用</h3><ul>
+<li>自定义可迭代数据结构。</li>
+<li>惰性序列（按需生成、节省内存）。</li>
+<li>与 <code>for...of</code>、解构、<code>...</code> 展开配合。</li>
+<li>可与 async 生成器（<code>async function*</code>）结合，用于流式异步数据（如分页、消息流）。</li>
+</ul>
+<h2 id="5-速记"><a href="#5-速记" class="headerlink" title="5. 速记"></a>5. 速记</h2><ul>
+<li>“CJS 同步 require 缓存结果；ESM 静态 import 活绑定。”</li>
+<li>“模块默认严格模式，默认导出唯一，命名导出可多项。”</li>
+<li>“class 仍是构造函数+原型；静态在构造上，实例在原型上。”</li>
+<li>“extends 先 super 再 this；覆盖时可用 super.method 调父类。”</li>
+<li>“生成器 function* + yield；迭代器协议是 next() &#x3D;&gt; {value, done}。”***</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>模块与类</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">1. 模块化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-CommonJS%EF%BC%88Node-js%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 CommonJS（Node.js）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-ES6-%E6%A8%A1%E5%9D%97%EF%BC%88ESM%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 ES6 模块（ESM）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%A8%A1%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%BB%98%E8%AE%A4%E5%AF%BC%E5%87%BA"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 模块作用域与默认导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-CommonJS-vs-ESM-%E5%AF%B9%E7%85%A7"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 CommonJS vs ESM 对照</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%B1%BB%E4%B8%8E%E6%9E%84%E9%80%A0"><span class="nav-number">2.</span> <span class="nav-text">2. 类与构造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-class-%E4%B8%8E-constructor"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 class 与 constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%8E%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 静态方法与实例方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Getter-Setter"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Getter &#x2F; Setter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E7%BB%A7%E6%89%BF%E3%80%81super-%E4%B8%8E%E7%BB%84%E5%90%88"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 继承、super 与组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E6%8A%BD%E8%B1%A1-%E6%A8%A1%E6%9D%BF%E5%BC%8F%E5%86%99%E6%B3%95%EF%BC%88%E8%BD%BB%E9%87%8F%E5%AE%9E%E8%B7%B5%EF%BC%89"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 抽象&#x2F;模板式写法（轻量实践）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Generator-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">3. Generator 函数与迭代器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 迭代器协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%94%9F%E6%88%90%E5%99%A8%EF%BC%88Generator%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 生成器（Generator）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BF%AD%E4%BB%A3%E5%99%A8-%E7%94%9F%E6%88%90%E5%99%A8%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 迭代器&#x2F;生成器的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E9%80%9F%E8%AE%B0"><span class="nav-number">4.</span> <span class="nav-text">5. 速记</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

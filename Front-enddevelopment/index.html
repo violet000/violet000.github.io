@@ -390,29 +390,44 @@
   }
 }
 
-.category-card[data-category="React"] {
-  --card-color-1: #61dafb;
-  --card-color-2: #087ea4;
+.category-card[data-category="HTML基础"] {
+  --card-color-1: #e44d26;
+  --card-color-2: #f16529;
 }
 
-.category-card[data-category="ThreeJS"] {
-  --card-color-1: #000000;
-  --card-color-2: #ff6b6b;
+.category-card[data-category="CSS基础"] {
+  --card-color-1: #264de4;
+  --card-color-2: #2965f1;
 }
 
-.category-card[data-category="Vue2.X"] {
-  --card-color-1: #4fc08d;
-  --card-color-2: #35495e;
-}
-
-.category-card[data-category="Vue3.X"] {
-  --card-color-1: #42b883;
-  --card-color-2: #35495e;
+.category-card[data-category="JavaScript基础"] {
+  --card-color-1: #1e80f7;
+  --card-color-2: #4f72f0;
 }
 
 .category-card[data-category="JavaScript高级"] {
   --card-color-1: #f7df1e;
   --card-color-2: #f0db4f;
+}
+
+.category-card[data-category="TypeScript基础"] {
+  --card-color-1: #3178c6;
+  --card-color-2: #235a97;
+}
+
+.category-card[data-category="React框架"] {
+  --card-color-1: #61dafb;
+  --card-color-2: #087ea4;
+}
+
+.category-card[data-category="Vue2.X框架"] {
+  --card-color-1: #4fc08d;
+  --card-color-2: #35495e;
+}
+
+.category-card[data-category="Vue3.X框架"] {
+  --card-color-1: #42b883;
+  --card-color-2: #35495e;
 }
 
 .category-card[data-category="D3JS"] {
@@ -425,24 +440,49 @@
   --card-color-2: #c44569;
 }
 
+.category-card[data-category="ThreeJS数字孪生"] {
+  --card-color-1: #000000;
+  --card-color-2: #ff6b6b;
+}
+
+.category-card[data-category="Uniapp小程序"] {
+  --card-color-1: #00c4b3;
+  --card-color-2: #007aff;
+}
+
+.category-card[data-category="Flutter框架"] {
+  --card-color-1: #02569b;
+  --card-color-2: #42a5f5;
+}
+
+.category-card[data-category="npm等包管理工具"] {
+  --card-color-1: #cb3837;
+  --card-color-2: #ff7043;
+}
+
+.category-card[data-category="NodeJS(Express以及Kora)"] {
+  --card-color-1: #3c873a;
+  --card-color-2: #68a063;
+}
+
 .category-card[data-category="FFmpeg视频流"] {
   --card-color-1: #007302;
   --card-color-2: #00ff00;
 }
 
-.category-card[data-category="跨平台"] {
-  --card-color-1: #667eea;
-  --card-color-2: #764ba2;
-}
-
-.category-card[data-category="Cordova"] {
+.category-card[data-category="Cordova混合开发"] {
   --card-color-1: #e8f4f8;
   --card-color-2: #3c8dbc;
 }
 
-.category-card[data-category="Webpack工程化"] {
+.category-card[data-category="qiankun微前端"] {
+  --card-color-1: #6c5ce7;
+  --card-color-2: #a55eea;
+}
+
+.category-card[data-category="工程化(Webpack以及Vite)"] {
   --card-color-1: #8dd6f9;
-  --card-color-2: #1c78c0;
+  --card-color-2: #a96dff;
 }
 </style>
 
@@ -452,52 +492,39 @@
 </div>
 
 <div class="category-cards-container">
-  <div class="category-card" data-category="React">
-    <a href="/Front-enddevelopment/React/" class="card-link">
+  <div class="category-card" data-category="HTML基础">
+    <a href="/Front-enddevelopment/HTML基础/" class="card-link">
       <div class="card-icon">
-        <i class="fab fa-react"></i>
+        <i class="fab fa-html5"></i>
       </div>
-      <h3 class="card-title">React</h3>
-      <p class="card-description">React 框架学习与实践，组件开发、Hooks、状态管理等</p>
+      <h3 class="card-title">HTML基础</h3>
+      <p class="card-description">HTML 基础语法、语义化标签、表单与 SEO 优化</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
     </a>
   </div>
 
-  <div class="category-card" data-category="ThreeJS">
-    <a href="/ThreeJS/" class="card-link">
+  <div class="category-card" data-category="CSS基础">
+    <a href="/Front-enddevelopment/CSS基础/" class="card-link">
       <div class="card-icon">
-        <i class="fa fa-cube"></i>
+        <i class="fab fa-css3-alt"></i>
       </div>
-      <h3 class="card-title">ThreeJS</h3>
-      <p class="card-description">Three.js 3D 图形开发，WebGL 渲染、场景构建、动画效果</p>
+      <h3 class="card-title">CSS基础</h3>
+      <p class="card-description">CSS 样式、布局、动画与响应式设计实战</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
     </a>
   </div>
 
-  <div class="category-card" data-category="Vue2.X">
-    <a href="/Vue2.X/" class="card-link">
+  <div class="category-card" data-category="JavaScript基础">
+    <a href="/Front-enddevelopment/JavaScript基础/" class="card-link">
       <div class="card-icon">
-        <i class="fab fa-vuejs"></i>
+        <i class="fab fa-js"></i>
       </div>
-      <h3 class="card-title">Vue2.X</h3>
-      <p class="card-description">Vue 2.x 框架学习，Options API、组件系统、Vuex 状态管理</p>
-      <div class="card-arrow">
-        <i class="fa fa-arrow-right"></i>
-      </div>
-    </a>
-  </div>
-
-  <div class="category-card" data-category="Vue3.X">
-    <a href="/Vue3.X/" class="card-link">
-      <div class="card-icon">
-        <i class="fab fa-vuejs"></i>
-      </div>
-      <h3 class="card-title">Vue3.X</h3>
-      <p class="card-description">Vue 3.x 新特性，Composition API、响应式系统、性能优化</p>
+      <h3 class="card-title">JavaScript基础</h3>
+      <p class="card-description">JavaScript 基础知识点、语法与常用 API</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
@@ -505,12 +532,64 @@
   </div>
 
   <div class="category-card" data-category="JavaScript高级">
-    <a href="/JavaScript高级/" class="card-link">
+    <a href="/Front-enddevelopment/JavaScript高级/" class="card-link">
       <div class="card-icon">
         <i class="fab fa-js"></i>
       </div>
       <h3 class="card-title">JavaScript高级</h3>
-      <p class="card-description">JavaScript 高级特性，ES6+、异步编程、设计模式、性能优化</p>
+      <p class="card-description">ES6+、异步编程、设计模式与性能优化实践</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="TypeScript基础">
+    <a href="/Front-enddevelopment/TypeScript基础/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-code"></i>
+      </div>
+      <h3 class="card-title">TypeScript基础</h3>
+      <p class="card-description">TypeScript 类型系统、接口、泛型与编译配置</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="React框架">
+    <a href="/Front-enddevelopment/React框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-react"></i>
+      </div>
+      <h3 class="card-title">React框架</h3>
+      <p class="card-description">组件开发、Hooks、路由与状态管理的实战经验</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Vue2.X框架">
+    <a href="/Front-enddevelopment/Vue2.X框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-vuejs"></i>
+      </div>
+      <h3 class="card-title">Vue2.X框架</h3>
+      <p class="card-description">Options API、组件系统、Vuex 与路由的最佳实践</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Vue3.X框架">
+    <a href="/Front-enddevelopment/Vue3.X框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-vuejs"></i>
+      </div>
+      <h3 class="card-title">Vue3.X框架</h3>
+      <p class="card-description">Composition API、响应式系统升级与性能优化策略</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
@@ -518,12 +597,12 @@
   </div>
 
   <div class="category-card" data-category="D3JS">
-    <a href="/D3JS/" class="card-link">
+    <a href="/Front-enddevelopment/D3JS/" class="card-link">
       <div class="card-icon">
         <i class="fa fa-chart-bar"></i>
       </div>
       <h3 class="card-title">D3JS</h3>
-      <p class="card-description">D3.js 数据可视化，图表绘制、数据绑定、交互式可视化</p>
+      <p class="card-description">数据可视化实战，图表绘制、数据绑定与交互设计</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
@@ -531,12 +610,77 @@
   </div>
 
   <div class="category-card" data-category="SVG与Canvas图形化">
-    <a href="/SVG与Canvas图形化/" class="card-link">
+    <a href="/Front-enddevelopment/SVG与Canvas图形化/" class="card-link">
       <div class="card-icon">
         <i class="fa fa-paint-brush"></i>
       </div>
       <h3 class="card-title">SVG与Canvas图形化</h3>
-      <p class="card-description">SVG 和 Canvas 图形绘制，矢量图、位图、动画效果实现</p>
+      <p class="card-description">SVG/Canvas 绘制，矢量位图结合动画与交互效果</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="ThreeJS数字孪生">
+    <a href="/Front-enddevelopment/ThreeJS数字孪生/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-cube"></i>
+      </div>
+      <h3 class="card-title">ThreeJS数字孪生</h3>
+      <p class="card-description">Three.js 3D 渲染，数字孪生场景构建与动画特效</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Uniapp小程序">
+    <a href="/Front-enddevelopment/Uniapp小程序/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-mobile-alt"></i>
+      </div>
+      <h3 class="card-title">Uniapp小程序</h3>
+      <p class="card-description">uni-app 小程序/多端开发，组件、API 与发布流程</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="Flutter框架">
+    <a href="/Front-enddevelopment/Flutter框架/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-feather"></i>
+      </div>
+      <h3 class="card-title">Flutter框架</h3>
+      <p class="card-description">Flutter 跨平台开发，Widget 体系、状态管理与性能</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="npm等包管理工具">
+    <a href="/Front-enddevelopment/npm等包管理工具/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-archive"></i>
+      </div>
+      <h3 class="card-title">npm等包管理工具</h3>
+      <p class="card-description">npm、pnpm、yarn 等包管理，依赖安装、版本与脚本</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="NodeJS(Express以及Kora)">
+    <a href="/Front-enddevelopment/NodeJS(Express以及Kora)/" class="card-link">
+      <div class="card-icon">
+        <i class="fab fa-node-js"></i>
+      </div>
+      <h3 class="card-title">NodeJS(Express以及Kora)</h3>
+      <p class="card-description">Node.js 后端开发，Express/Kora 路由、中间件与 API 设计</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
@@ -544,51 +688,51 @@
   </div>
 
   <div class="category-card" data-category="FFmpeg视频流">
-    <a href="/FFmpeg视频流/" class="card-link">
+    <a href="/Front-enddevelopment/FFmpeg视频流/" class="card-link">
       <div class="card-icon">
         <i class="fa fa-video"></i>
       </div>
       <h3 class="card-title">FFmpeg视频流</h3>
-      <p class="card-description">FFmpeg 视频处理，视频转码、流媒体、音视频编辑技术</p>
+      <p class="card-description">FFmpeg 转码、流媒体传输与音视频编辑处理技巧</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
     </a>
   </div>
 
-  <div class="category-card" data-category="跨平台">
-    <a href="/跨平台/" class="card-link">
-      <div class="card-icon">
-        <i class="fa fa-mobile-alt"></i>
-      </div>
-      <h3 class="card-title">跨平台开发</h3>
-      <p class="card-description">uni-app、Taro、Flutter 跨平台开发，一套代码多端运行</p>
-      <div class="card-arrow">
-        <i class="fa fa-arrow-right"></i>
-      </div>
-    </a>
-  </div>
-
-  <div class="category-card" data-category="Cordova">
-    <a href="/Cordova/" class="card-link">
+  <div class="category-card" data-category="Cordova混合开发">
+    <a href="/Front-enddevelopment/Cordova混合开发/" class="card-link">
       <div class="card-icon">
         <i class="fa fa-mobile"></i>
       </div>
-      <h3 class="card-title">Cordova</h3>
-      <p class="card-description">Apache Cordova 混合应用开发，Web 技术构建原生应用</p>
+      <h3 class="card-title">Cordova混合开发</h3>
+      <p class="card-description">Apache Cordova 混合应用，Web 技术封装原生能力</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>
     </a>
   </div>
 
-  <div class="category-card" data-category="Webpack工程化">
-    <a href="/Webpack工程化/" class="card-link">
+  <div class="category-card" data-category="qiankun微前端">
+    <a href="/Front-enddevelopment/qiankun微前端/" class="card-link">
+      <div class="card-icon">
+        <i class="fa fa-sitemap"></i>
+      </div>
+      <h3 class="card-title">qiankun微前端</h3>
+      <p class="card-description">qiankun 微前端，主子应用集成、通信机制与部署运维</p>
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+
+  <div class="category-card" data-category="工程化(Webpack以及Vite)">
+    <a href="/Front-enddevelopment/工程化(Webpack以及Vite)/" class="card-link">
       <div class="card-icon">
         <i class="fa fa-cogs"></i>
       </div>
-      <h3 class="card-title">Webpack工程化</h3>
-      <p class="card-description">Webpack 构建工具，模块打包、代码分割、工程化配置</p>
+      <h3 class="card-title">工程化(Webpack以及Vite)</h3>
+      <p class="card-description">Webpack/Vite 工程化配置，构建优化、代码分割与调试</p>
       <div class="card-arrow">
         <i class="fa fa-arrow-right"></i>
       </div>

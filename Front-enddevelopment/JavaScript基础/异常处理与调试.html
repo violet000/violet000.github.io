@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="目标：学会正确抛出与捕获错误，理解 JS 内存管理与垃圾回收基本原理，能使用浏览器开发者工具（以 Chrome DevTools 为例）排查内存泄漏和性能瓶颈。  1. 错误与异常基础1.1 错误的几种来源 语法错误（SyntaxError）：代码不能被解析（如少了括号），在执行前就抛出。 运行时错误（Runtime Error）：代码语法正确，但在执行时出错（如访问 undefined.xxx">
+<meta property="og:type" content="website">
+<meta property="og:title" content="异常处理与调试">
+<meta property="og:url" content="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E4%B8%8E%E8%B0%83%E8%AF%95.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="目标：学会正确抛出与捕获错误，理解 JS 内存管理与垃圾回收基本原理，能使用浏览器开发者工具（以 Chrome DevTools 为例）排查内存泄漏和性能瓶颈。  1. 错误与异常基础1.1 错误的几种来源 语法错误（SyntaxError）：代码不能被解析（如少了括号），在执行前就抛出。 运行时错误（Runtime Error）：代码语法正确，但在执行时出错（如访问 undefined.xxx">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-07T09:26:49.332Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E4%B8%8E%E8%B0%83%E8%AF%95">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>异常处理与调试 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">异常处理与调试
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>异常处理与调试</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <blockquote>
+<p>目标：学会正确抛出与捕获错误，理解 JS 内存管理与垃圾回收基本原理，能使用浏览器开发者工具（以 Chrome DevTools 为例）排查内存泄漏和性能瓶颈。</p>
+</blockquote>
+<h2 id="1-错误与异常基础"><a href="#1-错误与异常基础" class="headerlink" title="1. 错误与异常基础"></a>1. 错误与异常基础</h2><h3 id="1-1-错误的几种来源"><a href="#1-1-错误的几种来源" class="headerlink" title="1.1 错误的几种来源"></a>1.1 错误的几种来源</h3><ul>
+<li><strong>语法错误（SyntaxError）</strong>：代码不能被解析（如少了括号），在执行前就抛出。</li>
+<li><strong>运行时错误（Runtime Error）</strong>：代码语法正确，但在执行时出错（如访问 <code>undefined.xxx</code>）。</li>
+<li><strong>逻辑错误</strong>：代码能跑但结果不符合预期，需要通过调试&#x2F;测试发现。</li>
+</ul>
+<h3 id="1-2-try-catch-finally"><a href="#1-2-try-catch-finally" class="headerlink" title="1.2 try &#x2F; catch &#x2F; finally"></a>1.2 try &#x2F; catch &#x2F; finally</h3><ul>
+<li>结构：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">// 可能抛错的代码</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">  <span class="comment">// 处理错误（记录、提示、降级）</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  <span class="comment">// 无论是否出错都执行（收尾工作：关闭连接、清理状态等）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>建议：<ul>
+<li>尽量<strong>只包裹可能抛错的最小代码块</strong>，避免掩盖问题。</li>
+<li>在 catch 中记录足够信息（错误信息 + 场景）便于排查。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-throw-抛出异常"><a href="#1-3-throw-抛出异常" class="headerlink" title="1.3 throw 抛出异常"></a>1.3 throw 抛出异常</h3><ul>
+<li>主动中断流程，将错误交给调用者处理：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">divide</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Divider must not be 0&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> a / b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>可以抛出任意类型，但强烈推荐抛出 <code>Error</code> 或其子类（有堆栈信息）。</li>
+</ul>
+<h3 id="1-4-Error-对象与自定义错误类型"><a href="#1-4-Error-对象与自定义错误类型" class="headerlink" title="1.4 Error 对象与自定义错误类型"></a>1.4 Error 对象与自定义错误类型</h3><ul>
+<li>常见内建错误类型：<ul>
+<li><code>Error</code>：通用错误</li>
+<li><code>TypeError</code>：类型不符合预期（如把非函数当函数调用）</li>
+<li><code>RangeError</code>：数值超出有效范围</li>
+<li><code>ReferenceError</code>：引用未定义变量</li>
+<li><code>SyntaxError</code>：语法错误</li>
+</ul>
+</li>
+<li>自定义错误：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ValidationError</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Error</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">message, code</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(message);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = <span class="string">&#x27;ValidationError&#x27;</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">code</span> = code;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>最佳实践：<ul>
+<li>用错误类型表达“错误类别”（校验、网络、权限等）。</li>
+<li>在错误对象中附加必要上下文（如字段名、状态码）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-异步中的错误处理"><a href="#1-5-异步中的错误处理" class="headerlink" title="1.5 异步中的错误处理"></a>1.5 异步中的错误处理</h3><ul>
+<li>Promise 链：使用 <code>.catch()</code> 捕获链上的抛错或 rejected。</li>
+<li>async&#x2F;await：使用 <code>try...catch</code> 包裹 <code>await</code>。</li>
+<li>全局未捕获：<ul>
+<li>浏览器：<code>window.addEventListener(&#39;error&#39;, ...)</code>、<code>window.addEventListener(&#39;unhandledrejection&#39;, ...)</code></li>
+<li>Node：<code>process.on(&#39;uncaughtException&#39;)</code>、<code>process.on(&#39;unhandledRejection&#39;)</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-内存管理与垃圾回收"><a href="#2-内存管理与垃圾回收" class="headerlink" title="2. 内存管理与垃圾回收"></a>2. 内存管理与垃圾回收</h2><h3 id="2-1-内存生命周期三阶段"><a href="#2-1-内存生命周期三阶段" class="headerlink" title="2.1 内存生命周期三阶段"></a>2.1 内存生命周期三阶段</h3><ol>
+<li><strong>分配</strong>：创建变量&#x2F;对象&#x2F;闭包时，JS 引擎在堆或栈上分配内存。</li>
+<li><strong>使用</strong>：读写变量、传参、返回值、闭包引用等。</li>
+<li><strong>释放</strong>：当内存不再可达（没有引用）时，垃圾回收器在合适时机回收。</li>
+</ol>
+<h3 id="2-2-垃圾回收（GC）基本策略"><a href="#2-2-垃圾回收（GC）基本策略" class="headerlink" title="2.2 垃圾回收（GC）基本策略"></a>2.2 垃圾回收（GC）基本策略</h3><ul>
+<li>主流 JS 引擎（如 V8）采用<strong>可达性（Reachability）+ 分代回收</strong>：<ul>
+<li>从根对象（全局对象、当前执行栈、闭包中的变量等）出发，能到达的都视为“存活”。</li>
+<li>新生代&#x2F;老生代分区：短命对象快速回收，长寿对象迁移到老生代。</li>
+</ul>
+</li>
+<li>不需要手动 <code>free</code> 内存，但要避免<strong>无意中保留引用</strong>导致对象“永远可达”。</li>
+</ul>
+<h3 id="2-3-常见内存泄漏场景"><a href="#2-3-常见内存泄漏场景" class="headerlink" title="2.3 常见内存泄漏场景"></a>2.3 常见内存泄漏场景</h3><ul>
+<li>全局变量或挂在全局对象上的引用从未清理。</li>
+<li>定时器&#x2F;事件监听未移除，仍持有对 DOM&#x2F;大对象的引用：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;btn&#x27;</span>);</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onClick</span>(<span class="params"></span>) &#123; <span class="comment">/* 使用大量闭包变量 */</span> &#125;</span><br><span class="line">el.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, onClick);</span><br><span class="line"><span class="comment">// el 被移除但监听未移除，可能导致相关闭包不被回收</span></span><br></pre></td></tr></table></figure></li>
+<li>闭包保留了不再需要的大对象引用。</li>
+<li>缓存（如 Map&#x2F;数组）不断积累从不清理。</li>
+</ul>
+<h3 id="2-4-Chrome-DevTools-内存调试（基础流程）"><a href="#2-4-Chrome-DevTools-内存调试（基础流程）" class="headerlink" title="2.4 Chrome DevTools 内存调试（基础流程）"></a>2.4 Chrome DevTools 内存调试（基础流程）</h3><ul>
+<li>打开 DevTools → <code>Memory</code> 面板（或 Performance + memory 勾选）。</li>
+<li>常见两种方式：<ul>
+<li><strong>Heap snapshot</strong>：<ul>
+<li>在操作前后分别拍快照，对比对象数量&#x2F;大小。</li>
+<li>关注“Detached DOM trees”、“Retainers”链，找是谁在引用。</li>
+</ul>
+</li>
+<li><strong>Allocation instrumentation</strong>：<ul>
+<li>记录在一段时间内的内存分配情况，定位高频分配与未释放对象。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实战步骤示例：<ol>
+<li>打开页面，等待稳定 → 记录快照 A。</li>
+<li>执行可疑操作多次（如切换路由、打开弹窗）→ 记录快照 B。</li>
+<li>对比 A&#x2F;B，看特定类型对象是否持续累积。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="3-性能优化与调试"><a href="#3-性能优化与调试" class="headerlink" title="3. 性能优化与调试"></a>3. 性能优化与调试</h2><h3 id="3-1-常见性能瓶颈类型"><a href="#3-1-常见性能瓶颈类型" class="headerlink" title="3.1 常见性能瓶颈类型"></a>3.1 常见性能瓶颈类型</h3><ul>
+<li>频繁&#x2F;大规模的 DOM 操作或同步布局计算（回流&#x2F;重绘）。</li>
+<li>大量同步 JS 计算导致主线程长时间被阻塞（卡顿、掉帧）。</li>
+<li>不必要的网络请求、过大的资源（图片&#x2F;脚本）。</li>
+<li>内存泄漏导致的页面越用越慢、甚至崩溃。</li>
+</ul>
+<h3 id="3-2-使用-Chrome-DevTools-检查性能"><a href="#3-2-使用-Chrome-DevTools-检查性能" class="headerlink" title="3.2 使用 Chrome DevTools 检查性能"></a>3.2 使用 Chrome DevTools 检查性能</h3><ul>
+<li><strong>Performance 面板</strong>：<ul>
+<li>录制一次用户操作（如滚动&#x2F;点击），查看主线程火焰图。</li>
+<li>关注长任务（&gt;50ms）、频繁的布局&#x2F;绘制节点。</li>
+<li>标记出耗时最大的函数调用栈，针对性优化。</li>
+</ul>
+</li>
+<li><strong>Network 面板</strong>：<ul>
+<li>检查请求数量、大小、耗时。</li>
+<li>确认是否存在重复请求、未缓存资源、阻塞首屏的脚本。</li>
+</ul>
+</li>
+<li><strong>Lighthouse</strong>：<ul>
+<li>生成自动化报告，给出性能&#x2F;可访问性&#x2F;最佳实践建议。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-速记"><a href="#4-速记" class="headerlink" title="4. 速记"></a>4. 速记</h2><ul>
+<li>“try 小块 catch 记录 finally 收尾，不要用大 try 包一切。”</li>
+<li>“只抛 Error 及子类，给错误类型与上下文，方便排查。”</li>
+<li>“内存三阶段：分配→使用→释放；泄漏多半是引用没断干净。”</li>
+<li>“定时器&#x2F;监听&#x2F;缓存要记得清理，否则闭包和 DOM 会一直活着。”</li>
+<li>“性能调试先看 Performance 火焰图，再看 Network 与 Memory 快照。”***</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>异常处理与调试</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%94%99%E8%AF%AF%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">1. 错误与异常基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%94%99%E8%AF%AF%E7%9A%84%E5%87%A0%E7%A7%8D%E6%9D%A5%E6%BA%90"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 错误的几种来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-try-catch-finally"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 try &#x2F; catch &#x2F; finally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-throw-%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 throw 抛出异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Error-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Error 对象与自定义错误类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E5%BC%82%E6%AD%A5%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 异步中的错误处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">2.</span> <span class="nav-text">2. 内存管理与垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%86%85%E5%AD%98%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%B8%89%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 内存生命周期三阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%EF%BC%88GC%EF%BC%89%E5%9F%BA%E6%9C%AC%E7%AD%96%E7%95%A5"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 垃圾回收（GC）基本策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B8%B8%E8%A7%81%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%9C%BA%E6%99%AF"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 常见内存泄漏场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Chrome-DevTools-%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95%EF%BC%88%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 Chrome DevTools 内存调试（基础流程）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B8%8E%E8%B0%83%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">3. 性能优化与调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%B8%B8%E8%A7%81%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 常见性能瓶颈类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BD%BF%E7%94%A8-Chrome-DevTools-%E6%A3%80%E6%9F%A5%E6%80%A7%E8%83%BD"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 使用 Chrome DevTools 检查性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%80%9F%E8%AE%B0"><span class="nav-number">4.</span> <span class="nav-text">4. 速记</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

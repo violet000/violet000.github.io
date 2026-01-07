@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="目标：彻底吃透函数的声明&#x2F;调用&#x2F;作用域&#x2F;闭包&#x2F;this，能在真实业务中写出可维护、无坑的函数代码。   1. 函数基础与声明方式1.1 函数声明（Function Declaration） 语法：function foo() &#123; ... &#125; 提升规则：整体被提升，函数体可在声明前调用。 适用场景：公共工具函数、需在文件顶部就能调用的函数">
+<meta property="og:type" content="website">
+<meta property="og:title" content="函数与作用域进阶">
+<meta property="og:url" content="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E8%BF%9B%E9%98%B6.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="目标：彻底吃透函数的声明&#x2F;调用&#x2F;作用域&#x2F;闭包&#x2F;this，能在真实业务中写出可维护、无坑的函数代码。   1. 函数基础与声明方式1.1 函数声明（Function Declaration） 语法：function foo() &#123; ... &#125; 提升规则：整体被提升，函数体可在声明前调用。 适用场景：公共工具函数、需在文件顶部就能调用的函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-07T08:55:12.847Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/%E5%87%BD%E6%95%B0%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E8%BF%9B%E9%98%B6">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>函数与作用域进阶 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">函数与作用域进阶
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>函数与作用域进阶</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <blockquote>
+<p>目标：彻底吃透函数的声明&#x2F;调用&#x2F;作用域&#x2F;闭包&#x2F;this，能在真实业务中写出可维护、无坑的函数代码。</p>
+</blockquote>
+<hr>
+<h2 id="1-函数基础与声明方式"><a href="#1-函数基础与声明方式" class="headerlink" title="1. 函数基础与声明方式"></a>1. 函数基础与声明方式</h2><h3 id="1-1-函数声明（Function-Declaration）"><a href="#1-1-函数声明（Function-Declaration）" class="headerlink" title="1.1 函数声明（Function Declaration）"></a>1.1 函数声明（Function Declaration）</h3><ul>
+<li><strong>语法</strong>：<code>function foo() &#123; ... &#125;</code></li>
+<li><strong>提升规则</strong>：整体被提升，函数体可在声明前调用。</li>
+<li><strong>适用场景</strong>：公共工具函数、需在文件顶部就能调用的函数。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">say</span>(); <span class="comment">// 可以调用，因为声明整体提升</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">say</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hi&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-函数表达式（Function-Expression）"><a href="#1-2-函数表达式（Function-Expression）" class="headerlink" title="1.2 函数表达式（Function Expression）"></a>1.2 函数表达式（Function Expression）</h3><ul>
+<li><strong>语法</strong>：<code>const foo = function() &#123; ... &#125;;</code></li>
+<li><strong>提升规则</strong>：只提升变量声明，函数值不会提升，声明前调用会报错。</li>
+<li><strong>适用场景</strong>：需要控制创建时机、避免过度提升导致的调用混乱。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foo(); // ReferenceError: Cannot access &#x27;foo&#x27; before initialization</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;later created&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">foo</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-命名函数表达式"><a href="#1-3-命名函数表达式" class="headerlink" title="1.3 命名函数表达式"></a>1.3 命名函数表达式</h3><ul>
+<li><strong>语法</strong>：<code>const foo = function bar() &#123; ... &#125;;</code></li>
+<li><strong>作用</strong>：<code>bar</code> 仅在函数内部可见，便于递归或调试堆栈。</li>
+</ul>
+<h3 id="1-4-参数默认值与剩余参数"><a href="#1-4-参数默认值与剩余参数" class="headerlink" title="1.4 参数默认值与剩余参数"></a>1.4 参数默认值与剩余参数</h3><ul>
+<li>默认值只在<strong>实参为 <code>undefined</code></strong> 时触发（<code>null</code> 不触发）。<ul>
+<li><code>function f(x = 1) &#123;&#125;</code>；<code>f(undefined)</code> 得 1，<code>f(null)</code> 得 <code>null</code>。</li>
+</ul>
+</li>
+<li>默认值是<strong>惰性求值</strong>：每次调用都会重新计算表达式。<ul>
+<li><code>function f(x = Date.now()) &#123; ... &#125;</code> 每次调用拿到新的时间戳。</li>
+</ul>
+</li>
+<li>解构结合默认值：防止解构 <code>undefined</code> 报错。<ul>
+<li><code>function createUser(&#123; name = &#39;匿名&#39;, role = &#39;guest&#39; &#125; = &#123;&#125;) &#123;&#125;</code></li>
+</ul>
+</li>
+<li>剩余参数 <code>...rest</code> 必须在形参末尾，得到一个真数组。<ul>
+<li><code>function sum(base, ...nums) &#123; return nums.reduce((a,b)=&gt;a+b, base); &#125;</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-箭头函数-vs-普通函数"><a href="#1-5-箭头函数-vs-普通函数" class="headerlink" title="1.5 箭头函数 vs 普通函数"></a>1.5 箭头函数 vs 普通函数</h3><ul>
+<li>箭头函数特点：<ul>
+<li>**没有自己的 <code>this</code>**，沿用定义处的外层 <code>this</code>（词法绑定）。</li>
+<li>**没有 <code>arguments</code>**，需用剩余参数 <code>...args</code>。</li>
+<li>**不能 <code>new</code>**，没有 <code>prototype</code>，也不能做构造函数。</li>
+<li>**不能用 <code>yield</code>**，不能是生成器。</li>
+</ul>
+</li>
+<li>适用场景：回调、高阶函数、需要捕获外层 <code>this</code> 的情况。</li>
+<li>不适合：对象方法（需要动态 <code>this</code>）、构造函数、类方法需要原型时。</li>
+<li>返回对象字面量要加括号：<code>const fn = () =&gt; (&#123; value: 1 &#125;);</code></li>
+</ul>
+<h3 id="1-6-小结与易错点"><a href="#1-6-小结与易错点" class="headerlink" title="1.6 小结与易错点"></a>1.6 小结与易错点</h3><ul>
+<li>需要提升：用函数声明；需要延迟创建&#x2F;避免提升：用函数表达式。</li>
+<li>需要 <code>this</code> 语义：用普通函数；需要捕获外层 <code>this</code>：用箭头。</li>
+<li>默认值只对 <code>undefined</code> 生效；剩余参数是数组，<code>arguments</code> 是类数组。</li>
+</ul>
+<hr>
+<h2 id="2-高阶函数、回调与递归"><a href="#2-高阶函数、回调与递归" class="headerlink" title="2. 高阶函数、回调与递归"></a>2. 高阶函数、回调与递归</h2><h3 id="2-1-高阶函数是什么"><a href="#2-1-高阶函数是什么" class="headerlink" title="2.1 高阶函数是什么"></a>2.1 高阶函数是什么</h3><ul>
+<li><strong>定义</strong>：接收函数作为参数，或返回一个函数。</li>
+<li><strong>价值</strong>：复用控制逻辑、抽象操作、组合行为（map&#x2F;filter&#x2F;reduce）。</li>
+</ul>
+<h3 id="2-2-常见内置高阶函数"><a href="#2-2-常见内置高阶函数" class="headerlink" title="2.2 常见内置高阶函数"></a>2.2 常见内置高阶函数</h3><ul>
+<li><code>map</code>：逐个变换，返回新数组。</li>
+<li><code>filter</code>：按条件保留，返回新数组。</li>
+<li><code>reduce</code>：累积器模式，可做求和、分组、统计。</li>
+</ul>
+<p>示例（手写小型高阶函数）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">withLog</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;start&#x27;</span>, args);</span><br><span class="line">    <span class="keyword">const</span> res = fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;end&#x27;</span>, res);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">add</span> = (<span class="params">a, b</span>) =&gt; a + b;</span><br><span class="line"><span class="keyword">const</span> addWithLog = <span class="title function_">withLog</span>(add);</span><br><span class="line"><span class="title function_">addWithLog</span>(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// start [1,2]; end 3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-递归函数的三要素"><a href="#2-3-递归函数的三要素" class="headerlink" title="2.3 递归函数的三要素"></a>2.3 递归函数的三要素</h3><ol>
+<li><strong>终止条件</strong>（不写会栈溢出）  </li>
+<li><strong>缩小问题规模</strong>（向终止条件逼近）  </li>
+<li><strong>递归调用自身</strong></li>
+</ol>
+<p>示例：阶乘</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fact</span>(<span class="params">n</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;           <span class="comment">// 终止条件</span></span><br><span class="line">  <span class="keyword">return</span> n * <span class="title function_">fact</span>(n - <span class="number">1</span>);         <span class="comment">// 缩小规模 + 递归调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>尾调用优化（TCO）在大多数 JS 引擎未默认开启，不要依赖；深递归可改写为循环或显式栈。</p>
+</blockquote>
+<p>示例：用显式栈改写深度遍历</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">traverse</span>(<span class="params">root</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> stack = [root];</span><br><span class="line">  <span class="keyword">while</span> (stack.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> node = stack.<span class="title function_">pop</span>();</span><br><span class="line">    <span class="comment">// 处理 node</span></span><br><span class="line">    <span class="keyword">if</span> (node.<span class="property">children</span>) stack.<span class="title function_">push</span>(...node.<span class="property">children</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-作用域、执行上下文与闭包"><a href="#3-作用域、执行上下文与闭包" class="headerlink" title="3. 作用域、执行上下文与闭包"></a>3. 作用域、执行上下文与闭包</h2><h3 id="3-1-作用域类型"><a href="#3-1-作用域类型" class="headerlink" title="3.1 作用域类型"></a>3.1 作用域类型</h3><ul>
+<li><strong>全局作用域</strong>：在任意地方可见（浏览器全局是 <code>window</code>）。</li>
+<li><strong>函数作用域</strong>：<code>var</code> 声明的变量仅在函数内可见。</li>
+<li><strong>块级作用域</strong>：<code>let/const</code> 声明在最近的花括号 <code>&#123;&#125;</code> 内有效；有暂时性死区。</li>
+</ul>
+<h3 id="3-2-执行上下文与调用栈"><a href="#3-2-执行上下文与调用栈" class="headerlink" title="3.2 执行上下文与调用栈"></a>3.2 执行上下文与调用栈</h3><ul>
+<li>每次调用函数都会创建<strong>执行上下文</strong>，入栈；返回后出栈。</li>
+<li>查找变量时，先看当前上下文的作用域，再沿着<strong>作用域链</strong>向外层父作用域查找，直到全局；找不到报 <code>ReferenceError</code>。</li>
+</ul>
+<h3 id="3-3-闭包（Closure）是什么"><a href="#3-3-闭包（Closure）是什么" class="headerlink" title="3.3 闭包（Closure）是什么"></a>3.3 闭包（Closure）是什么</h3><ul>
+<li><strong>定义</strong>：函数“记住”了它被定义时的词法作用域环境，而不是调用时的环境。</li>
+<li><strong>直观理解</strong>：函数把外层变量“打包带走”，即使外层函数早已返回。</li>
+</ul>
+<p>示例：计数器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createCounter</span>(<span class="params">start = <span class="number">0</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> count = start;              <span class="comment">// 被闭包捕获</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">inc</span>(<span class="params">step = <span class="number">1</span></span>) &#123; <span class="comment">// 返回的函数形成闭包</span></span><br><span class="line">    count += step;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> counter = <span class="title function_">createCounter</span>();</span><br><span class="line"><span class="title function_">counter</span>(); <span class="comment">// 1</span></span><br><span class="line"><span class="title function_">counter</span>(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-闭包的常见用途"><a href="#3-4-闭包的常见用途" class="headerlink" title="3.4 闭包的常见用途"></a>3.4 闭包的常见用途</h3><ul>
+<li>数据私有化：外部只能通过函数访问内部状态。</li>
+<li>惰性计算&#x2F;缓存：如 memoize。</li>
+<li>函数工厂：根据配置返回行为不同的函数。</li>
+<li>模拟模块：早期 IIFE + 闭包实现私有变量。</li>
+</ul>
+<h3 id="3-5-闭包常见坑"><a href="#3-5-闭包常见坑" class="headerlink" title="3.5 闭包常见坑"></a>3.5 闭包常见坑</h3><ul>
+<li>**循环与 <code>var</code>**：<code>for (var i=0; i&lt;3; i++) setTimeout(()=&gt;console.log(i));</code> 会输出 3、3、3，因为 <code>var</code> 共享一个函数作用域。解决：用 <code>let</code> 或用 IIFE：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(i), <span class="number">0</span>); <span class="comment">// 0 1 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>内存占用</strong>：闭包长时间存在会持有外部变量引用，不再需要时将引用置为 <code>null</code> 或让闭包出作用域。</li>
+</ul>
+<hr>
+<h2 id="4-特殊函数特性"><a href="#4-特殊函数特性" class="headerlink" title="4. 特殊函数特性"></a>4. 特殊函数特性</h2><h3 id="4-1-IIFE（立即执行函数表达式）"><a href="#4-1-IIFE（立即执行函数表达式）" class="headerlink" title="4.1 IIFE（立即执行函数表达式）"></a>4.1 IIFE（立即执行函数表达式）</h3><ul>
+<li>作用：立刻创建一个独立作用域，避免全局变量污染。</li>
+<li>形式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> hidden = <span class="number">1</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;init&#x27;</span>);</span><br><span class="line">&#125;)();</span><br><span class="line">(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;arrow iife&#x27;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-2-arguments-对象"><a href="#4-2-arguments-对象" class="headerlink" title="4.2 arguments 对象"></a>4.2 <code>arguments</code> 对象</h3><ul>
+<li><strong>类数组</strong>，有 <code>length</code> 和按索引访问，但没有数组原型方法。</li>
+<li>箭头函数没有自己的 <code>arguments</code>（会从外层捕获），建议直接用剩余参数。</li>
+<li>转数组：<code>const args = Array.from(arguments);</code> 或 <code>[...arguments]</code>。</li>
+<li>与剩余参数区别：<code>arguments</code> 包含所有实参，剩余参数只收集未被单独声明的那部分。</li>
+</ul>
+<h3 id="4-3-严格模式-use-strict"><a href="#4-3-严格模式-use-strict" class="headerlink" title="4.3 严格模式 &quot;use strict&quot;"></a>4.3 严格模式 <code>&quot;use strict&quot;</code></h3><ul>
+<li>开启方式：文件顶部或函数内部写 <code>&quot;use strict&quot;;</code>；ESM&#x2F;模块脚本默认严格模式。</li>
+<li>主要影响：<ul>
+<li>禁止隐式创建全局变量（未声明直接赋值会报错）。</li>
+<li>普通函数独立调用时 <code>this</code> 为 <code>undefined</code>（非严格模式是全局对象）。</li>
+<li>删除不可删属性会抛错，重复参数名会抛错。</li>
+<li><code>with</code> 语句被禁用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-this-的绑定规则（逐条对照记忆）"><a href="#5-this-的绑定规则（逐条对照记忆）" class="headerlink" title="5. this 的绑定规则（逐条对照记忆）"></a>5. <code>this</code> 的绑定规则（逐条对照记忆）</h2><h3 id="5-1-决定-this-的唯一因素：调用位置"><a href="#5-1-决定-this-的唯一因素：调用位置" class="headerlink" title="5.1 决定 this 的唯一因素：调用位置"></a>5.1 决定 <code>this</code> 的唯一因素：调用位置</h3><p>按优先级从高到低：</p>
+<ol>
+<li><code>new</code> 调用：<code>this</code> 指向新创建的实例。箭头函数不能 <code>new</code>。</li>
+<li>显式绑定：<code>call</code> &#x2F; <code>apply</code> &#x2F; <code>bind</code> 指定的对象。</li>
+<li>隐式绑定：作为对象的方法被调用，<code>obj.fn()</code> 中 <code>this</code> 是 <code>obj</code>。</li>
+<li>默认绑定：独立函数调用，非严格模式下是全局对象，严格模式下是 <code>undefined</code>。</li>
+<li>箭头函数：没有自己的 <code>this</code>，直接用<strong>定义处外层</strong>的 <code>this</code>，且无法被以上方式改变。</li>
+</ol>
+<h3 id="5-2-事件处理中的-this"><a href="#5-2-事件处理中的-this" class="headerlink" title="5.2 事件处理中的 this"></a>5.2 事件处理中的 <code>this</code></h3><ul>
+<li>DOM 事件处理器（非箭头）默认指向触发事件的元素。</li>
+<li>在类&#x2F;组件中用箭头函数做回调，可捕获实例 <code>this</code>，避免手动绑定。</li>
+</ul>
+<h3 id="5-3-call-apply-bind"><a href="#5-3-call-apply-bind" class="headerlink" title="5.3 call &#x2F; apply &#x2F; bind"></a>5.3 <code>call</code> &#x2F; <code>apply</code> &#x2F; <code>bind</code></h3><ul>
+<li><code>call(thisArg, ...args)</code>：即时调用，参数逐个传。</li>
+<li><code>apply(thisArg, argsArray)</code>：即时调用，参数数组传。</li>
+<li><code>bind(thisArg, ...preset)</code>：返回一个永久绑定 <code>this</code> 与部分参数的新函数（常用于事件回调、定时器）。</li>
+</ul>
+<h3 id="5-4-函数借用（Function-Borrowing）"><a href="#5-4-函数借用（Function-Borrowing）" class="headerlink" title="5.4 函数借用（Function Borrowing）"></a>5.4 函数借用（Function Borrowing）</h3><ul>
+<li>借用数组方法处理类数组：<ul>
+<li><code>const arr = Array.prototype.slice.call(arguments);</code></li>
+<li><code>Array.prototype.forEach.call(nodeList, cb);</code></li>
+</ul>
+</li>
+<li>适合 DOM 的 <code>NodeList</code>、<code>arguments</code> 等类数组对象。</li>
+</ul>
+<hr>
+<h2 id="6-代码片段（可直接粘贴试验）"><a href="#6-代码片段（可直接粘贴试验）" class="headerlink" title="6. 代码片段（可直接粘贴试验）"></a>6. 代码片段（可直接粘贴试验）</h2><h3 id="6-1-闭包计数器"><a href="#6-1-闭包计数器" class="headerlink" title="6.1 闭包计数器"></a>6.1 闭包计数器</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createCounter</span>(<span class="params">start = <span class="number">0</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> count = start; <span class="comment">// 被闭包捕获</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="title function_">inc</span>(<span class="params">step = <span class="number">1</span></span>) &#123; count += step; <span class="keyword">return</span> count; &#125;,</span><br><span class="line">    <span class="title function_">reset</span>(<span class="params"></span>) &#123; count = start; &#125;,</span><br><span class="line">    <span class="title function_">value</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> c = <span class="title function_">createCounter</span>();</span><br><span class="line">c.<span class="title function_">inc</span>(); <span class="comment">// 1</span></span><br><span class="line">c.<span class="title function_">value</span>(); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-节流与防抖（简版）"><a href="#6-2-节流与防抖（简版）" class="headerlink" title="6.2 节流与防抖（简版）"></a>6.2 节流与防抖（简版）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">throttle</span>(<span class="params">fn, wait = <span class="number">100</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> last = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> now = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">if</span> (now - last &gt;= wait) &#123;</span><br><span class="line">      last = now;</span><br><span class="line">      <span class="keyword">return</span> fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args); <span class="comment">// 保留调用者 this</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">debounce</span>(<span class="params">fn, wait = <span class="number">200</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="built_in">clearTimeout</span>(timer);</span><br><span class="line">    timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args), wait);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-用闭包做简单缓存（Memoize）"><a href="#6-3-用闭包做简单缓存（Memoize）" class="headerlink" title="6.3 用闭包做简单缓存（Memoize）"></a>6.3 用闭包做简单缓存（Memoize）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">memoize</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> cache = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(args);</span><br><span class="line">    <span class="keyword">if</span> (cache.<span class="title function_">has</span>(key)) <span class="keyword">return</span> cache.<span class="title function_">get</span>(key);</span><br><span class="line">    <span class="keyword">const</span> result = fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">    cache.<span class="title function_">set</span>(key, result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">slowAdd</span> = (<span class="params">a, b</span>) =&gt; &#123; <span class="comment">/* 假装很慢 */</span> <span class="keyword">return</span> a + b; &#125;;</span><br><span class="line"><span class="keyword">const</span> fastAdd = <span class="title function_">memoize</span>(slowAdd);</span><br><span class="line"><span class="title function_">fastAdd</span>(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// 首次计算</span></span><br><span class="line"><span class="title function_">fastAdd</span>(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// 直接命中缓存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-4-arguments-与剩余参数对比"><a href="#6-4-arguments-与剩余参数对比" class="headerlink" title="6.4 arguments 与剩余参数对比"></a>6.4 <code>arguments</code> 与剩余参数对比</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">demo</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>.<span class="property">length</span>); <span class="comment">// 实参个数</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>[<span class="number">0</span>], <span class="variable language_">arguments</span>[<span class="number">1</span>]);</span><br><span class="line">  <span class="comment">// arguments 不是数组，不能直接 map</span></span><br><span class="line">  <span class="keyword">const</span> arr = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="variable language_">arguments</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> x * <span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">demoRest</span>(<span class="params">...args</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(args.<span class="property">length</span>); <span class="comment">// 剩余参数是真数组</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(args.<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> x * <span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-5-this-绑定示例"><a href="#6-5-this-绑定示例" class="headerlink" title="6.5 this 绑定示例"></a>6.5 this 绑定示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="title function_">show</span>(<span class="params"></span>) &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">x</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> fn = obj.<span class="property">show</span>;</span><br><span class="line"><span class="title function_">fn</span>();            <span class="comment">// 严格模式下 undefined；非严格模式下 window.x</span></span><br><span class="line">fn.<span class="title function_">call</span>(&#123;<span class="attr">x</span>: <span class="number">2</span>&#125;); <span class="comment">// 2 显式绑定</span></span><br><span class="line">obj.<span class="title function_">show</span>();      <span class="comment">// 1 隐式绑定</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-（速记）"><a href="#8-（速记）" class="headerlink" title="8. （速记）"></a>8. （速记）</h2><ul>
+<li>“声明整体升，表达式不升值”：声明能提前用，表达式要先定义。</li>
+<li>“默认只认 <code>undefined</code>，<code>null</code> 不顶班”：默认值只在 <code>undefined</code> 时触发。</li>
+<li>“箭头不 new、无 this、无 arguments”：想要动态 <code>this</code> 用普通函数。</li>
+<li>“闭包记定义环境，不记调用环境”：<code>this</code> 看调用，变量查词法。</li>
+<li>“this 先 new，后 call&#x2F;apply&#x2F;bind，再看点号，最后默认，箭头例外”。***</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Front-enddevelopment/">FRONT-ENDDEVELOPMENT</a></li>
+            <li><a href="/Front-enddevelopment/JavaScript%E5%9F%BA%E7%A1%80/">JAVASCRIPT基础</a></li>
+            <li>函数与作用域进阶</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%A3%B0%E6%98%8E%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">1. 函数基础与声明方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%EF%BC%88Function-Declaration%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 函数声明（Function Declaration）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%88Function-Expression%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 函数表达式（Function Expression）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%91%BD%E5%90%8D%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 命名函数表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC%E4%B8%8E%E5%89%A9%E4%BD%99%E5%8F%82%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 参数默认值与剩余参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0-vs-%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 箭头函数 vs 普通函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E5%B0%8F%E7%BB%93%E4%B8%8E%E6%98%93%E9%94%99%E7%82%B9"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 小结与易错点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E3%80%81%E5%9B%9E%E8%B0%83%E4%B8%8E%E9%80%92%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">2. 高阶函数、回调与递归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 高阶函数是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%B8%B8%E8%A7%81%E5%86%85%E7%BD%AE%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 常见内置高阶函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 递归函数的三要素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E9%97%AD%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">3. 作用域、执行上下文与闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 作用域类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E8%B0%83%E7%94%A8%E6%A0%88"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 执行上下文与调用栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E9%97%AD%E5%8C%85%EF%BC%88Closure%EF%BC%89%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 闭包（Closure）是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E9%97%AD%E5%8C%85%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 闭包的常见用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E9%97%AD%E5%8C%85%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 闭包常见坑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%89%B9%E6%AE%8A%E5%87%BD%E6%95%B0%E7%89%B9%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">4. 特殊函数特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-IIFE%EF%BC%88%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 IIFE（立即执行函数表达式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-arguments-%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 arguments 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F-use-strict"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 严格模式 &quot;use strict&quot;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-this-%E7%9A%84%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99%EF%BC%88%E9%80%90%E6%9D%A1%E5%AF%B9%E7%85%A7%E8%AE%B0%E5%BF%86%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">5. this 的绑定规则（逐条对照记忆）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%86%B3%E5%AE%9A-this-%E7%9A%84%E5%94%AF%E4%B8%80%E5%9B%A0%E7%B4%A0%EF%BC%9A%E8%B0%83%E7%94%A8%E4%BD%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 决定 this 的唯一因素：调用位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84-this"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 事件处理中的 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-call-apply-bind"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 call &#x2F; apply &#x2F; bind</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E5%87%BD%E6%95%B0%E5%80%9F%E7%94%A8%EF%BC%88Function-Borrowing%EF%BC%89"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 函数借用（Function Borrowing）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5%EF%BC%88%E5%8F%AF%E7%9B%B4%E6%8E%A5%E7%B2%98%E8%B4%B4%E8%AF%95%E9%AA%8C%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">6. 代码片段（可直接粘贴试验）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E9%97%AD%E5%8C%85%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 闭包计数器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E8%8A%82%E6%B5%81%E4%B8%8E%E9%98%B2%E6%8A%96%EF%BC%88%E7%AE%80%E7%89%88%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 节流与防抖（简版）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E7%94%A8%E9%97%AD%E5%8C%85%E5%81%9A%E7%AE%80%E5%8D%95%E7%BC%93%E5%AD%98%EF%BC%88Memoize%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 用闭包做简单缓存（Memoize）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-arguments-%E4%B8%8E%E5%89%A9%E4%BD%99%E5%8F%82%E6%95%B0%E5%AF%B9%E6%AF%94"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 arguments 与剩余参数对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-this-%E7%BB%91%E5%AE%9A%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.5.</span> <span class="nav-text">6.5 this 绑定示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%EF%BC%88%E9%80%9F%E8%AE%B0%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">8. （速记）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
