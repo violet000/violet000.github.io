@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="性能与优化 资源加载：defer、async、预加载 preload&#x2F;prefetch 图片与字体优化思路 关键渲染路径与阻塞点">
+  <meta name="description" content="性能与优化Web 性能优化是现代前端开发的核心关注点。快速加载的页面不仅能提升用户体验，还能提高搜索引擎排名和转化率。本文档将介绍 HTML 层面的性能优化技术，包括资源加载策略、图片与字体优化、关键渲染路径优化等内容。 1. 资源加载优化1.1 JavaScript 加载策略1.1.1 &lt;script&gt; 标签的加载方式默认情况下，&lt;script&gt; 标签会阻塞 HTML 解">
 <meta property="og:type" content="website">
 <meta property="og:title" content="性能与优化">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/HTML%E5%9F%BA%E7%A1%80/%E6%80%A7%E8%83%BD%E4%B8%8E%E4%BC%98%E5%8C%96.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="性能与优化 资源加载：defer、async、预加载 preload&#x2F;prefetch 图片与字体优化思路 关键渲染路径与阻塞点">
+<meta property="og:description" content="性能与优化Web 性能优化是现代前端开发的核心关注点。快速加载的页面不仅能提升用户体验，还能提高搜索引擎排名和转化率。本文档将介绍 HTML 层面的性能优化技术，包括资源加载策略、图片与字体优化、关键渲染路径优化等内容。 1. 资源加载优化1.1 JavaScript 加载策略1.1.1 &lt;script&gt; 标签的加载方式默认情况下，&lt;script&gt; 标签会阻塞 HTML 解">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:37:39.403Z">
+<meta property="article:modified_time" content="2026-01-08T02:24:37.249Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,14 +202,416 @@
       
       
       <div class="post-body">
-            <ul>
-<li>性能与优化<ul>
-<li>资源加载：<code>defer</code>、<code>async</code>、预加载 <code>preload/prefetch</code></li>
-<li>图片与字体优化思路</li>
-<li>关键渲染路径与阻塞点</li>
+            <h1 id="性能与优化"><a href="#性能与优化" class="headerlink" title="性能与优化"></a>性能与优化</h1><p>Web 性能优化是现代前端开发的核心关注点。快速加载的页面不仅能提升用户体验，还能提高搜索引擎排名和转化率。本文档将介绍 HTML 层面的性能优化技术，包括资源加载策略、图片与字体优化、关键渲染路径优化等内容。</p>
+<h2 id="1-资源加载优化"><a href="#1-资源加载优化" class="headerlink" title="1. 资源加载优化"></a>1. 资源加载优化</h2><h3 id="1-1-JavaScript-加载策略"><a href="#1-1-JavaScript-加载策略" class="headerlink" title="1.1 JavaScript 加载策略"></a>1.1 JavaScript 加载策略</h3><h4 id="1-1-1-标签的加载方式"><a href="#1-1-1-标签的加载方式" class="headerlink" title="1.1.1 &lt;script&gt; 标签的加载方式"></a>1.1.1 <code>&lt;script&gt;</code> 标签的加载方式</h4><p>默认情况下，<code>&lt;script&gt;</code> 标签会阻塞 HTML 解析，导致页面渲染延迟。</p>
+<p><strong>无属性（阻塞渲染）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;app.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 <code>defer</code> 属性（延迟执行）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;app.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>立即下载，但不阻塞 HTML 解析</li>
+<li>在 DOM 解析完成后，按顺序执行</li>
+<li>适用于需要操作 DOM 的脚本</li>
+<li>多个 <code>defer</code> 脚本按顺序执行</li>
+</ul>
+<p><strong>使用 <code>async</code> 属性（异步执行）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;analytics.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>立即下载，不阻塞 HTML 解析</li>
+<li>下载完成后立即执行（可能中断 HTML 解析）</li>
+<li>执行顺序不确定</li>
+<li>适用于独立的第三方脚本（如分析工具）</li>
+</ul>
+<h4 id="1-1-2-defer-vs-async-对比"><a href="#1-1-2-defer-vs-async-对比" class="headerlink" title="1.1.2 defer vs async 对比"></a>1.1.2 defer vs async 对比</h4><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>无属性</th>
+<th><code>defer</code></th>
+<th><code>async</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>阻塞 HTML 解析</td>
+<td>✅ 是</td>
+<td>❌ 否</td>
+<td>❌ 否</td>
+</tr>
+<tr>
+<td>执行时机</td>
+<td>立即</td>
+<td>DOM 解析后</td>
+<td>下载后立即</td>
+</tr>
+<tr>
+<td>执行顺序</td>
+<td>按顺序</td>
+<td>按顺序</td>
+<td>不确定</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>必要脚本</td>
+<td>依赖 DOM 的脚本</td>
+<td>独立脚本</td>
+</tr>
+</tbody></table>
+<p><strong>推荐实践</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 关键脚本使用 defer --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 第三方分析工具使用 async --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://www.google-analytics.com/analytics.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-预加载（Preload）"><a href="#1-2-预加载（Preload）" class="headerlink" title="1.2 预加载（Preload）"></a>1.2 预加载（Preload）</h3><p><code>preload</code> 用于提前加载当前页面必需的关键资源。</p>
+<h4 id="1-2-1-基本语法"><a href="#1-2-1-基本语法" class="headerlink" title="1.2.1 基本语法"></a>1.2.1 基本语法</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;font.woff2&quot;</span> <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;critical.css&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;hero-image.jpg&quot;</span> <span class="attr">as</span>=<span class="string">&quot;image&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;app.js&quot;</span> <span class="attr">as</span>=<span class="string">&quot;script&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-2-as-属性值"><a href="#1-2-2-as-属性值" class="headerlink" title="1.2.2 as 属性值"></a>1.2.2 as 属性值</h4><table>
+<thead>
+<tr>
+<th>as 值</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>script</code></td>
+<td>JavaScript 文件</td>
+<td><code>app.js</code></td>
+</tr>
+<tr>
+<td><code>style</code></td>
+<td>CSS 样式表</td>
+<td><code>main.css</code></td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>图片资源</td>
+<td><code>hero.jpg</code></td>
+</tr>
+<tr>
+<td><code>font</code></td>
+<td>字体文件</td>
+<td><code>font.woff2</code></td>
+</tr>
+<tr>
+<td><code>audio</code></td>
+<td>音频文件</td>
+<td><code>sound.mp3</code></td>
+</tr>
+<tr>
+<td><code>video</code></td>
+<td>视频文件</td>
+<td><code>video.mp4</code></td>
+</tr>
+<tr>
+<td><code>fetch</code></td>
+<td>Fetch&#x2F;XMLHttpRequest</td>
+<td>API 数据</td>
+</tr>
+<tr>
+<td><code>document</code></td>
+<td>HTML 文档</td>
+<td><code>page.html</code></td>
+</tr>
+</tbody></table>
+<h4 id="1-2-3-预加载关键资源示例"><a href="#1-2-3-预加载关键资源示例" class="headerlink" title="1.2.3 预加载关键资源示例"></a>1.2.3 预加载关键资源示例</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;fonts/main.woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键 CSS --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;styles/critical.css&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;style&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载首屏图片 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;images/hero.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;image&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键脚本 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;js/main.js&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;script&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>仅预加载当前页面必需的关键资源</li>
+<li>字体文件必须设置 <code>crossorigin</code> 属性</li>
+<li>避免预加载过多资源，导致带宽浪费</li>
+</ul>
+<h3 id="1-3-预获取（Prefetch）"><a href="#1-3-预获取（Prefetch）" class="headerlink" title="1.3 预获取（Prefetch）"></a>1.3 预获取（Prefetch）</h3><p><code>prefetch</code> 用于在浏览器空闲时预加载用户可能访问的下一个页面的资源。</p>
+<h4 id="1-3-1-基本语法"><a href="#1-3-1-基本语法" class="headerlink" title="1.3.1 基本语法"></a>1.3.1 基本语法</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;next-page.html&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;next-page.js&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;next-page.css&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-3-2-使用场景"><a href="#1-3-2-使用场景" class="headerlink" title="1.3.2 使用场景"></a>1.3.2 使用场景</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 预获取用户可能访问的下一页 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/products/page-2.html&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 预获取下一页的 JavaScript --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/js/product-detail.js&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- DNS 预解析（提升后续连接速度） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;dns-prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://api.example.com&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>prefetch vs preload</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>preload</code></th>
+<th><code>prefetch</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优先级</td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>时机</td>
+<td>立即</td>
+<td>浏览器空闲时</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>当前页关键资源</td>
+<td>下一个页面资源</td>
+</tr>
+<tr>
+<td>带宽</td>
+<td>占用当前带宽</td>
+<td>不占用当前带宽</td>
+</tr>
+</tbody></table>
+<h3 id="1-4-预连接（Preconnect）"><a href="#1-4-预连接（Preconnect）" class="headerlink" title="1.4 预连接（Preconnect）"></a>1.4 预连接（Preconnect）</h3><p><code>preconnect</code> 用于提前建立与第三方域名的连接，包括 DNS 解析、TCP 握手和 TLS 协商。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 预连接字体服务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.gstatic.com&quot;</span> <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 预连接 API 服务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://api.example.com&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- DNS 预解析（更轻量，只做 DNS 查询） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;dns-prefetch&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.example.com&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>第三方字体服务</li>
+<li>CDN 资源</li>
+<li>API 端点</li>
+<li>社交媒体插件</li>
+</ul>
+<h3 id="1-5-其他资源提示"><a href="#1-5-其他资源提示" class="headerlink" title="1.5 其他资源提示"></a>1.5 其他资源提示</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 预渲染整个页面（适用于确定用户会访问的页面） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;prerender&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://example.com/next-page.html&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 提示资源优先级 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;modulepreload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;app.js&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-图片与字体优化"><a href="#2-图片与字体优化" class="headerlink" title="2. 图片与字体优化"></a>2. 图片与字体优化</h2><h3 id="2-1-图片优化"><a href="#2-1-图片优化" class="headerlink" title="2.1 图片优化"></a>2.1 图片优化</h3><h4 id="2-1-1-图片格式选择"><a href="#2-1-1-图片格式选择" class="headerlink" title="2.1.1 图片格式选择"></a>2.1.1 图片格式选择</h4><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>JPEG</strong></td>
+<td>有损压缩，文件小</td>
+<td>照片、复杂图像</td>
+</tr>
+<tr>
+<td><strong>PNG</strong></td>
+<td>无损压缩，支持透明</td>
+<td>图标、简单图形</td>
+</tr>
+<tr>
+<td><strong>WebP</strong></td>
+<td>现代格式，压缩比高</td>
+<td>通用（需兼容性处理）</td>
+</tr>
+<tr>
+<td><strong>AVIF</strong></td>
+<td>最新格式，压缩比极高</td>
+<td>现代浏览器</td>
+</tr>
+<tr>
+<td><strong>SVG</strong></td>
+<td>矢量图，无损缩放</td>
+<td>图标、简单图形</td>
+</tr>
+<tr>
+<td><strong>GIF</strong></td>
+<td>支持动画</td>
+<td>简单动画</td>
+</tr>
+</tbody></table>
+<h4 id="2-1-2-响应式图片"><a href="#2-1-2-响应式图片" class="headerlink" title="2.1.2 响应式图片"></a>2.1.2 响应式图片</h4><p>**使用 <code>srcset</code> 和 <code>sizes</code>**：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">srcset</span>=<span class="string">&quot;image-320w.jpg 320w,</span></span></span><br><span class="line"><span class="string"><span class="tag">          image-640w.jpg 640w,</span></span></span><br><span class="line"><span class="string"><span class="tag">          image-1280w.jpg 1280w&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">sizes</span>=<span class="string">&quot;(max-width: 640px) 100vw,</span></span></span><br><span class="line"><span class="string"><span class="tag">         (max-width: 1280px) 50vw,</span></span></span><br><span class="line"><span class="string"><span class="tag">         1280px&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">&quot;image-640w.jpg&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">alt</span>=<span class="string">&quot;响应式图片&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 <code>&lt;picture&gt;</code> 元素（格式选择）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 现代格式优先 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;image.avif&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/avif&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;image.webp&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/webp&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 降级方案 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;描述&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>结合响应式和格式选择</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">&quot;(max-width: 640px)&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;small.avif 1x, small-2x.avif 2x&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">&quot;image/avif&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">&quot;(max-width: 640px)&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;small.webp 1x, small-2x.webp 2x&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">&quot;image/webp&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">&quot;(max-width: 640px)&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;small.jpg 1x, small-2x.jpg 2x&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;large.avif 1x, large-2x.avif 2x&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">&quot;image/avif&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;large.webp 1x, large-2x.webp 2x&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">&quot;image/webp&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">&quot;large.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">&quot;large.jpg 1x, large-2x.jpg 2x&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">alt</span>=<span class="string">&quot;响应式图片&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-懒加载（Lazy-Loading）"><a href="#2-1-3-懒加载（Lazy-Loading）" class="headerlink" title="2.1.3 懒加载（Lazy Loading）"></a>2.1.3 懒加载（Lazy Loading）</h4><p><strong>原生懒加载（现代浏览器）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;描述&quot;</span> <span class="attr">loading</span>=<span class="string">&quot;lazy&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>传统方法（使用 Intersection Observer）</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">data-src</span>=<span class="string">&quot;image.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">&quot;placeholder.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">alt</span>=<span class="string">&quot;描述&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">&quot;lazy-load&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> images = <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&#x27;.lazy-load&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> imageObserver = <span class="keyword">new</span> <span class="title class_">IntersectionObserver</span>(<span class="function">(<span class="params">entries, observer</span>) =&gt;</span> &#123;</span><br><span class="line">    entries.<span class="title function_">forEach</span>(<span class="function"><span class="params">entry</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (entry.<span class="property">isIntersecting</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> img = entry.<span class="property">target</span>;</span><br><span class="line">        img.<span class="property">src</span> = img.<span class="property">dataset</span>.<span class="property">src</span>;</span><br><span class="line">        img.<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&#x27;lazy-load&#x27;</span>);</span><br><span class="line">        observer.<span class="title function_">unobserve</span>(img);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  images.<span class="title function_">forEach</span>(<span class="function"><span class="params">img</span> =&gt;</span> imageObserver.<span class="title function_">observe</span>(img));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-4-图片优化最佳实践"><a href="#2-1-4-图片优化最佳实践" class="headerlink" title="2.1.4 图片优化最佳实践"></a>2.1.4 图片优化最佳实践</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 1. 使用现代格式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;hero.avif&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/avif&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;hero.webp&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/webp&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;hero.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;Hero 图片&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 2. 设置合适的尺寸 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">srcset</span>=<span class="string">&quot;thumbnail.jpg 150w, large.jpg 800w&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">sizes</span>=<span class="string">&quot;(max-width: 600px) 150px, 800px&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">&quot;thumbnail.jpg&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">alt</span>=<span class="string">&quot;描述&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">loading</span>=<span class="string">&quot;lazy&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 3. 提供占位符 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">&quot;image.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">alt</span>=<span class="string">&quot;描述&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">loading</span>=<span class="string">&quot;lazy&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">width</span>=<span class="string">&quot;800&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">height</span>=<span class="string">&quot;600&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 4. 使用 CSS 实现图片效果而非大图 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.blur-load</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">filter</span>: <span class="built_in">blur</span>(<span class="number">10px</span>);</span></span><br><span class="line"><span class="language-css">    <span class="attribute">transition</span>: filter <span class="number">0.3s</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.blur-load</span><span class="selector-class">.loaded</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">filter</span>: <span class="built_in">blur</span>(<span class="number">0</span>);</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-字体优化"><a href="#2-2-字体优化" class="headerlink" title="2.2 字体优化"></a>2.2 字体优化</h3><h4 id="2-2-1-字体加载策略"><a href="#2-2-1-字体加载策略" class="headerlink" title="2.2.1 字体加载策略"></a>2.2.1 字体加载策略</h4><p>**关键字体使用 <code>preload</code>**：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;fonts/main-bold.woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 字体定义 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="keyword">@font-face</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-family</span>: <span class="string">&#x27;Main&#x27;</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;fonts/main-bold.woff2&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff2&#x27;</span>);</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-weight</span>: <span class="number">700</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-display</span>: swap;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>字体显示策略（<code>font-display</code>）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>行为</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code></td>
+<td>浏览器默认</td>
+<td>不推荐</td>
+</tr>
+<tr>
+<td><code>block</code></td>
+<td>阻塞 3s，显示回退字体</td>
+<td>品牌字体</td>
+</tr>
+<tr>
+<td><code>swap</code></td>
+<td>立即显示回退字体</td>
+<td><strong>推荐</strong></td>
+</tr>
+<tr>
+<td><code>fallback</code></td>
+<td>阻塞 100ms，3s 超时后放弃</td>
+<td>非关键字体</td>
+</tr>
+<tr>
+<td><code>optional</code></td>
+<td>阻塞 100ms，不下载则放弃</td>
+<td>装饰性字体</td>
+</tr>
+</tbody></table>
+<p><strong>推荐配置</strong>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;CustomFont&#x27;</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;font.woff2&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff2&#x27;</span>);</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-display</span>: swap; <span class="comment">/* 推荐使用 swap */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;CustomFont&#x27;</span>, <span class="string">&#x27;Arial&#x27;</span>, sans-serif; <span class="comment">/* 提供回退字体 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-字体子集化（Subsetting）"><a href="#2-2-2-字体子集化（Subsetting）" class="headerlink" title="2.2.2 字体子集化（Subsetting）"></a>2.2.2 字体子集化（Subsetting）</h4><p>减少字体文件大小，只包含需要的字符。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 使用 Google Fonts 的 &amp;text 参数 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com/css2?family=Roboto&amp;text=Hello&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-字体优化最佳实践"><a href="#2-2-3-字体优化最佳实践" class="headerlink" title="2.2.3 字体优化最佳实践"></a>2.2.3 字体优化最佳实践</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 1. 预连接字体服务 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.gstatic.com&quot;</span> <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 2. 预加载关键字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;fonts/roboto-bold.woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 3. 加载字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 或者使用本地字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="keyword">@font-face</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-family</span>: <span class="string">&#x27;Roboto&#x27;</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;fonts/roboto-regular.woff2&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff2&#x27;</span>);</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-weight</span>: <span class="number">400</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-display</span>: swap;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">    <span class="keyword">@font-face</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-family</span>: <span class="string">&#x27;Roboto&#x27;</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;fonts/roboto-bold.woff2&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff2&#x27;</span>);</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-weight</span>: <span class="number">700</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-display</span>: swap;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-关键渲染路径（Critical-Rendering-Path）与阻塞点"><a href="#3-关键渲染路径（Critical-Rendering-Path）与阻塞点" class="headerlink" title="3. 关键渲染路径（Critical Rendering Path）与阻塞点"></a>3. 关键渲染路径（Critical Rendering Path）与阻塞点</h2><h3 id="3-1-关键渲染路径概述"><a href="#3-1-关键渲染路径概述" class="headerlink" title="3.1 关键渲染路径概述"></a>3.1 关键渲染路径概述</h3><p>关键渲染路径（CRP）是从接收 HTML、CSS 和 JavaScript 到渲染出可视化内容的过程。</p>
+<p><strong>渲染步骤</strong>：</p>
+<ol>
+<li><strong>DOM 构建</strong>：解析 HTML 创建 DOM 树</li>
+<li><strong>CSSOM 构建</strong>：解析 CSS 创建 CSSOM 树</li>
+<li><strong>渲染树构建</strong>：合并 DOM 和 CSSOM</li>
+<li><strong>布局（Layout）</strong>：计算元素位置和大小</li>
+<li><strong>绘制（Paint）</strong>：填充像素</li>
+<li><strong>合成（Composite）</strong>：图层合成</li>
+</ol>
+<h3 id="3-2-渲染阻塞资源"><a href="#3-2-渲染阻塞资源" class="headerlink" title="3.2 渲染阻塞资源"></a>3.2 渲染阻塞资源</h3><h4 id="3-2-1-CSS-阻塞渲染"><a href="#3-2-1-CSS-阻塞渲染" class="headerlink" title="3.2.1 CSS 阻塞渲染"></a>3.2.1 CSS 阻塞渲染</h4><p><strong>默认行为</strong>：</p>
+<ul>
+<li><code>&lt;link&gt;</code> 标签会阻塞渲染</li>
+<li>CSS 必须完全下载并解析后才能渲染</li>
+</ul>
+<p><strong>优化方法</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 内联关键 CSS --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="comment">/* 首屏关键样式 */</span></span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">body</span> &#123; <span class="attribute">margin</span>: <span class="number">0</span>; &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.header</span> &#123; ... &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.hero</span> &#123; ... &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 非关键 CSS 使用 media 属性避免阻塞 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;print.css&quot;</span> <span class="attr">media</span>=<span class="string">&quot;print&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;large.css&quot;</span> <span class="attr">media</span>=<span class="string">&quot;(min-width: 800px)&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 或者异步加载非关键 CSS --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;non-critical.css&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span> <span class="attr">onload</span>=<span class="string">&quot;this.onload=null;this.rel=&#x27;stylesheet&#x27;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">noscript</span>&gt;</span><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;non-critical.css&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-2-JavaScript-阻塞渲染"><a href="#3-2-2-JavaScript-阻塞渲染" class="headerlink" title="3.2.2 JavaScript 阻塞渲染"></a>3.2.2 JavaScript 阻塞渲染</h4><p><strong>默认行为</strong>：</p>
+<ul>
+<li><code>&lt;script&gt;</code> 会阻塞 HTML 解析</li>
+<li>可能阻塞 CSSOM 构建</li>
+</ul>
+<p><strong>优化方法</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 使用 defer 延迟执行 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使用 async 异步执行（适用于独立脚本） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;analytics.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 内联关键脚本放在 &lt;/body&gt; 前 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// 关键初始化代码</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-优化关键渲染路径"><a href="#3-3-优化关键渲染路径" class="headerlink" title="3.3 优化关键渲染路径"></a>3.3 优化关键渲染路径</h3><h4 id="3-3-1-优化-HTML"><a href="#3-3-1-优化-HTML" class="headerlink" title="3.3.1 优化 HTML"></a>3.3.1 优化 HTML</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 关键 CSS 内联 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="comment">/* Critical CSS for above-the-fold content */</span></span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">body</span> &#123; <span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">font-family</span>: Arial; &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-class">.header</span> &#123; ... &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-class">.hero</span> &#123; ... &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键资源 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;fonts/main.woff2&quot;</span> <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;hero.jpg&quot;</span> <span class="attr">as</span>=<span class="string">&quot;image&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 非关键 CSS 异步加载 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;styles/main.css&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span> <span class="attr">onload</span>=<span class="string">&quot;this.onload=null;this.rel=&#x27;stylesheet&#x27;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 首屏内容 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span> <span class="attr">class</span>=<span class="string">&quot;hero&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 延迟加载的内容 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- JavaScript 放在底部 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2-关键资源优先级"><a href="#3-3-2-关键资源优先级" class="headerlink" title="3.3.2 关键资源优先级"></a>3.3.2 关键资源优先级</h4><p><strong>识别关键资源</strong>：</p>
+<ul>
+<li>首屏可见内容</li>
+<li>关键字体</li>
+<li>首屏图片</li>
+<li>关键 JavaScript（如交互逻辑）</li>
+</ul>
+<p><strong>优化策略</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 1. 内联关键 CSS --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="comment">/* Critical CSS */</span></span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 2. 预加载关键字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;font.woff2&quot;</span> <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 3. 预加载首屏图片 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;hero.jpg&quot;</span> <span class="attr">as</span>=<span class="string">&quot;image&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 4. 异步加载非关键 CSS --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">href</span>=<span class="string">&quot;non-critical.css&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span> <span class="attr">onload</span>=<span class="string">&quot;this.onload=null;this.rel=&#x27;stylesheet&#x27;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-性能指标"><a href="#3-4-性能指标" class="headerlink" title="3.4 性能指标"></a>3.4 性能指标</h3><h4 id="3-4-1-关键性能指标（Web-Vitals）"><a href="#3-4-1-关键性能指标（Web-Vitals）" class="headerlink" title="3.4.1 关键性能指标（Web Vitals）"></a>3.4.1 关键性能指标（Web Vitals）</h4><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+<th>目标值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>FCP</strong> (First Contentful Paint)</td>
+<td>首次内容绘制</td>
+<td>&lt; 1.8s</td>
+</tr>
+<tr>
+<td><strong>LCP</strong> (Largest Contentful Paint)</td>
+<td>最大内容绘制</td>
+<td>&lt; 2.5s</td>
+</tr>
+<tr>
+<td><strong>FID</strong> (First Input Delay)</td>
+<td>首次输入延迟</td>
+<td>&lt; 100ms</td>
+</tr>
+<tr>
+<td><strong>CLS</strong> (Cumulative Layout Shift)</td>
+<td>累积布局偏移</td>
+<td>&lt; 0.1</td>
+</tr>
+<tr>
+<td><strong>TTI</strong> (Time to Interactive)</td>
+<td>可交互时间</td>
+<td>&lt; 3.8s</td>
+</tr>
+</tbody></table>
+<h4 id="3-4-2-优化检查清单"><a href="#3-4-2-优化检查清单" class="headerlink" title="3.4.2 优化检查清单"></a>3.4.2 优化检查清单</h4><p><strong>HTML 优化</strong>：</p>
+<ul>
+<li>✅ 最小化 HTML 大小</li>
+<li>✅ 减少 DOM 深度</li>
+<li>✅ 延迟加载非关键内容</li>
+<li>✅ 使用语义化 HTML</li>
+</ul>
+<p><strong>CSS 优化</strong>：</p>
+<ul>
+<li>✅ 内联关键 CSS</li>
+<li>✅ 避免 <code>@import</code></li>
+<li>✅ 移除未使用的 CSS</li>
+<li>✅ 使用媒体查询延迟加载</li>
+</ul>
+<p><strong>JavaScript 优化</strong>：</p>
+<ul>
+<li>✅ 使用 <code>defer</code> 或 <code>async</code></li>
+<li>✅ 代码分割和懒加载</li>
+<li>✅ 最小化 JavaScript 大小</li>
+<li>✅ 避免长时间运行的脚本</li>
+</ul>
+<p><strong>资源优化</strong>：</p>
+<ul>
+<li>✅ 压缩图片</li>
+<li>✅ 使用现代图片格式</li>
+<li>✅ 优化字体加载</li>
+<li>✅ 启用 Gzip&#x2F;Brotli 压缩</li>
+</ul>
+<h3 id="3-5-实践示例"><a href="#3-5-实践示例" class="headerlink" title="3.5 实践示例"></a>3.5 实践示例</h3><p><strong>优化的 HTML 页面</strong>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>优化的页面<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 关键 CSS 内联 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="comment">/* Reset and critical styles */</span></span></span><br><span class="line"><span class="language-css">    * &#123; <span class="attribute">box-sizing</span>: border-box; <span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>; &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">body</span> &#123; </span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-family</span>: -apple-system, BlinkMacSystemFont, <span class="string">&#x27;Segoe UI&#x27;</span>, sans-serif;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">line-height</span>: <span class="number">1.6</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-class">.header</span> &#123; <span class="attribute">background</span>: <span class="number">#333</span>; <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="attribute">padding</span>: <span class="number">1rem</span>; &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-class">.hero</span> &#123; <span class="attribute">padding</span>: <span class="number">2rem</span>; <span class="attribute">text-align</span>: center; &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预连接外部资源 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preconnect&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://fonts.googleapis.com&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载关键字体 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;fonts/main.woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;font&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">type</span>=<span class="string">&quot;font/woff2&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">crossorigin</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 预加载首屏图片 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;images/hero.jpg&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;image&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 异步加载非关键 CSS --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">href</span>=<span class="string">&quot;styles/non-critical.css&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">as</span>=<span class="string">&quot;style&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">onload</span>=<span class="string">&quot;this.onload=null;this.rel=&#x27;stylesheet&#x27;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">noscript</span>&gt;</span><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;styles/non-critical.css&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>网站标题<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span> <span class="attr">class</span>=<span class="string">&quot;hero&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;images/hero.avif&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/avif&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;images/hero.webp&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/webp&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;images/hero.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;Hero&quot;</span> <span class="attr">loading</span>=<span class="string">&quot;eager&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>欢迎访问<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 延迟加载的内容 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- JavaScript 延迟加载 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;js/main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 异步加载分析脚本 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://www.google-analytics.com/analytics.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>HTML 层面的性能优化要点：</p>
+<ol>
+<li><p><strong>资源加载</strong>：</p>
+<ul>
+<li>使用 <code>defer</code>&#x2F;<code>async</code> 优化脚本加载</li>
+<li>使用 <code>preload</code> 预加载关键资源</li>
+<li>使用 <code>prefetch</code> 预取下一页面资源</li>
+<li>使用 <code>preconnect</code> 提前建立连接</li>
 </ul>
 </li>
+<li><p><strong>图片优化</strong>：</p>
+<ul>
+<li>选择合适格式（WebP、AVIF）</li>
+<li>使用响应式图片</li>
+<li>实施懒加载</li>
+<li>提供占位符</li>
 </ul>
+</li>
+<li><p><strong>字体优化</strong>：</p>
+<ul>
+<li>预加载关键字体</li>
+<li>使用 <code>font-display: swap</code></li>
+<li>提供回退字体</li>
+<li>考虑字体子集化</li>
+</ul>
+</li>
+<li><p><strong>关键渲染路径</strong>：</p>
+<ul>
+<li>内联关键 CSS</li>
+<li>延迟非关键资源</li>
+<li>优化资源加载顺序</li>
+<li>减少渲染阻塞</li>
+</ul>
+</li>
+</ol>
+<p>通过合理运用这些技术，可以显著提升页面的加载速度和用户体验。</p>
 
       </div>
       
@@ -278,6 +680,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">性能与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">1. 资源加载优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-JavaScript-%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 JavaScript 加载策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-%E6%A0%87%E7%AD%BE%E7%9A%84%E5%8A%A0%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">1.1.1 &lt;script&gt; 标签的加载方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-defer-vs-async-%E5%AF%B9%E6%AF%94"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">1.1.2 defer vs async 对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E9%A2%84%E5%8A%A0%E8%BD%BD%EF%BC%88Preload%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 预加载（Preload）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 基本语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-as-%E5%B1%9E%E6%80%A7%E5%80%BC"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 as 属性值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-%E9%A2%84%E5%8A%A0%E8%BD%BD%E5%85%B3%E9%94%AE%E8%B5%84%E6%BA%90%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 预加载关键资源示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E9%A2%84%E8%8E%B7%E5%8F%96%EF%BC%88Prefetch%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 预获取（Prefetch）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">1.3.1 基本语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">1.3.2 使用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E9%A2%84%E8%BF%9E%E6%8E%A5%EF%BC%88Preconnect%EF%BC%89"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 预连接（Preconnect）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90%E6%8F%90%E7%A4%BA"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 其他资源提示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9B%BE%E7%89%87%E4%B8%8E%E5%AD%97%E4%BD%93%E4%BC%98%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">2. 图片与字体优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 图片优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2.1.1 图片格式选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2.1.2 响应式图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-%E6%87%92%E5%8A%A0%E8%BD%BD%EF%BC%88Lazy-Loading%EF%BC%89"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">2.1.3 懒加载（Lazy Loading）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">2.1.4 图片优化最佳实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AD%97%E4%BD%93%E4%BC%98%E5%8C%96"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 字体优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E5%AD%97%E4%BD%93%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 字体加载策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E5%AD%97%E4%BD%93%E5%AD%90%E9%9B%86%E5%8C%96%EF%BC%88Subsetting%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 字体子集化（Subsetting）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E5%AD%97%E4%BD%93%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 字体优化最佳实践</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E9%94%AE%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84%EF%BC%88Critical-Rendering-Path%EF%BC%89%E4%B8%8E%E9%98%BB%E5%A1%9E%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">3. 关键渲染路径（Critical Rendering Path）与阻塞点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%85%B3%E9%94%AE%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84%E6%A6%82%E8%BF%B0"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 关键渲染路径概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B8%B2%E6%9F%93%E9%98%BB%E5%A1%9E%E8%B5%84%E6%BA%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 渲染阻塞资源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-CSS-%E9%98%BB%E5%A1%9E%E6%B8%B2%E6%9F%93"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">3.2.1 CSS 阻塞渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-JavaScript-%E9%98%BB%E5%A1%9E%E6%B8%B2%E6%9F%93"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">3.2.2 JavaScript 阻塞渲染</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E4%BC%98%E5%8C%96%E5%85%B3%E9%94%AE%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 优化关键渲染路径</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E4%BC%98%E5%8C%96-HTML"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">3.3.1 优化 HTML</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-%E5%85%B3%E9%94%AE%E8%B5%84%E6%BA%90%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">3.3.2 关键资源优先级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-%E5%85%B3%E9%94%AE%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%88Web-Vitals%EF%BC%89"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">3.4.1 关键性能指标（Web Vitals）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-%E4%BC%98%E5%8C%96%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">3.4.2 优化检查清单</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%AE%9E%E8%B7%B5%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 实践示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">4. 总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
