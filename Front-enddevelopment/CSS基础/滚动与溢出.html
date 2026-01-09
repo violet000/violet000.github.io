@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="滚动与溢出overflow&#x2F;scroll-behavior自定义滚动条（WebKit）、滚动捕获与动效提示">
+  <meta name="description" content="CSS 滚动与溢出（2025-2026 实用核心知识）1. overflow 家族属性对比（最常用）   属性 作用描述 水平溢出 垂直溢出 常用场景 2025-2026 推荐度    overflow: visible 默认，内容溢出照样显示，不裁剪 — — 默认状态 ★★★☆   overflow: hidden 裁剪溢出内容，不显示滚动条 ✓ ✓ 卡片裁剪、创建 BFC、遮罩效果 ★★★★★">
 <meta property="og:type" content="website">
 <meta property="og:title" content="滚动与溢出">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E6%BB%9A%E5%8A%A8%E4%B8%8E%E6%BA%A2%E5%87%BA.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="滚动与溢出overflow&#x2F;scroll-behavior自定义滚动条（WebKit）、滚动捕获与动效提示">
+<meta property="og:description" content="CSS 滚动与溢出（2025-2026 实用核心知识）1. overflow 家族属性对比（最常用）   属性 作用描述 水平溢出 垂直溢出 常用场景 2025-2026 推荐度    overflow: visible 默认，内容溢出照样显示，不裁剪 — — 默认状态 ★★★☆   overflow: hidden 裁剪溢出内容，不显示滚动条 ✓ ✓ 卡片裁剪、创建 BFC、遮罩效果 ★★★★★">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:46:41.014Z">
+<meta property="article:modified_time" content="2026-01-09T02:51:39.397Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,127 @@
       
       
       <div class="post-body">
-            <p>滚动与溢出<br>overflow&#x2F;scroll-behavior<br>自定义滚动条（WebKit）、滚动捕获与动效提示</p>
+            <h1 id="CSS-滚动与溢出（2025-2026-实用核心知识）"><a href="#CSS-滚动与溢出（2025-2026-实用核心知识）" class="headerlink" title="CSS 滚动与溢出（2025-2026 实用核心知识）"></a>CSS 滚动与溢出（2025-2026 实用核心知识）</h1><h2 id="1-overflow-家族属性对比（最常用）"><a href="#1-overflow-家族属性对比（最常用）" class="headerlink" title="1. overflow 家族属性对比（最常用）"></a>1. overflow 家族属性对比（最常用）</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用描述</th>
+<th>水平溢出</th>
+<th>垂直溢出</th>
+<th>常用场景</th>
+<th>2025-2026 推荐度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>overflow: visible</td>
+<td>默认，内容溢出照样显示，不裁剪</td>
+<td>—</td>
+<td>—</td>
+<td>默认状态</td>
+<td>★★★☆</td>
+</tr>
+<tr>
+<td>overflow: hidden</td>
+<td>裁剪溢出内容，不显示滚动条</td>
+<td>✓</td>
+<td>✓</td>
+<td>卡片裁剪、创建 BFC、遮罩效果</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>overflow: auto</td>
+<td>内容溢出时才出现滚动条</td>
+<td>✓</td>
+<td>✓</td>
+<td>最常用：表格、聊天列表、侧边栏</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>overflow: scroll</td>
+<td>一直显示滚动条（即使内容不溢出也占位）</td>
+<td>✓</td>
+<td>✓</td>
+<td>固定宽度高度区域、避免布局跳动</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>overflow-x &#x2F; overflow-y</td>
+<td>分别控制水平&#x2F;垂直方向</td>
+<td>单独控制</td>
+<td>单独控制</td>
+<td>水平滚动图片列表、只允许垂直滚动</td>
+<td>★★★★</td>
+</tr>
+</tbody></table>
+<p><strong>现代最常用组合</strong>（强烈推荐）：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 经典：内容溢出自动滚动 + 美观隐藏多余滚动条 */</span></span><br><span class="line"><span class="selector-class">.scroll-container</span> &#123;</span><br><span class="line">  <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">  <span class="attribute">overflow-x</span>: hidden;</span><br><span class="line">  -webkit-<span class="attribute">overflow</span>-scrolling: touch;        <span class="comment">/* 移动端丝滑滚动（iOS必加） */</span></span><br><span class="line">  <span class="attribute">scrollbar-width</span>: thin;                    <span class="comment">/* Firefox 细滚动条 */</span></span><br><span class="line">  <span class="attribute">scrollbar-color</span>: <span class="number">#888</span> transparent;        <span class="comment">/* Firefox 颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* WebKit 浏览器（Chrome/Edge/Safari）自定义细滚动条 */</span></span><br><span class="line"><span class="selector-class">.scroll-container</span>::-webkit-scrollbar &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">6px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">6px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroll-container</span>::-webkit-scrollbar-track &#123;</span><br><span class="line">  <span class="attribute">background</span>: transparent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroll-container</span>::-webkit-scrollbar-thumb &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">0.4</span>);</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroll-container</span>::-webkit-scrollbar-thumb:hover &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">0.6</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-平滑滚动（scroll-behavior）"><a href="#2-平滑滚动（scroll-behavior）" class="headerlink" title="2. 平滑滚动（scroll-behavior）"></a>2. 平滑滚动（scroll-behavior）</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 页面级平滑滚动（最常用） */</span></span><br><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-behavior</span>: smooth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 局部容器平滑滚动（2025+ 常用） */</span></span><br><span class="line"><span class="selector-class">.scroll-smooth</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-behavior</span>: smooth;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>锚点跳转（#section）</li>
+<li>平滑回到顶部</li>
+<li>横向滚动 Tab 切换</li>
+<li>滚动到评论区&#x2F;指定位置</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li>scroll-behavior: smooth 不会影响 scrollTo() 或 scrollIntoView() 的 behavior: ‘smooth’</li>
+<li>移动端表现良好，但部分老浏览器不支持（可优雅降级）</li>
+</ul>
+<h2 id="3-滚动捕获与动效提示（2025-2026-流行做法）"><a href="#3-滚动捕获与动效提示（2025-2026-流行做法）" class="headerlink" title="3. 滚动捕获与动效提示（2025-2026 流行做法）"></a>3. 滚动捕获与动效提示（2025-2026 流行做法）</h2><h3 id="3-1-常见滚动动效提示方式"><a href="#3-1-常见滚动动效提示方式" class="headerlink" title="3.1 常见滚动动效提示方式"></a>3.1 常见滚动动效提示方式</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. 滚动到底部/顶部渐变遮罩提示 */</span></span><br><span class="line"><span class="selector-class">.scroll-gradient</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(</span><br><span class="line">    to bottom,</span><br><span class="line">    white <span class="number">0%</span>,</span><br><span class="line">    white <span class="number">30%</span>,</span><br><span class="line">    transparent <span class="number">50%</span>,</span><br><span class="line">    transparent <span class="number">50%</span>,</span><br><span class="line">    white <span class="number">70%</span>,</span><br><span class="line">    white <span class="number">100%</span></span><br><span class="line">  ); <span class="comment">/* 伪装渐变，实际内容遮罩 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 更现代：使用 ::before / ::after 做指示器 */</span></span><br><span class="line"><span class="selector-class">.scroll-indicator-top</span>,</span><br><span class="line"><span class="selector-class">.scroll-indicator-bottom</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: sticky;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">pointer-events</span>: none;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to bottom, <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.15</span>), transparent);</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">transition</span>: opacity <span class="number">0.3s</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroll-indicator-bottom</span> &#123;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">180deg</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 通过 JS 判断是否显示（或使用 IntersectionObserver） */</span></span><br><span class="line"><span class="selector-class">.scroll-container</span><span class="selector-pseudo">:has</span>(<span class="selector-class">.scroll-indicator-top</span>) <span class="selector-class">.scroll-indicator-top</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-滚动吸附（scroll-snap）——-2025-非常流行"><a href="#3-2-滚动吸附（scroll-snap）——-2025-非常流行" class="headerlink" title="3.2 滚动吸附（scroll-snap）—— 2025+ 非常流行"></a>3.2 滚动吸附（scroll-snap）—— 2025+ 非常流行</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 轮播/卡片列表/全屏滑动常用 */</span></span><br><span class="line"><span class="selector-class">.snap-container</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-snap-type</span>: y mandatory;      <span class="comment">/* 垂直强制吸附 */</span></span><br><span class="line">  <span class="comment">/* 或 */</span></span><br><span class="line">  <span class="attribute">scroll-snap-type</span>: x proximity;      <span class="comment">/* 水平接近吸附 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.snap-item</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-snap-align</span>: start;           <span class="comment">/* 开始对齐 */</span></span><br><span class="line">  <span class="comment">/* 或 center / end */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>推荐组合（手机端 H5 常见）：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.fullpage-snap</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">  <span class="attribute">scroll-snap-type</span>: y mandatory;</span><br><span class="line">  <span class="attribute">scroll-behavior</span>: smooth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.section</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="attribute">scroll-snap-align</span>: start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-快速决策表（工作中最常问自己）"><a href="#4-快速决策表（工作中最常问自己）" class="headerlink" title="4. 快速决策表（工作中最常问自己）"></a>4. 快速决策表（工作中最常问自己）</h2><table>
+<thead>
+<tr>
+<th>需求场景</th>
+<th>推荐方案</th>
+<th>补充技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内容溢出自动出现滚动条</td>
+<td>overflow-y: auto</td>
+<td>+ -webkit-overflow-scrolling: touch</td>
+</tr>
+<tr>
+<td>想要一直显示细滚动条</td>
+<td>overflow: scroll + 自定义 ::-webkit-scrollbar</td>
+<td>scrollbar-width: thin</td>
+</tr>
+<tr>
+<td>锚点&#x2F;回到顶部要平滑</td>
+<td>html { scroll-behavior: smooth }</td>
+<td>+ scrollIntoView({behavior: “smooth”})</td>
+</tr>
+<tr>
+<td>横向滚动的图片&#x2F;卡片列表</td>
+<td>overflow-x: auto + white-space: nowrap</td>
+<td>+ scroll-snap-type: x proximity</td>
+</tr>
+<tr>
+<td>全屏滑动&#x2F;手机端 H5 长页</td>
+<td>scroll-snap-type: y mandatory</td>
+<td>+ height: 100vh + scroll-behavior</td>
+</tr>
+<tr>
+<td>底部有”加载更多”渐变提示</td>
+<td>::after + position: sticky + 渐变背景</td>
+<td>IntersectionObserver 监听</td>
+</tr>
+<tr>
+<td>避免 iOS 滚动卡顿</td>
+<td>-webkit-overflow-scrolling: touch</td>
+<td>几乎所有移动端滚动容器必加</td>
+</tr>
+</tbody></table>
+<p>需求场景推荐方案补充技巧内容溢出自动出现滚动条overflow-y: auto+ -webkit-overflow-scrolling: touch想要一直显示细滚动条overflow: scroll + 自定义 ::-webkit-scrollbarscrollbar-width: thin锚点&#x2F;回到顶部要平滑html { scroll-behavior: smooth }+ scrollIntoView({behavior: “smooth”})横向滚动的图片&#x2F;卡片列表overflow-x: auto + white-space: nowrap+ scroll-snap-type: x proximity全屏滑动&#x2F;手机端 H5 长页scroll-snap-type: y mandatory+ height: 100vh + scroll-behavior底部有“加载更多”渐变提示::after + position: sticky + 渐变背景IntersectionObserver 监听避免 iOS 滚动卡顿-webkit-overflow-scrolling: touch几乎所有移动端滚动容器必加</p>
 
       </div>
       
@@ -271,6 +391,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E6%BB%9A%E5%8A%A8%E4%B8%8E%E6%BA%A2%E5%87%BA%EF%BC%882025-2026-%E5%AE%9E%E7%94%A8%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 滚动与溢出（2025-2026 实用核心知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-overflow-%E5%AE%B6%E6%97%8F%E5%B1%9E%E6%80%A7%E5%AF%B9%E6%AF%94%EF%BC%88%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. overflow 家族属性对比（最常用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8%EF%BC%88scroll-behavior%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 平滑滚动（scroll-behavior）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%BB%9A%E5%8A%A8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%8A%A8%E6%95%88%E6%8F%90%E7%A4%BA%EF%BC%882025-2026-%E6%B5%81%E8%A1%8C%E5%81%9A%E6%B3%95%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">3. 滚动捕获与动效提示（2025-2026 流行做法）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%B8%B8%E8%A7%81%E6%BB%9A%E5%8A%A8%E5%8A%A8%E6%95%88%E6%8F%90%E7%A4%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 常见滚动动效提示方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%BB%9A%E5%8A%A8%E5%90%B8%E9%99%84%EF%BC%88scroll-snap%EF%BC%89%E2%80%94%E2%80%94-2025-%E9%9D%9E%E5%B8%B8%E6%B5%81%E8%A1%8C"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 滚动吸附（scroll-snap）—— 2025+ 非常流行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%BF%AB%E9%80%9F%E5%86%B3%E7%AD%96%E8%A1%A8%EF%BC%88%E5%B7%A5%E4%BD%9C%E4%B8%AD%E6%9C%80%E5%B8%B8%E9%97%AE%E8%87%AA%E5%B7%B1%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">4. 快速决策表（工作中最常问自己）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

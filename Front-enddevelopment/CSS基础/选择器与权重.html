@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="选择器与权重基础选择器：类型、类、ID、通配符组合与关系：后代、子代、相邻兄弟、通用兄弟属性与伪类：属性选择器、结构伪类（:first-child 等）、状态伪类（:hover 等）伪元素：::before&#x2F;::after&#x2F;::first-line&#x2F;::selection权重计算与常见冲突处理">
+  <meta name="description" content="CSS 选择器与权重（2025-2026 面试 &amp; 日常开发核心知识）1. 基础选择器（最基础、最常用）   选择器类型 写法示例 匹配对象 性能排名 使用频率（2025-2026）    类型选择器 div, p, a 指定标签元素 ★★★★ ★★★★☆   类选择器 .btn, .card-title 带有指定 class 的元素 ★★★★★ ★★★★★（最常用）   ID 选择器 #">
 <meta property="og:type" content="website">
 <meta property="og:title" content="选择器与权重">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E9%80%89%E6%8B%A9%E5%99%A8%E4%B8%8E%E6%9D%83%E9%87%8D.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="选择器与权重基础选择器：类型、类、ID、通配符组合与关系：后代、子代、相邻兄弟、通用兄弟属性与伪类：属性选择器、结构伪类（:first-child 等）、状态伪类（:hover 等）伪元素：::before&#x2F;::after&#x2F;::first-line&#x2F;::selection权重计算与常见冲突处理">
+<meta property="og:description" content="CSS 选择器与权重（2025-2026 面试 &amp; 日常开发核心知识）1. 基础选择器（最基础、最常用）   选择器类型 写法示例 匹配对象 性能排名 使用频率（2025-2026）    类型选择器 div, p, a 指定标签元素 ★★★★ ★★★★☆   类选择器 .btn, .card-title 带有指定 class 的元素 ★★★★★ ★★★★★（最常用）   ID 选择器 #">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:42:00.663Z">
+<meta property="article:modified_time" content="2026-01-09T05:48:28.255Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,295 @@
       
       
       <div class="post-body">
-            <p>选择器与权重<br>基础选择器：类型、类、ID、通配符<br>组合与关系：后代、子代、相邻兄弟、通用兄弟<br>属性与伪类：属性选择器、结构伪类（:first-child 等）、状态伪类（:hover 等）<br>伪元素：::before&#x2F;::after&#x2F;::first-line&#x2F;::selection<br>权重计算与常见冲突处理</p>
+            <h1 id="CSS-选择器与权重（2025-2026-面试-日常开发核心知识）"><a href="#CSS-选择器与权重（2025-2026-面试-日常开发核心知识）" class="headerlink" title="CSS 选择器与权重（2025-2026 面试 &amp; 日常开发核心知识）"></a>CSS 选择器与权重（2025-2026 面试 &amp; 日常开发核心知识）</h1><h2 id="1-基础选择器（最基础、最常用）"><a href="#1-基础选择器（最基础、最常用）" class="headerlink" title="1. 基础选择器（最基础、最常用）"></a>1. 基础选择器（最基础、最常用）</h2><table>
+<thead>
+<tr>
+<th>选择器类型</th>
+<th>写法示例</th>
+<th>匹配对象</th>
+<th>性能排名</th>
+<th>使用频率（2025-2026）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型选择器</td>
+<td><code>div</code>, <code>p</code>, <code>a</code></td>
+<td>指定标签元素</td>
+<td>★★★★</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>类选择器</td>
+<td><code>.btn</code>, <code>.card-title</code></td>
+<td>带有指定 class 的元素</td>
+<td>★★★★★</td>
+<td>★★★★★（最常用）</td>
+</tr>
+<tr>
+<td>ID 选择器</td>
+<td><code>#header</code>, <code>#main</code></td>
+<td>唯一 ID 的元素</td>
+<td>★★★★★</td>
+<td>★★★☆☆（慎用）</td>
+</tr>
+<tr>
+<td>通配符</td>
+<td><code>*</code></td>
+<td>页面所有元素</td>
+<td>★☆☆</td>
+<td>★☆☆（几乎不用）</td>
+</tr>
+<tr>
+<td>全局选择器</td>
+<td><code>html</code>, <code>body</code></td>
+<td>根元素或特定全局元素</td>
+<td>★★★★</td>
+<td>★★★★</td>
+</tr>
+</tbody></table>
+<p><strong>现代建议</strong>：</p>
+<ul>
+<li>优先使用<strong>类选择器</strong>（可维护性 + 性能 + 复用性最佳）</li>
+<li>ID 选择器主要用于 JavaScript 锚点，样式尽量少用</li>
+<li><strong>绝不</strong>在组件化项目中使用 <code>*</code> 作为主要选择器</li>
+</ul>
+<h2 id="2-组合与关系选择器（决定层级与范围）"><a href="#2-组合与关系选择器（决定层级与范围）" class="headerlink" title="2. 组合与关系选择器（决定层级与范围）"></a>2. 组合与关系选择器（决定层级与范围）</h2><table>
+<thead>
+<tr>
+<th>关系类型</th>
+<th>写法示例</th>
+<th>匹配规则</th>
+<th>常见使用场景</th>
+<th>性能影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>后代选择器</td>
+<td><code>.card p</code></td>
+<td>.card 内部<strong>任意层级</strong>的 p</td>
+<td>组件内部文字样式</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>子代选择器</td>
+<td><code>.menu &gt; li</code></td>
+<td>.menu <strong>直接子元素</strong> li</td>
+<td>一级菜单项</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>相邻兄弟</td>
+<td><code>h2 + p</code></td>
+<td>紧跟在 h2 <strong>后面</strong>的第一个 p</td>
+<td>标题后的首段落</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>通用兄弟</td>
+<td><code>h2 ~ p</code></td>
+<td>h2 <strong>后面所有</strong>兄弟 p（不一定紧邻）</td>
+<td>标题后所有正文段落</td>
+<td>中等</td>
+</tr>
+</tbody></table>
+<p><strong>性能口诀</strong>（浏览器从右往左匹配）：</p>
+<ul>
+<li>越靠右的条件越具体 → 性能越好</li>
+<li>推荐写法：<code>.card-title + .card-desc</code> &gt; <code>.card .card-desc</code></li>
+</ul>
+<h2 id="3-属性选择器（Attribute-Selectors）"><a href="#3-属性选择器（Attribute-Selectors）" class="headerlink" title="3. 属性选择器（Attribute Selectors）"></a>3. 属性选择器（Attribute Selectors）</h2><table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+<th>常见场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[attr]</code></td>
+<td>存在 attr 属性</td>
+<td><code>[data-tooltip]</code></td>
+</tr>
+<tr>
+<td><code>[attr=&quot;value&quot;]</code></td>
+<td>属性值完全等于 value</td>
+<td><code>[type=&quot;checkbox&quot;]</code></td>
+</tr>
+<tr>
+<td><code>[attr*=&quot;value&quot;]</code></td>
+<td>属性值<strong>包含</strong> value</td>
+<td><code>[class*=&quot;btn&quot;]</code></td>
+</tr>
+<tr>
+<td><code>[attr^=&quot;value&quot;]</code></td>
+<td>属性值<strong>开头</strong>是 value</td>
+<td><code>[href^=&quot;https://&quot;]</code></td>
+</tr>
+<tr>
+<td><code>[attr$=&quot;value&quot;]</code></td>
+<td>属性值<strong>结尾</strong>是 value</td>
+<td><code>[href$=&quot;.pdf&quot;]</code></td>
+</tr>
+<tr>
+<td>&#96;[attr</td>
+<td>&#x3D;”value”]&#96;</td>
+<td>属性值以 value- 开头（常用于 lang）</td>
+</tr>
+</tbody></table>
+<p><strong>2025-2026 常用</strong>：<code>[data-*]</code> 自定义属性 + 属性选择器（组件状态、主题等）</p>
+<h2 id="4-伪类（Pseudo-classes）——-状态与结构"><a href="#4-伪类（Pseudo-classes）——-状态与结构" class="headerlink" title="4. 伪类（Pseudo-classes）—— 状态与结构"></a>4. 伪类（Pseudo-classes）—— 状态与结构</h2><h3 id="4-1-常用结构伪类（-nth-系列最常考）"><a href="#4-1-常用结构伪类（-nth-系列最常考）" class="headerlink" title="4.1 常用结构伪类（:nth-* 系列最常考）"></a>4.1 常用结构伪类（:nth-* 系列最常考）</h3><table>
+<thead>
+<tr>
+<th>伪类</th>
+<th>说明</th>
+<th>经典使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:first-child</code></td>
+<td>作为父元素的第一个子元素</td>
+<td>列表第一项去掉上边框</td>
+</tr>
+<tr>
+<td><code>:last-child</code></td>
+<td>作为父元素的最后一个子元素</td>
+<td>列表最后一项去掉下边框</td>
+</tr>
+<tr>
+<td><code>:nth-child(n)</code></td>
+<td>第 n 个子元素（从 1 开始）</td>
+<td>隔行变色 <code>tr:nth-child(even)</code></td>
+</tr>
+<tr>
+<td><code>:nth-child(odd/even)</code></td>
+<td>奇&#x2F;偶数</td>
+<td>斑马纹</td>
+</tr>
+<tr>
+<td><code>:nth-child(2n+1)</code></td>
+<td>自定义步长（2n+1 &#x3D; odd）</td>
+<td>每三行一个样式 <code>nth-child(3n+1)</code></td>
+</tr>
+<tr>
+<td><code>:only-child</code></td>
+<td>父元素唯一子元素</td>
+<td>独生子特殊样式</td>
+</tr>
+<tr>
+<td><code>:first-of-type</code> &#x2F; <code>:last-of-type</code></td>
+<td>同类型中的第一个&#x2F;最后一个</td>
+<td>同标签组第一个标题</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-常用状态伪类"><a href="#4-2-常用状态伪类" class="headerlink" title="4.2 常用状态伪类"></a>4.2 常用状态伪类</h3><table>
+<thead>
+<tr>
+<th>伪类</th>
+<th>触发时机</th>
+<th>推荐权重与写法建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>:hover</code></td>
+<td>鼠标悬停</td>
+<td>必须写在 <code>:focus</code> 后面</td>
+</tr>
+<tr>
+<td><code>:focus</code></td>
+<td>获得焦点（键盘&#x2F;点击）</td>
+<td>不要单独使用，配合 <code>:focus-visible</code></td>
+</tr>
+<tr>
+<td><code>:focus-visible</code></td>
+<td>键盘焦点（最推荐）</td>
+<td>现代项目必须使用</td>
+</tr>
+<tr>
+<td><code>:active</code></td>
+<td>按下（鼠标&#x2F;空格&#x2F;回车）</td>
+<td>配合 <code>transition</code> 做按下感</td>
+</tr>
+<tr>
+<td><code>:disabled</code></td>
+<td>禁用状态</td>
+<td>必须明显区分（opacity + cursor）</td>
+</tr>
+<tr>
+<td><code>:checked</code></td>
+<td>radio&#x2F;checkbox 被选中</td>
+<td>自定义表单控件核心</td>
+</tr>
+<tr>
+<td><code>:required</code></td>
+<td>带有 required 属性的表单元素</td>
+<td>视觉提示必填</td>
+</tr>
+</tbody></table>
+<p><strong>交互状态正确顺序</strong>（cascade 顺序）：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123; <span class="attribute">color</span>: blue; &#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:visited</span> &#123; <span class="attribute">color</span>: purple; &#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123; <span class="attribute">color</span>: hotpink; &#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:focus-visible</span> &#123; <span class="attribute">outline</span>: ... &#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:active</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-伪元素（Pseudo-elements）——-常用-before-after"><a href="#5-伪元素（Pseudo-elements）——-常用-before-after" class="headerlink" title="5. 伪元素（Pseudo-elements）—— 常用 ::before &#x2F; ::after"></a>5. 伪元素（Pseudo-elements）—— 常用 ::before &#x2F; ::after</h2><table>
+<thead>
+<tr>
+<th>伪元素</th>
+<th>用途</th>
+<th>经典用法示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>::before</code></td>
+<td>在元素内容前插入虚拟元素</td>
+<td>图标、序号、装饰线</td>
+</tr>
+<tr>
+<td><code>::after</code></td>
+<td>在元素内容后插入虚拟元素</td>
+<td>清除浮动、箭头、loading 指示器</td>
+</tr>
+<tr>
+<td><code>::first-line</code></td>
+<td>元素首行文字</td>
+<td>文章首行大写&#x2F;变色</td>
+</tr>
+<tr>
+<td><code>::first-letter</code></td>
+<td>元素首字母</td>
+<td>报纸风格首字母放大</td>
+</tr>
+<tr>
+<td><code>::selection</code></td>
+<td>用户选中文本时的样式</td>
+<td>自定义高亮背景色</td>
+</tr>
+<tr>
+<td><code>::placeholder</code></td>
+<td>输入框占位符</td>
+<td>美化 placeholder</td>
+</tr>
+</tbody></table>
+<p><strong>::before&#x2F;::after 必备属性（不写会不生效）：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.element</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;           <span class="comment">/* 必须有！哪怕空字符串 */</span></span><br><span class="line">  <span class="attribute">display</span>: block/inline-block; <span class="comment">/* 常用 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-权重计算规则（Specificity）——-面试必考"><a href="#6-权重计算规则（Specificity）——-面试必考" class="headerlink" title="6. 权重计算规则（Specificity）—— 面试必考"></a>6. 权重计算规则（Specificity）—— 面试必考</h2><p><strong>计算公式（从高到低）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0,0,0,0 → 0,0,0,0</span><br><span class="line">│ │ │ │</span><br><span class="line">│ │ │ └─ 元素/伪元素 (0,0,0,1)</span><br><span class="line">│ │ └─ 类/属性/伪类   (0,0,1,0)</span><br><span class="line">│ └─ ID               (0,1,0,0)</span><br><span class="line">└─ 行内 style         (1,0,0,0)</span><br></pre></td></tr></table></figure>
+
+<p><strong>常见对比：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> <span class="selector-class">.title</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>       <span class="comment">/* 0,1,1,1 */</span></span><br><span class="line"><span class="selector-id">#sidebar</span> <span class="selector-tag">a</span>                   <span class="comment">/* 0,1,0,1 */</span></span><br><span class="line"><span class="selector-class">.article</span> <span class="selector-tag">p</span>                   <span class="comment">/* 0,0,0,2 */</span></span><br><span class="line"><span class="selector-tag">div</span> &gt; <span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span>          <span class="comment">/* 0,0,1,1 */</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优先级顺序：</strong><br><code>!important</code> &gt; 行内 &gt; id &gt; class&#x2F;属性&#x2F;伪类 &gt; 元素 &gt; * &#x2F; 继承</p>
+<p><strong>冲突处理黄金法则（2025-2026 推荐）：</strong></p>
+<ul>
+<li>尽量不使用 <code>!important</code></li>
+<li>能用类解决不用 id</li>
+<li>同权重 → 后面覆盖前面（就近原则）</li>
+<li>权重相同且顺序相同 → 看代码书写顺序</li>
+<li>实在覆盖不了 → 提高选择器特异性（加类&#x2F;父级）或调整代码顺序</li>
+</ul>
+<p><strong>快速记忆口诀：</strong></p>
+<ul>
+<li>1个 id &#x3D; 10个 class &#x3D; 100个 标签</li>
+<li><code>!important</code> 是作弊键，能不用就不用</li>
+</ul>
 
       </div>
       
@@ -271,6 +559,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E9%80%89%E6%8B%A9%E5%99%A8%E4%B8%8E%E6%9D%83%E9%87%8D%EF%BC%882025-2026-%E9%9D%A2%E8%AF%95-%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 选择器与权重（2025-2026 面试 &amp; 日常开发核心知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E7%A1%80%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88%E6%9C%80%E5%9F%BA%E7%A1%80%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 基础选择器（最基础、最常用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BB%84%E5%90%88%E4%B8%8E%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88%E5%86%B3%E5%AE%9A%E5%B1%82%E7%BA%A7%E4%B8%8E%E8%8C%83%E5%9B%B4%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 组合与关系选择器（决定层级与范围）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88Attribute-Selectors%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">3. 属性选择器（Attribute Selectors）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BC%AA%E7%B1%BB%EF%BC%88Pseudo-classes%EF%BC%89%E2%80%94%E2%80%94-%E7%8A%B6%E6%80%81%E4%B8%8E%E7%BB%93%E6%9E%84"><span class="nav-number">1.4.</span> <span class="nav-text">4. 伪类（Pseudo-classes）—— 状态与结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%EF%BC%88-nth-%E7%B3%BB%E5%88%97%E6%9C%80%E5%B8%B8%E8%80%83%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 常用结构伪类（:nth-* 系列最常考）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%B8%B8%E7%94%A8%E7%8A%B6%E6%80%81%E4%BC%AA%E7%B1%BB"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 常用状态伪类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BC%AA%E5%85%83%E7%B4%A0%EF%BC%88Pseudo-elements%EF%BC%89%E2%80%94%E2%80%94-%E5%B8%B8%E7%94%A8-before-after"><span class="nav-number">1.5.</span> <span class="nav-text">5. 伪元素（Pseudo-elements）—— 常用 ::before &#x2F; ::after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%9D%83%E9%87%8D%E8%AE%A1%E7%AE%97%E8%A7%84%E5%88%99%EF%BC%88Specificity%EF%BC%89%E2%80%94%E2%80%94-%E9%9D%A2%E8%AF%95%E5%BF%85%E8%80%83"><span class="nav-number">1.6.</span> <span class="nav-text">6. 权重计算规则（Specificity）—— 面试必考</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

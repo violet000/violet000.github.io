@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="尺寸与响应式媒体查询与断点策略流式布局、视口单位、容器查询（若需）图片与视频的响应式适配（object-fit、max-width）">
+  <meta name="description" content="CSS 尺寸与响应式（2025-2026 主流实用版） 重点：媒体查询、断点策略、流式布局、视口单位、容器查询、响应式图片&#x2F;视频目标：写出移动优先、维护性好、性能友好的响应式页面  1. 媒体查询（Media Queries）核心用法1.1 移动优先（Mobile First）写法 —— 目前最推荐123456789101112131415161718192021222324252627">
 <meta property="og:type" content="website">
 <meta property="og:title" content="尺寸与响应式">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E5%B0%BA%E5%AF%B8%E4%B8%8E%E5%93%8D%E5%BA%94%E5%BC%8F.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="尺寸与响应式媒体查询与断点策略流式布局、视口单位、容器查询（若需）图片与视频的响应式适配（object-fit、max-width）">
+<meta property="og:description" content="CSS 尺寸与响应式（2025-2026 主流实用版） 重点：媒体查询、断点策略、流式布局、视口单位、容器查询、响应式图片&#x2F;视频目标：写出移动优先、维护性好、性能友好的响应式页面  1. 媒体查询（Media Queries）核心用法1.1 移动优先（Mobile First）写法 —— 目前最推荐123456789101112131415161718192021222324252627">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:45:41.715Z">
+<meta property="article:modified_time" content="2026-01-09T01:56:42.364Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,108 @@
       
       
       <div class="post-body">
-            <p>尺寸与响应式<br>媒体查询与断点策略<br>流式布局、视口单位、容器查询（若需）<br>图片与视频的响应式适配（object-fit、max-width）</p>
+            <h1 id="CSS-尺寸与响应式（2025-2026-主流实用版）"><a href="#CSS-尺寸与响应式（2025-2026-主流实用版）" class="headerlink" title="CSS 尺寸与响应式（2025-2026 主流实用版）"></a>CSS 尺寸与响应式（2025-2026 主流实用版）</h1><blockquote>
+<p>重点：媒体查询、断点策略、流式布局、视口单位、容器查询、响应式图片&#x2F;视频<br>目标：写出移动优先、维护性好、性能友好的响应式页面</p>
+</blockquote>
+<h2 id="1-媒体查询（Media-Queries）核心用法"><a href="#1-媒体查询（Media-Queries）核心用法" class="headerlink" title="1. 媒体查询（Media Queries）核心用法"></a>1. 媒体查询（Media Queries）核心用法</h2><h3 id="1-1-移动优先（Mobile-First）写法-——-目前最推荐"><a href="#1-1-移动优先（Mobile-First）写法-——-目前最推荐" class="headerlink" title="1.1 移动优先（Mobile First）写法 —— 目前最推荐"></a>1.1 移动优先（Mobile First）写法 —— 目前最推荐</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 基础样式（默认移动端） */</span></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 平板及以上 */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">768px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">2rem</span>;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">720px</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 桌面大屏 */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">1024px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">960px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 超大屏（可选） */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">1280px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">1200px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-2025-2026-主流断点策略推荐（Tailwind-大厂常用）"><a href="#1-2-2025-2026-主流断点策略推荐（Tailwind-大厂常用）" class="headerlink" title="1.2 2025-2026 主流断点策略推荐（Tailwind &#x2F; 大厂常用）"></a>1.2 2025-2026 主流断点策略推荐（Tailwind &#x2F; 大厂常用）</h3><table>
+<thead>
+<tr>
+<th>设备&#x2F;场景</th>
+<th>常用断点（min-width）</th>
+<th>Tailwind 对应</th>
+<th>建议用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>手机</td>
+<td>—（默认）</td>
+<td>—</td>
+<td>基础样式</td>
+</tr>
+<tr>
+<td>平板竖屏&#x2F;小桌面</td>
+<td>640px &#x2F; 768px</td>
+<td>sm &#x2F; md</td>
+<td>两列布局开始</td>
+</tr>
+<tr>
+<td>桌面</td>
+<td>1024px &#x2F; 1200px</td>
+<td>lg &#x2F; xl</td>
+<td>三列&#x2F;内容区域变宽</td>
+</tr>
+<tr>
+<td>大桌面&#x2F;电视</td>
+<td>1280px &#x2F; 1536px</td>
+<td>2xl</td>
+<td>超宽布局、展示型页面</td>
+</tr>
+</tbody></table>
+<p>最常用折中方案（强烈推荐）：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">640px</span>)  &#123; ... &#125;  <span class="comment">/* sm  */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">768px</span>)  &#123; ... &#125;  <span class="comment">/* md  */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">1024px</span>) &#123; ... &#125;  <span class="comment">/* lg  */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-width</span>: <span class="number">1280px</span>) &#123; ... &#125;  <span class="comment">/* xl  */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-流式布局-视口单位（最核心的响应式手段）"><a href="#2-流式布局-视口单位（最核心的响应式手段）" class="headerlink" title="2. 流式布局 + 视口单位（最核心的响应式手段）"></a>2. 流式布局 + 视口单位（最核心的响应式手段）</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 推荐：流体宽度 + 最大/最小约束 */</span></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="number">1200px</span>;           <span class="comment">/* 防止过宽 */</span></span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">320px</span>;            <span class="comment">/* 防止过窄 */</span></span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 非常推荐的流体排版（2025-2026 流行） */</span></span><br><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="built_in">clamp</span>(<span class="number">14px</span>, <span class="number">2.5vw</span> + <span class="number">0.5rem</span>, <span class="number">18px</span>);</span><br><span class="line">  <span class="comment">/* 最小14px，推荐跟随视口，最大18px */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="built_in">clamp</span>(<span class="number">1.8rem</span>, <span class="number">5vw</span> + <span class="number">1rem</span>, <span class="number">4rem</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>常用视口单位对比表:</p>
+<table>
+<thead>
+<tr>
+<th>单位</th>
+<th>含义</th>
+<th>优点</th>
+<th>缺点&#x2F;注意点</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>vw</td>
+<td>视口宽度 1%</td>
+<td>真正全屏响应</td>
+<td>键盘弹出&#x2F;滚动条会影响</td>
+<td>大标题、横幅、Hero</td>
+</tr>
+<tr>
+<td>vh</td>
+<td>视口高度 1%</td>
+<td>适合全屏模块</td>
+<td>移动端浏览器工具栏问题严重</td>
+<td>全屏轮播、首屏高度</td>
+</tr>
+<tr>
+<td>vmin</td>
+<td>vw&#x2F;vh 中较小值</td>
+<td>保持比例（正方形常用）</td>
+<td>—</td>
+<td>头像、正方形卡片</td>
+</tr>
+<tr>
+<td>vmax</td>
+<td>vw&#x2F;vh 中较大值</td>
+<td>—</td>
+<td>很少用</td>
+<td>—</td>
+</tr>
+<tr>
+<td>%</td>
+<td>相对父元素</td>
+<td>稳定、可预测</td>
+<td>需要父元素有明确尺寸</td>
+<td>布局、padding、margin</td>
+</tr>
+</tbody></table>
+<h2 id="3-容器查询（Container-Queries）——-2024年后逐渐成为主流"><a href="#3-容器查询（Container-Queries）——-2024年后逐渐成为主流" class="headerlink" title="3. 容器查询（Container Queries）—— 2024年后逐渐成为主流"></a>3. 容器查询（Container Queries）—— 2024年后逐渐成为主流</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 声明容器 */</span></span><br><span class="line"><span class="selector-class">.card-list</span> &#123;</span><br><span class="line">  <span class="attribute">container-type</span>: inline-size;    <span class="comment">/* 或 size */</span></span><br><span class="line">  <span class="attribute">container-name</span>: cardlist;       <span class="comment">/* 可选，命名容器 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 根据容器宽度而不是视口宽度改变样式 */</span></span><br><span class="line"><span class="keyword">@container</span> (<span class="attribute">min-width</span>: <span class="number">500px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.card</span> &#123;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@container</span> cardlist (<span class="attribute">min-width</span>: <span class="number">720px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.card</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">45%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-响应式图片与视频最佳实践"><a href="#4-响应式图片与视频最佳实践" class="headerlink" title="4. 响应式图片与视频最佳实践"></a>4. 响应式图片与视频最佳实践</h2><h3 id="4-1-图片响应式核心技巧"><a href="#4-1-图片响应式核心技巧" class="headerlink" title="4.1 图片响应式核心技巧"></a>4.1 图片响应式核心技巧</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 推荐写法（<span class="number">2025</span>-<span class="number">2026</span> 标配） --&gt;</span><br><span class="line">&lt;<span class="selector-tag">img</span> </span><br><span class="line">  <span class="attribute">src</span>=&quot;low-res<span class="selector-class">.jpg</span>&quot; </span><br><span class="line">  srcset=&quot;</span><br><span class="line">    low-res<span class="selector-class">.jpg</span> <span class="number">320</span>w,</span><br><span class="line">    mid-res<span class="selector-class">.jpg</span> <span class="number">640</span>w,</span><br><span class="line">    high-res<span class="selector-class">.jpg</span> <span class="number">1024</span>w,</span><br><span class="line">    ultra-high<span class="selector-class">.jpg</span> <span class="number">1600</span>w</span><br><span class="line">  &quot; </span><br><span class="line">  sizes=&quot;(<span class="attribute">max-width</span>: <span class="number">480px</span>) <span class="number">100vw</span>,</span><br><span class="line">         (max-width: <span class="number">768px</span>) <span class="number">50vw</span>,</span><br><span class="line">         <span class="number">33vw</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">  alt=&quot;</span>描述<span class="string">&quot;</span></span><br><span class="line"><span class="string">  loading=&quot;</span>lazy<span class="string">&quot;</span></span><br><span class="line"><span class="string">  decoding=&quot;</span>async<span class="string">&quot;</span></span><br><span class="line"><span class="string">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-常用-object-fit-组合"><a href="#4-2-常用-object-fit-组合" class="headerlink" title="4.2 常用 object-fit 组合"></a>4.2 常用 object-fit 组合</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cover-img</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">object-fit</span>: cover;          <span class="comment">/* 最常用，填满容器，裁剪多余 */</span></span><br><span class="line">  <span class="attribute">object-position</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.contain-img</span> &#123;</span><br><span class="line">  <span class="attribute">object-fit</span>: contain;        <span class="comment">/* 完整显示，可能留白 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.fill-img</span> &#123;</span><br><span class="line">  <span class="attribute">object-fit</span>: fill;           <span class="comment">/* 拉伸填满（少用） */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-响应式视频"><a href="#4-3-响应式视频" class="headerlink" title="4.3 响应式视频"></a>4.3 响应式视频</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.video-wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">56.25%</span>;         <span class="comment">/* 16:9 */</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.video-wrapper</span> <span class="selector-tag">iframe</span>,</span><br><span class="line"><span class="selector-class">.video-wrapper</span> <span class="selector-tag">video</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">object-fit</span>: cover;              <span class="comment">/* 视频也可用 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
 
       </div>
       
@@ -271,6 +372,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E5%B0%BA%E5%AF%B8%E4%B8%8E%E5%93%8D%E5%BA%94%E5%BC%8F%EF%BC%882025-2026-%E4%B8%BB%E6%B5%81%E5%AE%9E%E7%94%A8%E7%89%88%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 尺寸与响应式（2025-2026 主流实用版）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2%EF%BC%88Media-Queries%EF%BC%89%E6%A0%B8%E5%BF%83%E7%94%A8%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">1. 媒体查询（Media Queries）核心用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%A7%BB%E5%8A%A8%E4%BC%98%E5%85%88%EF%BC%88Mobile-First%EF%BC%89%E5%86%99%E6%B3%95-%E2%80%94%E2%80%94-%E7%9B%AE%E5%89%8D%E6%9C%80%E6%8E%A8%E8%8D%90"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 移动优先（Mobile First）写法 —— 目前最推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2025-2026-%E4%B8%BB%E6%B5%81%E6%96%AD%E7%82%B9%E7%AD%96%E7%95%A5%E6%8E%A8%E8%8D%90%EF%BC%88Tailwind-%E5%A4%A7%E5%8E%82%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 2025-2026 主流断点策略推荐（Tailwind &#x2F; 大厂常用）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B5%81%E5%BC%8F%E5%B8%83%E5%B1%80-%E8%A7%86%E5%8F%A3%E5%8D%95%E4%BD%8D%EF%BC%88%E6%9C%80%E6%A0%B8%E5%BF%83%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E6%89%8B%E6%AE%B5%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 流式布局 + 视口单位（最核心的响应式手段）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%B9%E5%99%A8%E6%9F%A5%E8%AF%A2%EF%BC%88Container-Queries%EF%BC%89%E2%80%94%E2%80%94-2024%E5%B9%B4%E5%90%8E%E9%80%90%E6%B8%90%E6%88%90%E4%B8%BA%E4%B8%BB%E6%B5%81"><span class="nav-number">1.3.</span> <span class="nav-text">3. 容器查询（Container Queries）—— 2024年后逐渐成为主流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E4%B8%8E%E8%A7%86%E9%A2%91%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.4.</span> <span class="nav-text">4. 响应式图片与视频最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%9B%BE%E7%89%87%E5%93%8D%E5%BA%94%E5%BC%8F%E6%A0%B8%E5%BF%83%E6%8A%80%E5%B7%A7"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 图片响应式核心技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%B8%B8%E7%94%A8-object-fit-%E7%BB%84%E5%90%88"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 常用 object-fit 组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%93%8D%E5%BA%94%E5%BC%8F%E8%A7%86%E9%A2%91"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 响应式视频</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

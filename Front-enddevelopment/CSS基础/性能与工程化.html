@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="性能与工程化选择器性能、重排与重绘关键 CSS、延迟&#x2F;异步加载、代码分割与按需加载（提示）样式重置与规范化（reset&#x2F;normalize）">
+  <meta name="description" content="CSS 性能与工程化1. 选择器性能排名（从快到慢）   选择器写法 性能等级 浏览器查找方式 2025-2026 推荐度 说明与建议    ID (#header) ★★★★★ 直接查找 最高 最快，几乎瞬间定位   标签 (div, p) ★★★★☆ 标签名查找 非常高 快，但页面元素多时略慢   类 (.btn) ★★★★ 类名哈希表查找 高 日常最常用，性能很好   属性 ([type&amp;#">
 <meta property="og:type" content="website">
 <meta property="og:title" content="性能与工程化">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="性能与工程化选择器性能、重排与重绘关键 CSS、延迟&#x2F;异步加载、代码分割与按需加载（提示）样式重置与规范化（reset&#x2F;normalize）">
+<meta property="og:description" content="CSS 性能与工程化1. 选择器性能排名（从快到慢）   选择器写法 性能等级 浏览器查找方式 2025-2026 推荐度 说明与建议    ID (#header) ★★★★★ 直接查找 最高 最快，几乎瞬间定位   标签 (div, p) ★★★★☆ 标签名查找 非常高 快，但页面元素多时略慢   类 (.btn) ★★★★ 类名哈希表查找 高 日常最常用，性能很好   属性 ([type&amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:47:38.692Z">
+<meta property="article:modified_time" content="2026-01-09T02:39:31.307Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,293 @@
       
       
       <div class="post-body">
-            <p>性能与工程化<br>选择器性能、重排与重绘<br>关键 CSS、延迟&#x2F;异步加载、代码分割与按需加载（提示）<br>样式重置与规范化（reset&#x2F;normalize）</p>
+            <h1 id="CSS-性能与工程化"><a href="#CSS-性能与工程化" class="headerlink" title="CSS 性能与工程化"></a>CSS 性能与工程化</h1><h2 id="1-选择器性能排名（从快到慢）"><a href="#1-选择器性能排名（从快到慢）" class="headerlink" title="1. 选择器性能排名（从快到慢）"></a>1. 选择器性能排名（从快到慢）</h2><table>
+<thead>
+<tr>
+<th>选择器写法</th>
+<th>性能等级</th>
+<th>浏览器查找方式</th>
+<th>2025-2026 推荐度</th>
+<th>说明与建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ID (#header)</td>
+<td>★★★★★</td>
+<td>直接查找</td>
+<td>最高</td>
+<td>最快，几乎瞬间定位</td>
+</tr>
+<tr>
+<td>标签 (div, p)</td>
+<td>★★★★☆</td>
+<td>标签名查找</td>
+<td>非常高</td>
+<td>快，但页面元素多时略慢</td>
+</tr>
+<tr>
+<td>类 (.btn)</td>
+<td>★★★★</td>
+<td>类名哈希表查找</td>
+<td>高</td>
+<td>日常最常用，性能很好</td>
+</tr>
+<tr>
+<td>属性 ([type&#x3D;”text”])</td>
+<td>★★★</td>
+<td>属性遍历</td>
+<td>中等</td>
+<td>比类慢，尽量少用</td>
+</tr>
+<tr>
+<td>伪类 (:hover, :nth-child)</td>
+<td>★★☆</td>
+<td>元素遍历 + 计算</td>
+<td>较低</td>
+<td>:nth-child(n) 尤其慢，慎用</td>
+</tr>
+<tr>
+<td>后代选择器 (div p a)</td>
+<td>★★</td>
+<td>从右往左逐层匹配</td>
+<td>较低</td>
+<td>层级越深越慢</td>
+</tr>
+<tr>
+<td>子选择器 (ul &gt; li)</td>
+<td>★★★</td>
+<td>比后代略快</td>
+<td>中等</td>
+<td>比后代好，但仍建议减少层级</td>
+</tr>
+<tr>
+<td>通配符 *</td>
+<td>★☆</td>
+<td>匹配所有元素</td>
+<td>极低</td>
+<td>严重影响性能，<strong>禁止</strong>在样式表中使用</td>
+</tr>
+</tbody></table>
+<p><strong>核心结论（请背诵）</strong>：<br>从右往左匹配 → 尽量让最右边的选择器最具体（ID &gt; class &gt; tag）<br>层级越浅越好 → 尽量不超过 3 层<br>避免 :nth-child(n)、*、很长的后代选择器</p>
+<p><strong>2025-2026 推荐写法</strong>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 好 */</span></span><br><span class="line"><span class="selector-class">.header</span> <span class="selector-class">.nav-btn</span><span class="selector-class">.active</span> &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 不好（性能差） */</span></span><br><span class="line"><span class="selector-tag">div</span><span class="selector-class">.container</span> &gt; <span class="selector-tag">section</span><span class="selector-class">.main</span> &gt; <span class="selector-tag">div</span><span class="selector-class">.content</span> <span class="selector-tag">p</span><span class="selector-class">.description</span> <span class="selector-tag">span</span><span class="selector-class">.highlight</span> &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-重排（Reflow）与重绘（Repaint）——-性能杀手"><a href="#2-重排（Reflow）与重绘（Repaint）——-性能杀手" class="headerlink" title="2. 重排（Reflow）与重绘（Repaint）—— 性能杀手"></a>2. 重排（Reflow）与重绘（Repaint）—— 性能杀手</h2><p><span style="color: red"> 重排：</span> 当document中的DOM节点的几何属性或者布局等影响，导致页面的元素需要重新排列，重排也叫回流，简单的说就是重新生成布局，重新排列元素。<br><span style="color: red"> 重绘：</span> 当DOM节点的渲染的样式发生改变需要进行重新渲染，但没有改变布局,重新把元素外观绘制出来的过程，叫做重绘。</p>
+<table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>是否引起重排(Reflow)</th>
+<th>是否引起重绘(Repaint)</th>
+<th>性能代价</th>
+<th>常见触发属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>几何属性变化</td>
+<td>✓✓✓</td>
+<td>✓✓✓</td>
+<td>极高</td>
+<td>width&#x2F;height&#x2F;margin&#x2F;padding&#x2F;top&#x2F;left&#x2F;…</td>
+</tr>
+<tr>
+<td>布局结构变化</td>
+<td>✓✓✓</td>
+<td>✓✓✓</td>
+<td>极高</td>
+<td>display, position, float, overflow, flex 变化等</td>
+</tr>
+<tr>
+<td>内容变化</td>
+<td>✓✓</td>
+<td>✓✓✓</td>
+<td>高</td>
+<td>textContent, font-size, line-height 等</td>
+</tr>
+<tr>
+<td>可见性变化（不占位）</td>
+<td>×</td>
+<td>✓✓✓</td>
+<td>中</td>
+<td>visibility: hidden → visible</td>
+</tr>
+<tr>
+<td>颜色&#x2F;背景变化</td>
+<td>×</td>
+<td>✓✓</td>
+<td>低</td>
+<td>color, background, border-color, box-shadow</td>
+</tr>
+<tr>
+<td>transform</td>
+<td>×</td>
+<td>×（大部分情况）</td>
+<td>极低</td>
+<td>translate, scale, rotate（合成层）</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td>×</td>
+<td>✓（但可合成）</td>
+<td>低</td>
+<td>0～1 变化</td>
+</tr>
+</tbody></table>
+<p><span style="color: red">性能黄金法则: </span><br>能用 transform 就别用 left&#x2F;top&#x2F;width&#x2F;height<br>能用 opacity 就别用 visibility&#x2F;display<br>想批量修改 → 先 display:none → 修改 → display:block<br>想频繁读写 → 先读完所有布局属性，再统一写</p>
+<p>经典优化写法：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 坏：多次 reflow</span><br><span class="line">element<span class="selector-class">.style</span><span class="selector-class">.width</span> = &#x27;<span class="number">100px</span>&#x27;;</span><br><span class="line">element<span class="selector-class">.style</span><span class="selector-class">.height</span> = &#x27;<span class="number">200px</span>&#x27;;</span><br><span class="line"></span><br><span class="line">// 好：批量修改</span><br><span class="line">element<span class="selector-class">.classList</span><span class="selector-class">.add</span>(&#x27;resized&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-关键-CSS（Critical-CSS）与首屏渲染优化"><a href="#3-关键-CSS（Critical-CSS）与首屏渲染优化" class="headerlink" title="3. 关键 CSS（Critical CSS）与首屏渲染优化"></a>3. 关键 CSS（Critical CSS）与首屏渲染优化</h2><p>目标：FCP（First Contentful Paint）和 LCP（Largest Contentful Paint）最快<br>主流方案对比（2025-2026）</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>实现难度</th>
+<th>首屏速度提升</th>
+<th>维护成本</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内联关键 CSS</td>
+<td>★★★</td>
+<td>★★★★★</td>
+<td>★★★</td>
+<td>中小型站点、SSR 项目</td>
+</tr>
+<tr>
+<td>提取关键 CSS + 异步加载其余</td>
+<td>★★★★</td>
+<td>★★★★★</td>
+<td>★★☆</td>
+<td>大型站点、追求极致性能</td>
+</tr>
+<tr>
+<td>HTTP&#x2F;2 + 预加载 + 关键 CSS</td>
+<td>★★★★☆</td>
+<td>★★★★☆</td>
+<td>★★</td>
+<td>现代项目标配</td>
+</tr>
+<tr>
+<td>Tailwind JIT + Purge</td>
+<td>★★☆</td>
+<td>★★★★</td>
+<td>★★★★★</td>
+<td>快速开发 + 体积极小</td>
+</tr>
+<tr>
+<td>推荐实践（2026年主流）：</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 1. 关键 CSS 内联到 &lt;head&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-pseudo">:root</span> &#123; <span class="attr">--primary</span>: <span class="number">#6366f1</span>; &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-tag">body</span> &#123; <span class="attribute">margin</span>:<span class="number">0</span>; <span class="attribute">font-family</span>:system-ui; &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.hero</span> &#123; <span class="attribute">min-height</span>:<span class="number">100vh</span>; <span class="attribute">background</span>:<span class="number">#000</span>; <span class="attribute">color</span>:white; &#125;</span></span><br><span class="line"><span class="language-css">  <span class="comment">/* 只包含首屏所需 */</span></span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 2. 非关键 CSS 异步加载 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;styles.css&quot;</span> <span class="attr">media</span>=<span class="string">&quot;print&quot;</span> <span class="attr">onload</span>=<span class="string">&quot;this.media=&#x27;all&#x27;&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-CSS-加载策略对比（工程化必知）"><a href="#4-CSS-加载策略对比（工程化必知）" class="headerlink" title="4. CSS 加载策略对比（工程化必知）"></a>4. CSS 加载策略对比（工程化必知）</h2><table>
+<thead>
+<tr>
+<th>加载方式</th>
+<th>是否阻塞渲染</th>
+<th>是否阻塞 JS 执行</th>
+<th>推荐场景</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;link rel=&quot;stylesheet&quot;&gt;</code></td>
+<td>是</td>
+<td>是</td>
+<td>关键 CSS</td>
+<td>传统方式</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;preload&quot;&gt;</code></td>
+<td>否</td>
+<td>否</td>
+<td>高优先级 CSS&#x2F;字体</td>
+<td>提前获取但不执行</td>
+</tr>
+<tr>
+<td><code>&lt;link rel=&quot;prefetch&quot;&gt;</code></td>
+<td>否</td>
+<td>否</td>
+<td>下一页可能用到的 CSS</td>
+<td>空闲时加载</td>
+</tr>
+<tr>
+<td><code>media=&quot;print&quot; + onload</code></td>
+<td>否</td>
+<td>否</td>
+<td>非首屏 CSS</td>
+<td>经典异步加载黑科技</td>
+</tr>
+<tr>
+<td>JS 动态插入 link</td>
+<td>否</td>
+<td>否</td>
+<td>按需&#x2F;路由懒加载</td>
+<td>React&#x2F;Vue 项目常用</td>
+</tr>
+</tbody></table>
+<h2 id="5-样式重置与规范化（2025-2026-主流选择）"><a href="#5-样式重置与规范化（2025-2026-主流选择）" class="headerlink" title="5. 样式重置与规范化（2025-2026 主流选择）"></a>5. 样式重置与规范化（2025-2026 主流选择）</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>文件大小</th>
+<th>现代化程度</th>
+<th>推荐指数</th>
+<th>说明与建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normalize.css</td>
+<td>~4KB</td>
+<td>高</td>
+<td>★★★★☆</td>
+<td>保留有用的浏览器默认样式，修复差异</td>
+</tr>
+<tr>
+<td>reset.css</td>
+<td>~1KB</td>
+<td>中</td>
+<td>★★☆</td>
+<td>几乎全部清零，工作量大（不推荐新项目）</td>
+</tr>
+<tr>
+<td>modern-normalize</td>
+<td>~2KB</td>
+<td>★★★★★</td>
+<td>★★★★★</td>
+<td>2024-2026 最流行，基于 normalize + 现代优化</td>
+</tr>
+<tr>
+<td>Tailwind Preflight</td>
+<td>内置</td>
+<td>★★★★★</td>
+<td>★★★★★</td>
+<td>Tailwind 用户直接使用，无需额外文件</td>
+</tr>
+<tr>
+<td>无重置</td>
+<td>0KB</td>
+<td>—</td>
+<td>★★★☆</td>
+<td>接受浏览器差异，适合极简&#x2F;组件化项目</td>
+</tr>
+<tr>
+<td>2026年推荐做法：</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 最佳实践 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://esm.sh/modern-normalize@latest&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 或直接复制 modern-normalize.css 到项目 --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="一句话总结："><a href="#一句话总结：" class="headerlink" title="一句话总结："></a>一句话总结：</h2><p>性能三板斧：<br>选择器简单、层级浅<br>动画只用 transform + opacity<br>关键 CSS 内联 + 非关键异步加载</p>
 
       </div>
       
@@ -271,6 +557,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E6%80%A7%E8%83%BD%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">CSS 性能与工程化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%80%89%E6%8B%A9%E5%99%A8%E6%80%A7%E8%83%BD%E6%8E%92%E5%90%8D%EF%BC%88%E4%BB%8E%E5%BF%AB%E5%88%B0%E6%85%A2%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 选择器性能排名（从快到慢）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%87%8D%E6%8E%92%EF%BC%88Reflow%EF%BC%89%E4%B8%8E%E9%87%8D%E7%BB%98%EF%BC%88Repaint%EF%BC%89%E2%80%94%E2%80%94-%E6%80%A7%E8%83%BD%E6%9D%80%E6%89%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2. 重排（Reflow）与重绘（Repaint）—— 性能杀手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E9%94%AE-CSS%EF%BC%88Critical-CSS%EF%BC%89%E4%B8%8E%E9%A6%96%E5%B1%8F%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">3. 关键 CSS（Critical CSS）与首屏渲染优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-CSS-%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94%EF%BC%88%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%BF%85%E7%9F%A5%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">4. CSS 加载策略对比（工程化必知）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%A0%B7%E5%BC%8F%E9%87%8D%E7%BD%AE%E4%B8%8E%E8%A7%84%E8%8C%83%E5%8C%96%EF%BC%882025-2026-%E4%B8%BB%E6%B5%81%E9%80%89%E6%8B%A9%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">5. 样式重置与规范化（2025-2026 主流选择）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="nav-number">1.6.</span> <span class="nav-text">一句话总结：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="变量与复用CSS 变量（自定义属性）、作用域、继承预处理器概念提示（Sass&#x2F;Less，若需）公共样式与组件化思路（BEM 命名、实用类&#x2F;原子化提示）">
+  <meta name="description" content="CSS 变量与复用（2025-2026 主流实用版） 重点：CSS 自定义属性（变量）、作用域与继承规则、现代复用策略目标：写出可维护、可读、可扩展的样式代码  1. CSS 自定义属性（CSS Variables &#x2F; Custom Properties）1.1 基本语法与声明位置1234567891011121314151617181920212223242526272829&#x2F;* 全局">
 <meta property="og:type" content="website">
 <meta property="og:title" content="变量与复用">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E5%8F%98%E9%87%8F%E4%B8%8E%E5%A4%8D%E7%94%A8.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="变量与复用CSS 变量（自定义属性）、作用域、继承预处理器概念提示（Sass&#x2F;Less，若需）公共样式与组件化思路（BEM 命名、实用类&#x2F;原子化提示）">
+<meta property="og:description" content="CSS 变量与复用（2025-2026 主流实用版） 重点：CSS 自定义属性（变量）、作用域与继承规则、现代复用策略目标：写出可维护、可读、可扩展的样式代码  1. CSS 自定义属性（CSS Variables &#x2F; Custom Properties）1.1 基本语法与声明位置1234567891011121314151617181920212223242526272829&#x2F;* 全局">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:46:20.587Z">
+<meta property="article:modified_time" content="2026-01-09T01:46:29.724Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,117 @@
       
       
       <div class="post-body">
-            <p>变量与复用<br>CSS 变量（自定义属性）、作用域、继承<br>预处理器概念提示（Sass&#x2F;Less，若需）<br>公共样式与组件化思路（BEM 命名、实用类&#x2F;原子化提示）</p>
+            <h1 id="CSS-变量与复用（2025-2026-主流实用版）"><a href="#CSS-变量与复用（2025-2026-主流实用版）" class="headerlink" title="CSS 变量与复用（2025-2026 主流实用版）"></a>CSS 变量与复用（2025-2026 主流实用版）</h1><blockquote>
+<p>重点：CSS 自定义属性（变量）、作用域与继承规则、现代复用策略<br>目标：写出可维护、可读、可扩展的样式代码</p>
+</blockquote>
+<h2 id="1-CSS-自定义属性（CSS-Variables-Custom-Properties）"><a href="#1-CSS-自定义属性（CSS-Variables-Custom-Properties）" class="headerlink" title="1. CSS 自定义属性（CSS Variables &#x2F; Custom Properties）"></a>1. CSS 自定义属性（CSS Variables &#x2F; Custom Properties）</h2><h3 id="1-1-基本语法与声明位置"><a href="#1-1-基本语法与声明位置" class="headerlink" title="1.1 基本语法与声明位置"></a>1.1 基本语法与声明位置</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 全局变量（最常用） - 通常放在 :root */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attr">--primary</span>: <span class="number">#6366f1</span>;</span><br><span class="line">  <span class="attr">--primary-dark</span>: <span class="number">#4f46e5</span>;</span><br><span class="line">  <span class="attr">--radius-sm</span>: <span class="number">0.375rem</span>;</span><br><span class="line">  <span class="attr">--radius-md</span>: <span class="number">0.5rem</span>;</span><br><span class="line">  <span class="attr">--shadow-sm</span>: <span class="number">0</span> <span class="number">1px</span> <span class="number">2px</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.05</span>);</span><br><span class="line">  <span class="attr">--transition-base</span>: all <span class="number">0.25s</span> <span class="built_in">cubic-bezier</span>(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0.2</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="attr">--font-sans</span>: system-ui, -apple-system, BlinkMacSystemFont, <span class="string">&quot;Segoe UI&quot;</span>, Roboto, sans-serif;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 局部变量（组件内部） */</span></span><br><span class="line"><span class="selector-class">.card</span> &#123;</span><br><span class="line">  <span class="attr">--card-bg</span>: white;</span><br><span class="line">  <span class="attr">--card-shadow</span>: <span class="built_in">var</span>(--shadow-sm);</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--card-bg);</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="built_in">var</span>(--card-shadow);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 使用方式 */</span></span><br><span class="line"><span class="selector-class">.btn</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--primary);</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="built_in">var</span>(--radius-md);</span><br><span class="line">  <span class="attribute">transition</span>: <span class="built_in">var</span>(--transition-base);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--primary-dark);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-作用域与继承规则（非常重要）"><a href="#1-2-作用域与继承规则（非常重要）" class="headerlink" title="1.2 作用域与继承规则（非常重要）"></a>1.2 作用域与继承规则（非常重要）</h3><table>
+<thead>
+<tr>
+<th>声明位置</th>
+<th>作用范围</th>
+<th>是否会被子元素继承</th>
+<th>典型使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:root</td>
+<td>全局（整个文档）</td>
+<td>是</td>
+<td>品牌色、间距系统、字体栈、过渡曲线</td>
+</tr>
+<tr>
+<td>某个元素</td>
+<td>该元素及其所有后代</td>
+<td>是</td>
+<td>组件内部主题、局部调色板</td>
+</tr>
+<tr>
+<td>.dark 类</td>
+<td>.dark 及其后代</td>
+<td>是</td>
+<td>暗色模式主题切换</td>
+</tr>
+<tr>
+<td>媒体查询内</td>
+<td>符合条件的范围</td>
+<td>是</td>
+<td>响应式变量（字号、间距等）</td>
+</tr>
+</tbody></table>
+<p>继承与覆盖规则总结：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 层级越高（越具体）优先级越高 */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123; <span class="attr">--color</span>: blue; &#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.component</span> &#123; <span class="attr">--color</span>: green; &#125;          <span class="comment">/* 覆盖全局 */</span></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.component</span><span class="selector-class">.special</span> &#123; <span class="attr">--color</span>: red; &#125;    <span class="comment">/* 更具体 → 最终生效 */</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-常用技巧与现代用法（2025-2026）"><a href="#1-3-常用技巧与现代用法（2025-2026）" class="headerlink" title="1.3 常用技巧与现代用法（2025-2026）"></a>1.3 常用技巧与现代用法（2025-2026）</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. 暗色模式优雅切换 */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attr">--bg</span>: <span class="number">#ffffff</span>;</span><br><span class="line">  <span class="attr">--text</span>: <span class="number">#0f172a</span>;</span><br><span class="line">  <span class="attr">--card</span>: <span class="number">#f8fafc</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">prefers-color-scheme</span>: dark) &#123;</span><br><span class="line">  <span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">    <span class="attr">--bg</span>: <span class="number">#0f172a</span>;</span><br><span class="line">    <span class="attr">--text</span>: <span class="number">#e2e8f0</span>;</span><br><span class="line">    <span class="attr">--card</span>: <span class="number">#1e293b</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 使用 calc() + 变量（弹性布局神器） */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attr">--spacing-unit</span>: <span class="number">1rem</span>;</span><br><span class="line">  <span class="attr">--gutter</span>: <span class="built_in">calc</span>(<span class="built_in">var</span>(--spacing-unit) * <span class="number">1.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 3. 字体流体排版（fluid typography） */</span></span><br><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">  <span class="attr">--font-size-base</span>: <span class="built_in">clamp</span>(<span class="number">1rem</span>, <span class="number">2.5vw</span> + <span class="number">0.5rem</span>, <span class="number">1.25rem</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 4. 变量作为 fallback（兼容性处理） */</span></span><br><span class="line"><span class="attribute">color</span>: <span class="built_in">var</span>(--brand-color, <span class="number">#6366f1</span>);     <span class="comment">/* 没有定义就用 #6366f1 */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-现代-CSS-复用策略对比"><a href="#2-现代-CSS-复用策略对比" class="headerlink" title="2. 现代 CSS 复用策略对比"></a>2. 现代 CSS 复用策略对比</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>维护性</th>
+<th>体积</th>
+<th>学习曲线</th>
+<th>组件化友好度</th>
+<th>2025-2026 使用占比估计</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>纯 CSS 变量 + 语义类</td>
+<td>★★★★☆</td>
+<td>小</td>
+<td>低</td>
+<td>★★★★☆</td>
+<td>30~40%</td>
+<td>中小型项目、中后台、追求原生</td>
+</tr>
+<tr>
+<td>Tailwind CSS（原子类）</td>
+<td>★★★★★</td>
+<td>中~大</td>
+<td>中</td>
+<td>★★★★★</td>
+<td>45~60%（持续上升）</td>
+<td>快速开发、设计系统、组件化项目首选</td>
+</tr>
+<tr>
+<td>BEM（传统）</td>
+<td>★★★☆☆</td>
+<td>小</td>
+<td>中</td>
+<td>★★★☆☆</td>
+<td>15~25%（下降中）</td>
+<td>老项目、严格命名规范团队</td>
+</tr>
+<tr>
+<td>CSS Modules</td>
+<td>★★★★☆</td>
+<td>小</td>
+<td>中</td>
+<td>★★★★★</td>
+<td>10~20%</td>
+<td>React&#x2F;Vue 项目，严格隔离</td>
+</tr>
+<tr>
+<td>Utility-First + CSS变量</td>
+<td>★★★★★</td>
+<td>中</td>
+<td>中</td>
+<td>★★★★★</td>
+<td>快速增长</td>
+<td>现代折中方案（Tailwind + 设计令牌）</td>
+</tr>
+<tr>
+<td>Sass&#x2F;Less 预处理器</td>
+<td>★★★☆☆</td>
+<td>小</td>
+<td>中高</td>
+<td>★★★★☆</td>
+<td>逐渐减少</td>
+<td>老项目、需要复杂嵌套&#x2F;混入的场景</td>
+</tr>
+</tbody></table>
 
       </div>
       
@@ -271,6 +381,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%A4%8D%E7%94%A8%EF%BC%882025-2026-%E4%B8%BB%E6%B5%81%E5%AE%9E%E7%94%A8%E7%89%88%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 变量与复用（2025-2026 主流实用版）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-CSS-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%EF%BC%88CSS-Variables-Custom-Properties%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. CSS 自定义属性（CSS Variables &#x2F; Custom Properties）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%A3%B0%E6%98%8E%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 基本语法与声明位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E7%BB%A7%E6%89%BF%E8%A7%84%E5%88%99%EF%BC%88%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 作用域与继承规则（非常重要）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7%E4%B8%8E%E7%8E%B0%E4%BB%A3%E7%94%A8%E6%B3%95%EF%BC%882025-2026%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 常用技巧与现代用法（2025-2026）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%8E%B0%E4%BB%A3-CSS-%E5%A4%8D%E7%94%A8%E7%AD%96%E7%95%A5%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.</span> <span class="nav-text">2. 现代 CSS 复用策略对比</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

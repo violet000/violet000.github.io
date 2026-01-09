@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="动画与过渡transition：属性&#x2F;时长&#x2F;缓动&#x2F;延迟transform：位移&#x2F;缩放&#x2F;旋转&#x2F;倾斜&#x2F;3D 基础keyframes 动画，性能注意（合成层、will-change）">
+  <meta name="description" content="CSS 动画与过渡（完整版 · 2025-2026 主流开发实用知识）一、过渡动画 transitiontransition 是 CSS 中最常用、最容易上手的动画方式，主要用于状态切换时的平滑过渡（hover、active、class 切换等）。 1.1 基本语法123456789101112transition: 属性 时长 缓动函数 延迟;&#x2F;* 最常用简写（日常 90% 场景） *&#x2F;tran">
 <meta property="og:type" content="website">
 <meta property="og:title" content="动画与过渡">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E5%8A%A8%E7%94%BB%E4%B8%8E%E8%BF%87%E6%B8%A1.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="动画与过渡transition：属性&#x2F;时长&#x2F;缓动&#x2F;延迟transform：位移&#x2F;缩放&#x2F;旋转&#x2F;倾斜&#x2F;3D 基础keyframes 动画，性能注意（合成层、will-change）">
+<meta property="og:description" content="CSS 动画与过渡（完整版 · 2025-2026 主流开发实用知识）一、过渡动画 transitiontransition 是 CSS 中最常用、最容易上手的动画方式，主要用于状态切换时的平滑过渡（hover、active、class 切换等）。 1.1 基本语法123456789101112transition: 属性 时长 缓动函数 延迟;&#x2F;* 最常用简写（日常 90% 场景） *&#x2F;tran">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:45:59.012Z">
+<meta property="article:modified_time" content="2026-01-09T01:41:38.450Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,217 @@
       
       
       <div class="post-body">
-            <p>动画与过渡<br>transition：属性&#x2F;时长&#x2F;缓动&#x2F;延迟<br>transform：位移&#x2F;缩放&#x2F;旋转&#x2F;倾斜&#x2F;3D 基础<br>keyframes 动画，性能注意（合成层、will-change）</p>
+            <h1 id="CSS-动画与过渡（完整版-·-2025-2026-主流开发实用知识）"><a href="#CSS-动画与过渡（完整版-·-2025-2026-主流开发实用知识）" class="headerlink" title="CSS 动画与过渡（完整版 · 2025-2026 主流开发实用知识）"></a>CSS 动画与过渡（完整版 · 2025-2026 主流开发实用知识）</h1><h2 id="一、过渡动画-transition"><a href="#一、过渡动画-transition" class="headerlink" title="一、过渡动画 transition"></a>一、过渡动画 transition</h2><p>transition 是 CSS 中最常用、最容易上手的动画方式，主要用于<strong>状态切换</strong>时的平滑过渡（hover、active、class 切换等）。</p>
+<h3 id="1-1-基本语法"><a href="#1-1-基本语法" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">transition</span>: 属性 时长 缓动函数 延迟;</span><br><span class="line"><span class="comment">/* 最常用简写（日常 90% 场景） */</span></span><br><span class="line"><span class="attribute">transition</span>: all <span class="number">0.3s</span> ease;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 推荐 - 性能更好、控制更精确 */</span></span><br><span class="line"><span class="attribute">transition</span>: transform <span class="number">0.4s</span> <span class="built_in">cubic-bezier</span>(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0.2</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 完整拆分写法（不同属性不同时长/缓动） */</span></span><br><span class="line"><span class="attribute">transition-property</span>: transform, opacity, background-color;</span><br><span class="line"><span class="attribute">transition-duration</span>: <span class="number">0.4s</span>, <span class="number">0.6s</span>, <span class="number">0.3s</span>;</span><br><span class="line"><span class="attribute">transition-timing-function</span>: ease-out, linear, ease-in-out;</span><br><span class="line"><span class="attribute">transition-delay</span>: <span class="number">0s</span>, <span class="number">0.1s</span>, <span class="number">0s</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-缓动函数速查表"><a href="#1-2-缓动函数速查表" class="headerlink" title="1.2 缓动函数速查表"></a>1.2 缓动函数速查表</h3><table>
+<thead>
+<tr>
+<th>缓动函数</th>
+<th>视觉感受</th>
+<th>典型使用场景</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ease</td>
+<td>默认、自然</td>
+<td>通用</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>linear</td>
+<td>匀速</td>
+<td>进度条、loading、滚动指示器</td>
+<td>★★★☆☆</td>
+</tr>
+<tr>
+<td>ease-in</td>
+<td>慢 → 快</td>
+<td>物体出现、入场</td>
+<td>★★★☆☆</td>
+</tr>
+<tr>
+<td>ease-out</td>
+<td>快 → 慢</td>
+<td>退出、消失、弹窗关闭</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>ease-in-out</td>
+<td>慢 → 快 → 慢</td>
+<td>最常用 按钮、卡片、菜单</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>cubic-bezier(0.4, 0, 0.2, 1)</td>
+<td>苹果风格极致平滑</td>
+<td>现代感强、高端交互、几乎所有主流产品</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>cubic-bezier(0.68, -0.55, 0.265, 1.55)</td>
+<td>明显回弹 overshoot</td>
+<td>可爱、活泼、强调反馈的交互</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>cubic-bezier(0.175, 0.885, 0.32, 1.275)</td>
+<td>轻微回弹</td>
+<td>微交互、轻奢感</td>
+<td>★★★★☆</td>
+</tr>
+</tbody></table>
+<h2 id="二、transform-变换（动画性能之王）"><a href="#二、transform-变换（动画性能之王）" class="headerlink" title="二、transform 变换（动画性能之王）"></a>二、transform 变换（动画性能之王）</h2><p>transform 是目前公认性能最好的动画属性，因为它只影响合成层（composite layer），基本不会触发重排&#x2F;重绘。</p>
+<h3 id="2-1-常用-transform-函数全家桶"><a href="#2-1-常用-transform-函数全家桶" class="headerlink" title="2.1 常用 transform 函数全家桶"></a>2.1 常用 transform 函数全家桶</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">transform</span>: </span><br><span class="line">  <span class="built_in">translate</span>(<span class="number">50px</span>, -<span class="number">20%</span>) </span><br><span class="line">  <span class="built_in">scale</span>(<span class="number">1.2</span>) </span><br><span class="line">  <span class="built_in">rotate</span>(<span class="number">15deg</span>) </span><br><span class="line">  <span class="built_in">skew</span>(<span class="number">10deg</span>, <span class="number">5deg</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 3D 常用写法 */</span></span><br><span class="line"><span class="attribute">transform</span>: </span><br><span class="line">  <span class="built_in">perspective</span>(<span class="number">800px</span>) </span><br><span class="line">  <span class="built_in">translate3d</span>(<span class="number">100px</span>, <span class="number">50px</span>, <span class="number">60px</span>) </span><br><span class="line">  <span class="built_in">rotateX</span>(<span class="number">30deg</span>) </span><br><span class="line">  <span class="built_in">rotateY</span>(<span class="number">45deg</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-transform-常用场景推荐"><a href="#2-2-transform-常用场景推荐" class="headerlink" title="2.2 transform 常用场景推荐"></a>2.2 transform 常用场景推荐</h3><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>推荐写法</th>
+<th>性能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>平移</td>
+<td>translate3d(x, y, 0)</td>
+<td>★★★★★</td>
+<td>开启 GPU 加速首选</td>
+</tr>
+<tr>
+<td>缩放</td>
+<td>scale(1.2) 或 scale3d(1.2, 1.2, 1)</td>
+<td>★★★★★</td>
+<td>非常平滑</td>
+</tr>
+<tr>
+<td>旋转</td>
+<td>rotate(180deg) &#x2F; rotateZ(90deg)</td>
+<td>★★★★★</td>
+<td>平面旋转</td>
+</tr>
+<tr>
+<td>3D 翻转卡片</td>
+<td>rotateY(180deg) perspective(1000px)</td>
+<td>★★★★☆</td>
+<td>经典 3D 翻牌效果</td>
+</tr>
+<tr>
+<td>轻微悬浮+放大</td>
+<td>translateY(-8px) scale(1.05)</td>
+<td>★★★★★</td>
+<td>按钮&#x2F;卡片 hover 神器</td>
+</tr>
+<tr>
+<td>弹跳感入场</td>
+<td>translateY(20px) → translateY(0) + scale</td>
+<td>★★★★☆</td>
+<td>配合 keyframes 更明显</td>
+</tr>
+</tbody></table>
+<h2 id="三、-keyframes-关键帧动画（复杂动画首选）"><a href="#三、-keyframes-关键帧动画（复杂动画首选）" class="headerlink" title="三、@keyframes 关键帧动画（复杂动画首选）"></a>三、@keyframes 关键帧动画（复杂动画首选）</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 基本结构 */</span></span><br><span class="line"><span class="keyword">@keyframes</span> slideUpFade &#123;</span><br><span class="line">  <span class="selector-tag">from</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(<span class="number">60px</span>);</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">to</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 更细致的控制 */</span></span><br><span class="line"><span class="keyword">@keyframes</span> bounce &#123;</span><br><span class="line">  <span class="number">0%</span>, <span class="number">20%</span>, <span class="number">50%</span>, <span class="number">80%</span>, <span class="number">100%</span>   &#123; <span class="attribute">transform</span>: <span class="built_in">translateY</span>(<span class="number">0</span>); &#125;</span><br><span class="line">  <span class="number">40%</span>                       &#123; <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">30px</span>); &#125;</span><br><span class="line">  <span class="number">60%</span>                       &#123; <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">15px</span>); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 使用方式 */</span></span><br><span class="line"><span class="selector-class">.element</span> &#123;</span><br><span class="line">  <span class="attribute">animation</span>: bounce <span class="number">1.2s</span> ease-out infinite both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-animation-属性完整速查"><a href="#3-1-animation-属性完整速查" class="headerlink" title="3.1 animation 属性完整速查"></a>3.1 animation 属性完整速查</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">animation</span>: </span><br><span class="line">  name               <span class="comment">/* 动画名称，必填 */</span></span><br><span class="line">  duration           <span class="comment">/* 时长 */</span></span><br><span class="line">  timing-function    <span class="comment">/* 缓动 */</span></span><br><span class="line">  delay              <span class="comment">/* 延迟 */</span></span><br><span class="line">  iteration-count    <span class="comment">/* 次数：infinite | 数字 */</span></span><br><span class="line">  direction          <span class="comment">/* normal | reverse | alternate | alternate-reverse */</span></span><br><span class="line">  fill-mode          <span class="comment">/* none | forwards | backwards | both */</span></span><br><span class="line">  play-state;        <span class="comment">/* running | paused */</span></span><br></pre></td></tr></table></figure>
+
+<p>常用组合</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">animation</span>: fadeInUp <span class="number">0.8s</span> ease-out both;</span><br><span class="line"><span class="attribute">animation</span>: heartBeat <span class="number">1.2s</span> ease-in-out infinite;</span><br><span class="line"><span class="attribute">animation</span>: loading <span class="number">2s</span> linear infinite;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、性能优化核心要点（面试-项目必背）"><a href="#四、性能优化核心要点（面试-项目必背）" class="headerlink" title="四、性能优化核心要点（面试&#x2F;项目必背）"></a>四、性能优化核心要点（面试&#x2F;项目必背）</h2><table>
+<thead>
+<tr>
+<th>属性组合</th>
+<th>是否触发重排</th>
+<th>是否触发重绘</th>
+<th>是否触发合成</th>
+<th>性能评价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transform + opacity</td>
+<td>×</td>
+<td>×</td>
+<td>✓✓✓</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>transform (translate3d)</td>
+<td>×</td>
+<td>×</td>
+<td>✓✓✓</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td>×</td>
+<td>✓</td>
+<td>✓✓</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>left&#x2F;top&#x2F;width&#x2F;height</td>
+<td>✓✓✓</td>
+<td>✓</td>
+<td>×</td>
+<td>★☆☆☆☆</td>
+</tr>
+<tr>
+<td>margin&#x2F;padding</td>
+<td>✓✓✓</td>
+<td>✓</td>
+<td>×</td>
+<td>★☆☆☆☆</td>
+</tr>
+<tr>
+<td>filter&#x2F;blur</td>
+<td>×</td>
+<td>✓✓</td>
+<td>✓✓</td>
+<td>★★★☆☆</td>
+</tr>
+</tbody></table>
+<h3 id="4-1-强制开启-GPU-加速的经典-hack（现代项目仍常用）"><a href="#4-1-强制开启-GPU-加速的经典-hack（现代项目仍常用）" class="headerlink" title="4.1 强制开启 GPU 加速的经典 hack（现代项目仍常用）"></a>4.1 强制开启 GPU 加速的经典 hack（现代项目仍常用）</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">will-change</span>: transform;</span><br><span class="line"><span class="attribute">transform</span>: <span class="built_in">translateZ</span>(<span class="number">0</span>);           <span class="comment">/* 或 translate3d(0,0,0) */</span></span><br><span class="line"><span class="attribute">backface-visibility</span>: hidden;        <span class="comment">/* 有时配合使用，避免闪烁 */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="五、transition-vs-animation-对比决策表"><a href="#五、transition-vs-animation-对比决策表" class="headerlink" title="五、transition vs animation 对比决策表"></a>五、transition vs animation 对比决策表</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>transition</th>
+<th>@keyframes &#x2F; animation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>适用场景</td>
+<td>简单的状态切换（hover&#x2F;focus&#x2F;active）</td>
+<td>复杂序列、入场出场、循环动画</td>
+</tr>
+<tr>
+<td>控制精度</td>
+<td>只有首尾两帧</td>
+<td>可精确控制多个关键帧</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>极高（浏览器优化更好）</td>
+<td>高（但写法复杂时容易掉帧）</td>
+</tr>
+<tr>
+<td>书写复杂度</td>
+<td>非常简单</td>
+<td>较复杂</td>
+</tr>
+<tr>
+<td>支持循环</td>
+<td>不支持</td>
+<td>支持（infinite + alternate）</td>
+</tr>
+<tr>
+<td>2025-2026 推荐使用比例</td>
+<td>约 70~80%</td>
+<td>约 20~30%（需要叙事感&#x2F;复杂动效时）</td>
+</tr>
+</tbody></table>
 
       </div>
       
@@ -271,6 +481,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E5%8A%A8%E7%94%BB%E4%B8%8E%E8%BF%87%E6%B8%A1%EF%BC%88%E5%AE%8C%E6%95%B4%E7%89%88-%C2%B7-2025-2026-%E4%B8%BB%E6%B5%81%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E7%9F%A5%E8%AF%86%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 动画与过渡（完整版 · 2025-2026 主流开发实用知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB-transition"><span class="nav-number">1.1.</span> <span class="nav-text">一、过渡动画 transition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 缓动函数速查表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81transform-%E5%8F%98%E6%8D%A2%EF%BC%88%E5%8A%A8%E7%94%BB%E6%80%A7%E8%83%BD%E4%B9%8B%E7%8E%8B%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">二、transform 变换（动画性能之王）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B8%B8%E7%94%A8-transform-%E5%87%BD%E6%95%B0%E5%85%A8%E5%AE%B6%E6%A1%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 常用 transform 函数全家桶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-transform-%E5%B8%B8%E7%94%A8%E5%9C%BA%E6%99%AF%E6%8E%A8%E8%8D%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 transform 常用场景推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-keyframes-%E5%85%B3%E9%94%AE%E5%B8%A7%E5%8A%A8%E7%94%BB%EF%BC%88%E5%A4%8D%E6%9D%82%E5%8A%A8%E7%94%BB%E9%A6%96%E9%80%89%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">三、@keyframes 关键帧动画（复杂动画首选）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-animation-%E5%B1%9E%E6%80%A7%E5%AE%8C%E6%95%B4%E9%80%9F%E6%9F%A5"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 animation 属性完整速查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9%EF%BC%88%E9%9D%A2%E8%AF%95-%E9%A1%B9%E7%9B%AE%E5%BF%85%E8%83%8C%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">四、性能优化核心要点（面试&#x2F;项目必背）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%BC%BA%E5%88%B6%E5%BC%80%E5%90%AF-GPU-%E5%8A%A0%E9%80%9F%E7%9A%84%E7%BB%8F%E5%85%B8-hack%EF%BC%88%E7%8E%B0%E4%BB%A3%E9%A1%B9%E7%9B%AE%E4%BB%8D%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 强制开启 GPU 加速的经典 hack（现代项目仍常用）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81transition-vs-animation-%E5%AF%B9%E6%AF%94%E5%86%B3%E7%AD%96%E8%A1%A8"><span class="nav-number">1.5.</span> <span class="nav-text">五、transition vs animation 对比决策表</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

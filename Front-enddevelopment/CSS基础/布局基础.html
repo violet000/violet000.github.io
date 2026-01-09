@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="布局基础正常文档流与 display 类型（block&#x2F;inline&#x2F;inline-block&#x2F;none）浮动布局与清除定位：static&#x2F;relative&#x2F;absolute&#x2F;fixed&#x2F;sticky，包含块与层叠上下文（z-index">
+  <meta name="description" content="CSS 布局基础（2025-2026 面试 &amp; 日常开发必备）1. 正常文档流（Normal Flow）CSS 默认的布局方式称为正常流（Normal Flow &#x2F; 常规流），分为两种：  块级格式化上下文（Block Formatting Context） → 垂直排列 行内格式化上下文（Inline Formatting Context） → 水平排列  1.1 displa">
 <meta property="og:type" content="website">
 <meta property="og:title" content="布局基础">
 <meta property="og:url" content="https://violet000.top/Front-enddevelopment/CSS%E5%9F%BA%E7%A1%80/%E5%B8%83%E5%B1%80%E5%9F%BA%E7%A1%80.html">
 <meta property="og:site_name" content="Klein&#39;s-blue的博客">
-<meta property="og:description" content="布局基础正常文档流与 display 类型（block&#x2F;inline&#x2F;inline-block&#x2F;none）浮动布局与清除定位：static&#x2F;relative&#x2F;absolute&#x2F;fixed&#x2F;sticky，包含块与层叠上下文（z-index">
+<meta property="og:description" content="CSS 布局基础（2025-2026 面试 &amp; 日常开发必备）1. 正常文档流（Normal Flow）CSS 默认的布局方式称为正常流（Normal Flow &#x2F; 常规流），分为两种：  块级格式化上下文（Block Formatting Context） → 垂直排列 行内格式化上下文（Inline Formatting Context） → 水平排列  1.1 displa">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-07T08:43:26.317Z">
+<meta property="article:modified_time" content="2026-01-09T02:08:20.714Z">
 <meta property="article:author" content="Klein&#39;s-blue">
 <meta property="article:tag" content="博客,技术,编程,学习">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,288 @@
       
       
       <div class="post-body">
-            <p>布局基础<br>正常文档流与 display 类型（block&#x2F;inline&#x2F;inline-block&#x2F;none）<br>浮动布局与清除<br>定位：static&#x2F;relative&#x2F;absolute&#x2F;fixed&#x2F;sticky，包含块与层叠上下文（z-index</p>
+            <h1 id="CSS-布局基础（2025-2026-面试-日常开发必备）"><a href="#CSS-布局基础（2025-2026-面试-日常开发必备）" class="headerlink" title="CSS 布局基础（2025-2026 面试 &amp; 日常开发必备）"></a>CSS 布局基础（2025-2026 面试 &amp; 日常开发必备）</h1><h2 id="1-正常文档流（Normal-Flow）"><a href="#1-正常文档流（Normal-Flow）" class="headerlink" title="1. 正常文档流（Normal Flow）"></a>1. 正常文档流（Normal Flow）</h2><p>CSS 默认的布局方式称为<strong>正常流</strong>（Normal Flow &#x2F; 常规流），分为两种：</p>
+<ul>
+<li><strong>块级格式化上下文（Block Formatting Context）</strong> → 垂直排列</li>
+<li><strong>行内格式化上下文（Inline Formatting Context）</strong> → 水平排列</li>
+</ul>
+<h3 id="1-1-display-的主要类型对比（2025-2026-仍最常用）"><a href="#1-1-display-的主要类型对比（2025-2026-仍最常用）" class="headerlink" title="1.1 display 的主要类型对比（2025-2026 仍最常用）"></a>1.1 display 的主要类型对比（2025-2026 仍最常用）</h3><table>
+<thead>
+<tr>
+<th>display 值</th>
+<th>独占一行？</th>
+<th>可设置宽高？</th>
+<th>水平排列？</th>
+<th>margin 上下生效？</th>
+<th>典型代表元素</th>
+<th>2025-2026 使用频率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>block</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td>div, p, h1~h6, section…</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>inline</td>
+<td>否</td>
+<td>否(宽高无效)</td>
+<td>是</td>
+<td>左右生效，上下无效</td>
+<td>span, a, strong, em…</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>inline-block</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+<td>img(默认)、button</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>none</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>隐藏元素</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>flex</td>
+<td>是(容器)</td>
+<td>是</td>
+<td>子元素水平&#x2F;垂直</td>
+<td>—</td>
+<td>现代布局首选</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>grid</td>
+<td>是(容器)</td>
+<td>是</td>
+<td>网格排列</td>
+<td>—</td>
+<td>复杂二维布局</td>
+<td>★★★★☆</td>
+</tr>
+<tr>
+<td>inline-flex</td>
+<td>否</td>
+<td>是(内容尺寸)</td>
+<td>是</td>
+<td>是</td>
+<td>少用，行内弹性容器</td>
+<td>★★☆☆☆</td>
+</tr>
+</tbody></table>
+<p><strong>现代结论（2025-2026）</strong>：</p>
+<ul>
+<li>布局 → 优先 flex &#x2F; grid</li>
+<li>文字&#x2F;按钮&#x2F;图标等小元素 → inline-block &#x2F; inline-flex</li>
+<li>隐藏元素 → display: none（彻底移除） vs visibility: hidden（占位）</li>
+</ul>
+<h2 id="2-浮动布局（float）——-历史产物，但理解原理仍然重要"><a href="#2-浮动布局（float）——-历史产物，但理解原理仍然重要" class="headerlink" title="2. 浮动布局（float）—— 历史产物，但理解原理仍然重要"></a>2. 浮动布局（float）—— 历史产物，但理解原理仍然重要</h2><h3 id="2-1-浮动核心特性（面试常考）"><a href="#2-1-浮动核心特性（面试常考）" class="headerlink" title="2.1 浮动核心特性（面试常考）"></a>2.1 浮动核心特性（面试常考）</h3><ul>
+<li>元素浮动后<strong>脱离正常文档流</strong></li>
+<li><strong>不占空间</strong>（父元素高度塌陷）</li>
+<li><strong>向左&#x2F;右移动</strong>直到碰到容器边界或其它浮动元素</li>
+<li><strong>只影响后面元素</strong>（前面元素不受影响）</li>
+<li>行内元素浮动后<strong>自动变成类似 inline-block</strong>（可设置宽高）</li>
+</ul>
+<h3 id="2-2-高度塌陷-清除浮动（三种经典方案）"><a href="#2-2-高度塌陷-清除浮动（三种经典方案）" class="headerlink" title="2.2 高度塌陷 &amp; 清除浮动（三种经典方案）"></a>2.2 高度塌陷 &amp; 清除浮动（三种经典方案）</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 方案1：添加空元素 + clear（最古老，基本淘汰） */</span></span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 方案2：BFC触发（最常用，现代项目推荐） */</span></span><br><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;          <span class="comment">/* 或 auto / scroll */</span></span><br><span class="line">  <span class="comment">/* 或者 */</span></span><br><span class="line">  <span class="attribute">display</span>: flow-root;        <span class="comment">/* 2025+ 推荐，语义最清晰 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 方案3：最现代（推荐） */</span></span><br><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;        <span class="comment">/* 专门用来创建 BFC，清晰表达意图 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-定位（position）——-布局中最容易出问题的部分"><a href="#3-定位（position）——-布局中最容易出问题的部分" class="headerlink" title="3. 定位（position）—— 布局中最容易出问题的部分"></a>3. 定位（position）—— 布局中最容易出问题的部分</h2><h3 id="3-1-五种定位方式对比表"><a href="#3-1-五种定位方式对比表" class="headerlink" title="3.1 五种定位方式对比表"></a>3.1 五种定位方式对比表</h3><table>
+<thead>
+<tr>
+<th>position 值</th>
+<th>脱离文档流？</th>
+<th>参考对象</th>
+<th>left&#x2F;top&#x2F;right&#x2F;bottom 生效？</th>
+<th>z-index 默认</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>static</td>
+<td>否</td>
+<td>正常文档流</td>
+<td>无效</td>
+<td>自动</td>
+<td>默认，几乎所有元素</td>
+</tr>
+<tr>
+<td>relative</td>
+<td>否</td>
+<td>自身原来位置</td>
+<td>生效（相对偏移）</td>
+<td>自动</td>
+<td>小范围微调、z轴覆盖、配合子absolute</td>
+</tr>
+<tr>
+<td>absolute</td>
+<td>是</td>
+<td>最近的定位祖先（非static）</td>
+<td>生效</td>
+<td>自动</td>
+<td>模态框、气泡、绝对定位元素</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>是</td>
+<td>视口（viewport）</td>
+<td>生效</td>
+<td>自动</td>
+<td>固定导航、回到顶部、悬浮广告</td>
+</tr>
+<tr>
+<td>sticky</td>
+<td>否（粘性）</td>
+<td>最近滚动容器 + 视口</td>
+<td>生效（粘性偏移）</td>
+<td>自动</td>
+<td>粘性导航、分类标题、表格表头</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-包含块（Containing-Block）规则"><a href="#3-2-包含块（Containing-Block）规则" class="headerlink" title="3.2 包含块（Containing Block）规则"></a>3.2 包含块（Containing Block）规则</h3><table>
+<thead>
+<tr>
+<th>定位类型</th>
+<th>包含块判定规则（从近到远）</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>static</td>
+<td>最近块级祖先</td>
+<td>—</td>
+</tr>
+<tr>
+<td>relative</td>
+<td>自身（原来位置）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>absolute</td>
+<td>最近 position ≠ static 的祖先<br>→ 否则是初始包含块（html）</td>
+<td>最常出错的地方</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>视口（viewport）</td>
+<td>transform 会破坏</td>
+</tr>
+<tr>
+<td>sticky</td>
+<td>最近有滚动机制的祖先 + 视口</td>
+<td>必须在滚动容器内才生效</td>
+</tr>
+</tbody></table>
+<p>现代常见坑:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 这个 transform 会让子元素的 absolute 参考变成这个 .wrapper 而不是 body */</span></span><br><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translateZ</span>(<span class="number">0</span>);  <span class="comment">/* 或 scale(1) 等 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-层叠上下文（Stacking-Context）与-z-index"><a href="#3-3-层叠上下文（Stacking-Context）与-z-index" class="headerlink" title="3.3 层叠上下文（Stacking Context）与 z-index"></a>3.3 层叠上下文（Stacking Context）与 z-index</h3><h4 id="创建层叠上下文的常见触发条件（按重要性排序）"><a href="#创建层叠上下文的常见触发条件（按重要性排序）" class="headerlink" title="创建层叠上下文的常见触发条件（按重要性排序）"></a>创建层叠上下文的常见触发条件（按重要性排序）</h4><table>
+<thead>
+<tr>
+<th>触发条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>根元素（html）</td>
+<td>默认创建层叠上下文</td>
+</tr>
+<tr>
+<td>position: absolute&#x2F;fixed + z-index ≠ auto</td>
+<td>定位元素配合 z-index</td>
+</tr>
+<tr>
+<td>opacity &lt; 1</td>
+<td>透明度小于1</td>
+</tr>
+<tr>
+<td>transform ≠ none</td>
+<td>任何 transform 变换</td>
+</tr>
+<tr>
+<td>filter ≠ none</td>
+<td>滤镜效果</td>
+</tr>
+<tr>
+<td>mix-blend-mode ≠ normal</td>
+<td>混合模式</td>
+</tr>
+<tr>
+<td>perspective ≠ none</td>
+<td>3D 透视</td>
+</tr>
+<tr>
+<td>contain: paint &#x2F; layout &#x2F; strict &#x2F; content &#x2F; size</td>
+<td>容器隔离属性</td>
+</tr>
+<tr>
+<td>will-change: opacity&#x2F;transform&#x2F;filter 等</td>
+<td>性能优化属性</td>
+</tr>
+</tbody></table>
+<h4 id="z-index-生效规则"><a href="#z-index-生效规则" class="headerlink" title="z-index 生效规则"></a>z-index 生效规则</h4><ul>
+<li>只在同一个层叠上下文内比较</li>
+<li>不同层叠上下文之间，后创建的上下文整体覆盖先创建的（除非显式 z-index 负值）</li>
+</ul>
+<h4 id="记忆口诀"><a href="#记忆口诀" class="headerlink" title="记忆口诀"></a>记忆口诀</h4><ul>
+<li>z-index 越大越在上</li>
+<li>但只在同一个”家族”（层叠上下文）里比大小</li>
+<li>transform&#x2F;opacity 会创建新家族</li>
+</ul>
+<h2 id="4-布局选择快速决策表"><a href="#4-布局选择快速决策表" class="headerlink" title="4. 布局选择快速决策表"></a>4. 布局选择快速决策表</h2><table>
+<thead>
+<tr>
+<th>需求场景</th>
+<th>推荐方案</th>
+<th>备选方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>垂直+水平居中（最常见）</td>
+<td>flex &#x2F; grid</td>
+<td>absolute + transform</td>
+</tr>
+<tr>
+<td>固定在页面某处</td>
+<td>position: fixed</td>
+<td>sticky（视情况）</td>
+</tr>
+<tr>
+<td>小范围偏移调整</td>
+<td>position: relative</td>
+<td>transform: translate</td>
+</tr>
+<tr>
+<td>模态框&#x2F;弹窗&#x2F;气泡</td>
+<td>position: absolute + fixed</td>
+<td>—</td>
+</tr>
+<tr>
+<td>导航吸顶&#x2F;表格表头粘性</td>
+<td>position: sticky</td>
+<td>—</td>
+</tr>
+<tr>
+<td>经典两栏&#x2F;三栏布局</td>
+<td>flex &#x2F; grid</td>
+<td>float（基本淘汰）</td>
+</tr>
+<tr>
+<td>需要 z轴覆盖关系</td>
+<td>合理创建层叠上下文 + z-index</td>
+<td>—</td>
+</tr>
+</tbody></table>
 
       </div>
       
@@ -271,6 +552,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E5%B8%83%E5%B1%80%E5%9F%BA%E7%A1%80%EF%BC%882025-2026-%E9%9D%A2%E8%AF%95-%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E5%BF%85%E5%A4%87%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">CSS 布局基础（2025-2026 面试 &amp; 日常开发必备）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%AD%A3%E5%B8%B8%E6%96%87%E6%A1%A3%E6%B5%81%EF%BC%88Normal-Flow%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 正常文档流（Normal Flow）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-display-%E7%9A%84%E4%B8%BB%E8%A6%81%E7%B1%BB%E5%9E%8B%E5%AF%B9%E6%AF%94%EF%BC%882025-2026-%E4%BB%8D%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 display 的主要类型对比（2025-2026 仍最常用）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88float%EF%BC%89%E2%80%94%E2%80%94-%E5%8E%86%E5%8F%B2%E4%BA%A7%E7%89%A9%EF%BC%8C%E4%BD%86%E7%90%86%E8%A7%A3%E5%8E%9F%E7%90%86%E4%BB%8D%E7%84%B6%E9%87%8D%E8%A6%81"><span class="nav-number">1.2.</span> <span class="nav-text">2. 浮动布局（float）—— 历史产物，但理解原理仍然重要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%B5%AE%E5%8A%A8%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7%EF%BC%88%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%80%83%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 浮动核心特性（面试常考）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7-%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%EF%BC%88%E4%B8%89%E7%A7%8D%E7%BB%8F%E5%85%B8%E6%96%B9%E6%A1%88%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 高度塌陷 &amp; 清除浮动（三种经典方案）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%9A%E4%BD%8D%EF%BC%88position%EF%BC%89%E2%80%94%E2%80%94-%E5%B8%83%E5%B1%80%E4%B8%AD%E6%9C%80%E5%AE%B9%E6%98%93%E5%87%BA%E9%97%AE%E9%A2%98%E7%9A%84%E9%83%A8%E5%88%86"><span class="nav-number">1.3.</span> <span class="nav-text">3. 定位（position）—— 布局中最容易出问题的部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BA%94%E7%A7%8D%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 五种定位方式对比表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8C%85%E5%90%AB%E5%9D%97%EF%BC%88Containing-Block%EF%BC%89%E8%A7%84%E5%88%99"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 包含块（Containing Block）规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%B1%82%E5%8F%A0%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88Stacking-Context%EF%BC%89%E4%B8%8E-z-index"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 层叠上下文（Stacking Context）与 z-index</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B1%82%E5%8F%A0%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E5%B8%B8%E8%A7%81%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6%EF%BC%88%E6%8C%89%E9%87%8D%E8%A6%81%E6%80%A7%E6%8E%92%E5%BA%8F%EF%BC%89"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">创建层叠上下文的常见触发条件（按重要性排序）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#z-index-%E7%94%9F%E6%95%88%E8%A7%84%E5%88%99"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">z-index 生效规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E5%8F%A3%E8%AF%80"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">记忆口诀</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B8%83%E5%B1%80%E9%80%89%E6%8B%A9%E5%BF%AB%E9%80%9F%E5%86%B3%E7%AD%96%E8%A1%A8"><span class="nav-number">1.4.</span> <span class="nav-text">4. 布局选择快速决策表</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
