@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="（注释、 标识符和关键字、 数据类型讲解、 数据类型扩展、 类型转换、 变量常量作用域、 基本运算符、 自增自减、 逻辑运算符、 位运算符、 三元运算符、 包机制）">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Java基础">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="（注释、 标识符和关键字、 数据类型讲解、 数据类型扩展、 类型转换、 变量常量作用域、 基本运算符、 自增自减、 逻辑运算符、 位运算符、 三元运算符、 包机制）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-13T08:46:36.020Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java基础 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Java基础
+</h1>
+
+<div class="post-meta">
+    <div class="post-description">（注释、 标识符和关键字、 数据类型讲解、 数据类型扩展、 类型转换、 变量常量作用域、 基本运算符、 自增自减、 逻辑运算符、 位运算符、 三元运算符、 包机制）</div>
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>JAVA基础语法</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><ul>
+<li>注释是代码中用于解释说明的部分，不会影响程序的执行。Java 支持三种类型的注释：</li>
+</ul>
+<h3 id="单行注释"><a href="#单行注释" class="headerlink" title="单行注释"></a>单行注释</h3><ul>
+<li>使用<code>//</code>开头，直到行尾结束</li>
+<li>适用于简短说明</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是一个单行注释</span></span><br><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>; <span class="comment">// 变量 x 的初始化</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h3><ul>
+<li>使用<code>/*</code>开头， <code>*/</code>结束</li>
+<li>适用于多行说明或临时屏蔽代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">这是一个多行注释</span></span><br><span class="line"><span class="comment">可以跨越多行</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文档注释"><a href="#文档注释" class="headerlink" title="文档注释"></a>文档注释</h3><ul>
+<li>使用<code>/**</code>开头， <code>*/</code>结束</li>
+<li>用于生成API文档，支持标签如<code>@param</code>、 <code>@return</code>等</li>
+<li>常用于类、方法、字段的描述</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这是一个加法方法</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> a 第一个加数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> b 第二个加数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 两个数的和</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="标识符和关键字"><a href="#标识符和关键字" class="headerlink" title="标识符和关键字"></a>标识符和关键字</h2><h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>标识符是用户自定义的名称，用于命名变量、类、方法等。规则：</p>
+<ul>
+<li>由字母、数字、下划线<code>_</code>或者美元符号<code>$</code>组成</li>
+<li>第一个字符不能是数字</li>
+<li>区分大小写</li>
+<li>不能使用Java关键字</li>
+<li>长度无限制，但是建议简短有意义</li>
+<li>命名规范：驼峰式(camelCase)用于变量&#x2F;方法；帕斯卡式(PascalCase)用于类。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">有效：</span><br><span class="line">myVariable、 userName、 MAX_VALUE、 _$test</span><br><span class="line"></span><br><span class="line">无效：</span><br><span class="line">2abc(数字开头)、 my-<span class="keyword">var</span>(连字符)、 class(关键字)</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><p>关键字是Java语言预定义的保留字，有特殊含义，不能用作标识符。常见关键字包括：</p>
+<ul>
+<li>数据类型： <code>byte、short、int、long、float、double、char、boolean</code></li>
+<li>控制流：<code>if、else、switch、case、for、while、do、break、continue、return</code></li>
+<li>类&#x2F;接口：<code>class、interface、extends、implements、abstract、final、static、private、protected </code></li>
+<li>异常：<code>try、catch、finally、throw、throws</code></li>
+<li>其他：<code>void、new、this、super、instanceof、synchronized、volatile、transient、enum、assert、strictfp </code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">int</span> <span class="operator">=</span> <span class="number">10</span>; <span class="comment">// 错误：int是关键字，不能用作变量名</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Java是强类型语言，所有变量必须先声明类型。数据类型分为两大类：基本数据类型和引用类型。</p>
+<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><ul>
+<li>直接存储值，效率高</li>
+<li>8种基本数据类型</li>
+</ul>
+<p>位是最小的数据存储单位(bit) : 11001100是一个八位二进制数<br>字节(byte): 是计算机中数据处理的基本单位，一般使用B来表示<br>1B(byte, 字节) &#x3D; 8bit(位)</p>
+<p>32位的电脑和64位的电脑：32位的电脑只能使用32位的CPU，64位的电脑既能使用64位的也能使用32位的，区别在于二者之间的寻址能力，32位只能使用4GB内存，64位最大能使用128GB的内存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">byte    整数(有符号)    1字节   0       -128 ~ 127</span><br><span class="line">short   整数(有符号)    2字节   0       -32768 ~ 32767</span><br><span class="line">int     整数(有符号)    4字节   0       -2^31 ~ 2^31-1</span><br><span class="line">long    整数(有符号)    8字节   0L      -2^63 ~ 2^63-1</span><br><span class="line">float   单精度浮点数    4字节   0.0f    约±3.4E38</span><br><span class="line">double  双精度浮点数    8字节   0.0d    约±1.7E308</span><br><span class="line">char    单个Unicode字符 2字节   &#x27;&#x27;      &#x27;&#x27;~&#x27;\uffff&#x27;</span><br><span class="line">boolean 真/假           1位     false   true/false</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">25</span>; <span class="comment">// int 类型</span></span><br><span class="line"><span class="type">double</span> <span class="variable">salary</span> <span class="operator">=</span> <span class="number">5000.5</span>; <span class="comment">// double类型</span></span><br><span class="line"><span class="type">char</span> <span class="variable">gender</span> <span class="operator">=</span> <span class="string">&#x27;M&#x27;</span>; <span class="comment">// char类型，用单引号</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">isStudent</span> <span class="operator">=</span> <span class="literal">true</span>; </span><br></pre></td></tr></table></figure>
+
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><ul>
+<li>存储对象的引用(地址), 如类、接口、数组、String等</li>
+<li>默认值：null</li>
+<li>示例：<code>String name = &quot;abc&quot;;</code>（String是引用类型，但常像基本类型使用）<br>注意：基本类型在栈中存储，引用类型在堆中。</li>
+</ul>
+<h2 id="数据类型拓展"><a href="#数据类型拓展" class="headerlink" title="数据类型拓展"></a>数据类型拓展</h2><h3 id="整数拓展"><a href="#整数拓展" class="headerlink" title="整数拓展"></a>整数拓展</h3><ul>
+<li>支持二进制(Ob前缀)、八进制(0前缀)、十六进制(0x前缀)<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">binary</span> <span class="operator">=</span> <span class="number">0b1010</span>; <span class="comment">// 二进制 10</span></span><br><span class="line"><span class="type">int</span> <span class="variable">octal</span> <span class="operator">=</span> <span class="number">012</span>; <span class="comment">// 八进制 10</span></span><br><span class="line"><span class="type">int</span> <span class="variable">hex</span> <span class="operator">=</span> <span class="number">0xA</span>; <span class="comment">// 十六进制 10</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="浮点数拓展"><a href="#浮点数拓展" class="headerlink" title="浮点数拓展"></a>浮点数拓展</h3><ul>
+<li>float用f&#x2F;F后缀，double用d&#x2F;D</li>
+<li>浮点数有精度问题，避免用于精确计算<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="variable">f</span> <span class="operator">=</span> <span class="number">3.14f</span>; </span><br><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line">System.out.println(<span class="number">0.1</span> + <span class="number">0.2</span>); <span class="comment">// 精度丢失</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="字符拓展"><a href="#字符拓展" class="headerlink" title="字符拓展"></a>字符拓展</h3><ul>
+<li>char是Unicode, 支持转义序列(如 \n、 \t)</li>
+<li>ASCII值：A&#x3D;65，a&#x3D;97<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="variable">c1</span> <span class="operator">=</span> <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"><span class="type">char</span> <span class="variable">c2</span> <span class="operator">=</span> <span class="string">&#x27;\u0041&#x27;</span>; <span class="comment">// Unicode 等价于 &#x27;A&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="布尔拓展"><a href="#布尔拓展" class="headerlink" title="布尔拓展"></a>布尔拓展</h3><ul>
+<li>仅true&#x2F;false, 不能转换为整数</li>
+<li>用于条件判断</li>
+</ul>
+<h3 id="包装类"><a href="#包装类" class="headerlink" title="包装类"></a>包装类</h3><ul>
+<li>基本类型的对象形式：Integer、Double等，用于集合或需要对象时</li>
+<li>自动装箱&#x2F;拆箱：Integer i &#x3D; 10;(自动装箱)</li>
+</ul>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>类型转换用于不同类型间赋值或运算。分为自动转换(隐式)和强制转换(显示)。</p>
+<h3 id="自动类型转换"><a href="#自动类型转换" class="headerlink" title="自动类型转换"></a>自动类型转换</h3><ul>
+<li>低精度-高精度：byte -&gt; short -&gt; int -&gt; long -&gt; float -&gt; double</li>
+<li>char可以转int<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> i; <span class="comment">// int自动转为double</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h3><ul>
+<li>高精度 -&gt; 低精度，可能丢失精度或溢出</li>
+<li>语法：(目标类型)值<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> (<span class="type">int</span>) d; <span class="comment">// i等于3，丢失小数</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>boolean 不能转换</li>
+<li>对象类型需instanceof检查</li>
+<li>运算中：低类型自动提升到高类型(如 byte + int -&gt; int)</li>
+</ul>
+<h2 id="变量、常量和作用域"><a href="#变量、常量和作用域" class="headerlink" title="变量、常量和作用域"></a>变量、常量和作用域</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ul>
+<li>声明：<code>类型 变量名 = 值</code></li>
+<li>分类：<ol>
+<li>局部变量：方法内声明，必须初始化</li>
+<li>实例变量：类中声明，默认值（如 int是0）</li>
+<li>类变量(static)：类中static声明，共享于所有实例，默认值</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="type">int</span> instanceVar; <span class="comment">// 实例变量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> classVar; <span class="comment">// 类变量</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">localVar</span> <span class="operator">=</span> <span class="number">10</span>; <span class="comment">// 局部变量</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><ul>
+<li>使用<code>final</code>修饰，不可修改</li>
+<li>命名：全大写 + 下划线 (如 MAX_VALUE)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">double</span> <span class="variable">PI</span> <span class="operator">=</span> <span class="number">3.14159</span>;</span><br><span class="line">PI = <span class="number">3.14</span>; <span class="comment">// 错误：不能修改</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
+<li>块级作用域：<span style="color: red">{}内有效果</span></li>
+<li>方法作用域：方法内</li>
+<li>类作用域：类内<br>局部变量只能在方法内可见，实例变量在类内可见</li>
+</ul>
+<ul>
+<li>注意：变量名不能重复在同一作用域</li>
+</ul>
+<h2 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h2><p>运算符用于操作变量&#x2F;常量。优先级：() &gt; 一元 &gt; 算术 &gt; 移位 &gt; 关系 &gt; 位 &gt; 逻辑 &gt; 赋值</p>
+<h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><ul>
+<li><code>+</code>加法、<code>-</code>减法、<code>*</code>乘法、<code>/</code>整除、<code>%</code>取余</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>, b = <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> a + b; <span class="comment">// 13</span></span><br><span class="line"><span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> a % b; <span class="comment">// 取余数 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h3><ul>
+<li><code>==</code> 等于、<code>!=</code> 不等于、<code>&gt;</code> 大于 、<code>&lt;</code> 小于、<code>&gt;=</code>大于等于、<code>&lt;=</code>小于等于</li>
+<li>返回boolean值</li>
+<li>示例：a &gt; b -&gt; true</li>
+</ul>
+<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><ul>
+<li><code>=</code>简单赋值、<code>+=</code>、<code>-=</code>、<code>*=</code>、<code>/=</code>、<code>%=</code>符合赋值</li>
+<li>示例：<code>a += 5;</code>等价于<code>a = a + 5;</code></li>
+</ul>
+<h2 id="自增自减"><a href="#自增自减" class="headerlink" title="自增自减"></a>自增自减</h2><ul>
+<li>++ 自增1、–自减1</li>
+<li>前缀(++a): 先增&#x2F;减，再使用。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> ++a;</span><br><span class="line"></span><br><span class="line">等价于</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">a = a + <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> a + <span class="number">1</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>后缀(a++): 先使用，再增&#x2F;减。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> a++;</span><br><span class="line"></span><br><span class="line">等价于</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> a + <span class="number">1</span>;</span><br><span class="line">a = a + <span class="number">1</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> ++x; <span class="comment">// y = 6, x = 6</span></span><br><span class="line"><span class="type">int</span> <span class="variable">z</span> <span class="operator">=</span> x++; <span class="comment">// z = 6, x = 7</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：仅适用于数值类型，常用于循环</li>
+</ul>
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>用于boolean值间的逻辑操作，返回boolean</p>
+<ul>
+<li><code>&amp;&amp;</code> 逻辑与 (短路： 左false则不执行右)</li>
+<li><code>||</code> 逻辑或 (短路： 左true则不执行右)</li>
+<li><code>!</code> 逻辑非，取反</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">a</span> <span class="operator">=</span> <span class="literal">true</span>, b = <span class="literal">false</span>;</span><br><span class="line"><span class="type">boolean</span> <span class="variable">and</span> <span class="operator">=</span> a &amp;&amp; b; <span class="comment">// false</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">or</span> <span class="operator">=</span> a || b; <span class="comment">// true</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">not</span> <span class="operator">=</span> !a; <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：短路特性可优化代码，避免空指针等错误。</p>
+</blockquote>
+<h2 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h2><p>按二进制位操作，效率高，常用于底层优化。</p>
+<ul>
+<li>&amp; 按位与、| 按位或、^ 按位异或、~ 按位取反</li>
+<li>&lt;&lt; 左移(乘2^n)、&gt;&gt;右移(除2^n，有符号)、&gt;&gt;&gt; 无符号右移<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">5</span>; <span class="comment">// 二进制 101</span></span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">3</span>; <span class="comment">// 二进制 011</span></span><br><span class="line"><span class="type">int</span> <span class="variable">and</span> <span class="operator">=</span> a &amp; b; <span class="comment">// 001 -&gt; 2^0 -&gt; 1</span></span><br><span class="line"><span class="type">int</span> <span class="variable">or</span> <span class="operator">=</span> a | b; <span class="comment">// 111 -&gt; 2^2 + 2^1 + 2^0 -&gt; 7</span></span><br><span class="line"><span class="type">int</span> <span class="variable">xor</span> <span class="operator">=</span> a ^ b; <span class="comment">// 110 -&gt; 2^2 + 2^1 -&gt; 6</span></span><br><span class="line"><span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> a &lt;&lt; <span class="number">1</span>; <span class="comment">// 101 &lt;&lt; 1 -&gt; 1010 -&gt; 2^3 + 2^1 -&gt; 10</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：~是反码，负数需注意补码表示</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h2><p>也称为条件运算符，语法：条件 ? 真值 : 假值</p>
+<ul>
+<li>简洁替代if-else<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> (a &gt; b) ? a : b; <span class="comment">// 如果 a &gt; b, 返回 a, 否则 b</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：真值和假值类型需一致或兼容。可嵌套，但是切勿过长使用</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="包机制"><a href="#包机制" class="headerlink" title="包机制"></a>包机制</h2><p>包(Package) 用于组织类，防止命名冲突，像文件目录。</p>
+<h3 id="声明包"><a href="#声明包" class="headerlink" title="声明包"></a>声明包</h3><ul>
+<li>第一行: package 包名</li>
+<li>包名：全小写 + 点分隔(如： com.example.utils)<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hello</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="导入包"><a href="#导入包" class="headerlink" title="导入包"></a>导入包</h3><ul>
+<li>使用import导入其他包的类<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.example.Hello; <span class="comment">// 导入单个类</span></span><br><span class="line"><span class="keyword">import</span> com.example.*; <span class="comment">// 导入包下所有的类(慎用， 容易引起冲突)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="包的注意事项"><a href="#包的注意事项" class="headerlink" title="包的注意事项"></a>包的注意事项</h3><ul>
+<li>类全限定名：包名.类名(如： java.lang.String)</li>
+<li>java.lang包自动导入(如： String、 System)</li>
+<li>多包项目：使用IDEA管理，编译时需 -d 指定输出目录</li>
+<li>访问控制：结合public&#x2F;private&#x2F;protected等修饰符<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">  com/</span><br><span class="line">    example/</span><br><span class="line">      Hello.java  <span class="comment">// package com.example;</span></span><br></pre></td></tr></table></figure>
+通过包机制，实现模块化开发。</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>JAVA基础语法</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">注释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="nav-number">1.1.</span> <span class="nav-text">单行注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="nav-number">1.2.</span> <span class="nav-text">多行注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A"><span class="nav-number">1.3.</span> <span class="nav-text">文档注释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6%E5%92%8C%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">2.</span> <span class="nav-text">标识符和关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="nav-number">2.1.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">2.2.</span> <span class="nav-text">关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">引用类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%8B%93%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">数据类型拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%8B%93%E5%B1%95"><span class="nav-number">4.1.</span> <span class="nav-text">整数拓展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E6%8B%93%E5%B1%95"><span class="nav-number">4.2.</span> <span class="nav-text">浮点数拓展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%8B%93%E5%B1%95"><span class="nav-number">4.3.</span> <span class="nav-text">字符拓展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E6%8B%93%E5%B1%95"><span class="nav-number">4.4.</span> <span class="nav-text">布尔拓展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB"><span class="nav-number">4.5.</span> <span class="nav-text">包装类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text">类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.1.</span> <span class="nav-text">自动类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.2.</span> <span class="nav-text">强制类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E3%80%81%E5%B8%B8%E9%87%8F%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">6.</span> <span class="nav-text">变量、常量和作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">6.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">6.2.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">6.3.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">7.</span> <span class="nav-text">基本运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">7.1.</span> <span class="nav-text">算术运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">7.2.</span> <span class="nav-text">关系运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">7.3.</span> <span class="nav-text">赋值运算符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E8%87%AA%E5%87%8F"><span class="nav-number">8.</span> <span class="nav-text">自增自减</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">9.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">10.</span> <span class="nav-text">位运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">11.</span> <span class="nav-text">三元运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E6%9C%BA%E5%88%B6"><span class="nav-number">12.</span> <span class="nav-text">包机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E5%8C%85"><span class="nav-number">12.1.</span> <span class="nav-text">声明包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E5%8C%85"><span class="nav-number">12.2.</span> <span class="nav-text">导入包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">12.3.</span> <span class="nav-text">包的注意事项</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

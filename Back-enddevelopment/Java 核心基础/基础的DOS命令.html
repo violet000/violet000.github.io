@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="基础的DOS命令（Windows命令提示符常用命令） 以下是日常使用Windows时最实用、最常碰到的基础DOS命令，按功能分类整理：  1. 磁盘与路径操作   命令 作用 常用示例    dir 显示当前目录文件列表 dir &#x2F;p   dir &#x2F;s   dir *.java   cd 切换目录 cd ..    cd \    cd d:\project   cd &amp;#x2">
+<meta property="og:type" content="website">
+<meta property="og:title" content="基础的DOS命令">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/%E5%9F%BA%E7%A1%80%E7%9A%84DOS%E5%91%BD%E4%BB%A4.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="基础的DOS命令（Windows命令提示符常用命令） 以下是日常使用Windows时最实用、最常碰到的基础DOS命令，按功能分类整理：  1. 磁盘与路径操作   命令 作用 常用示例    dir 显示当前目录文件列表 dir &#x2F;p   dir &#x2F;s   dir *.java   cd 切换目录 cd ..    cd \    cd d:\project   cd &amp;#x2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T02:15:37.256Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/%E5%9F%BA%E7%A1%80%E7%9A%84DOS%E5%91%BD%E4%BB%A4">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基础的DOS命令 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">基础的DOS命令
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>基础的DOS命令</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h1 id="基础的DOS命令（Windows命令提示符常用命令）"><a href="#基础的DOS命令（Windows命令提示符常用命令）" class="headerlink" title="基础的DOS命令（Windows命令提示符常用命令）"></a><span style="color: red">基础的DOS命令（Windows命令提示符常用命令）</span></h1><ul>
+<li>以下是日常使用Windows时最实用、最常碰到的基础DOS命令，按功能分类整理：</li>
+</ul>
+<h2 id="1-磁盘与路径操作"><a href="#1-磁盘与路径操作" class="headerlink" title="1. 磁盘与路径操作"></a>1. 磁盘与路径操作</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>常用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dir</td>
+<td>显示当前目录文件列表</td>
+<td>dir &#x2F;p   dir &#x2F;s   dir *.java</td>
+</tr>
+<tr>
+<td>cd</td>
+<td>切换目录</td>
+<td>cd ..    cd \    cd d:\project</td>
+</tr>
+<tr>
+<td>cd &#x2F;d</td>
+<td>切换盘符+目录（最常用写法）</td>
+<td>cd &#x2F;d d:\code\java</td>
+</tr>
+<tr>
+<td>md &#x2F; mkdir</td>
+<td>创建目录</td>
+<td>md newfolder</td>
+</tr>
+<tr>
+<td>rd &#x2F; rmdir</td>
+<td>删除空目录</td>
+<td>rd oldfolder</td>
+</tr>
+<tr>
+<td>del</td>
+<td>删除文件</td>
+<td>del *.tmp   del &#x2F;q &#x2F;f *.class</td>
+</tr>
+<tr>
+<td>copy</td>
+<td>复制文件</td>
+<td>copy file.txt d:\backup</td>
+</tr>
+<tr>
+<td>move</td>
+<td>移动文件&#x2F;重命名</td>
+<td>move 1.txt 2.txt</td>
+</tr>
+<tr>
+<td>ren &#x2F; rename</td>
+<td>重命名文件或文件夹</td>
+<td>ren old.txt new.txt</td>
+</tr>
+</tbody></table>
+<h2 id="2-系统信息与状态"><a href="#2-系统信息与状态" class="headerlink" title="2. 系统信息与状态"></a>2. 系统信息与状态</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>常用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ipconfig</td>
+<td>查看&#x2F;刷新网络配置</td>
+<td>ipconfig &#x2F;all   ipconfig &#x2F;flushdns</td>
+</tr>
+<tr>
+<td>ping</td>
+<td>测试网络连通性</td>
+<td>ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a>   ping -t 8.8.8.8</td>
+</tr>
+<tr>
+<td>systeminfo</td>
+<td>查看详细系统信息</td>
+<td>systeminfo</td>
+</tr>
+<tr>
+<td>whoami</td>
+<td>显示当前登录用户名</td>
+<td>whoami &#x2F;all</td>
+</tr>
+<tr>
+<td>ver</td>
+<td>显示Windows版本</td>
+<td>ver</td>
+</tr>
+<tr>
+<td>time &#x2F; date</td>
+<td>查看或修改系统时间&#x2F;日期</td>
+<td>time   date</td>
+</tr>
+</tbody></table>
+<h2 id="3-文件内容查看与编辑"><a href="#3-文件内容查看与编辑" class="headerlink" title="3. 文件内容查看与编辑"></a>3. 文件内容查看与编辑</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>常用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>显示文本文件内容</td>
+<td>type readme.txt</td>
+</tr>
+<tr>
+<td>more</td>
+<td>分页显示（配合管道使用）</td>
+<td>type large.log | more</td>
+</tr>
+<tr>
+<td>cls</td>
+<td>清空屏幕</td>
+<td>cls</td>
+</tr>
+<tr>
+<td>echo</td>
+<td>显示文字或开启&#x2F;关闭回显</td>
+<td>echo hello   echo.（空行）</td>
+</tr>
+<tr>
+<td>echo. &gt; 文件名</td>
+<td>快速创建空文件</td>
+<td>echo. &gt; test.txt</td>
+</tr>
+</tbody></table>
+<h2 id="4-进程与服务相关"><a href="#4-进程与服务相关" class="headerlink" title="4. 进程与服务相关"></a>4. 进程与服务相关</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>常用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tasklist</td>
+<td>显示当前运行进程</td>
+<td>tasklist &#x2F;v   tasklist &#x2F;fi “imagename eq chrome*”</td>
+</tr>
+<tr>
+<td>taskkill</td>
+<td>结束进程</td>
+<td>taskkill &#x2F;im notepad.exe   taskkill &#x2F;pid 1234 &#x2F;f</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>显示网络连接</td>
+<td>netstat -ano</td>
+</tr>
+<tr>
+<td>chkdsk</td>
+<td>检查磁盘错误</td>
+<td>chkdsk d: &#x2F;f</td>
+</tr>
+</tbody></table>
+<h2 id="5-常用快捷组合"><a href="#5-常用快捷组合" class="headerlink" title="5. 常用快捷组合"></a>5. 常用快捷组合</h2><table>
+<thead>
+<tr>
+<th>组合</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tab键</td>
+<td>自动补全文件名&#x2F;命令</td>
+</tr>
+<tr>
+<td>↑ &#x2F; ↓</td>
+<td>翻看历史命令</td>
+</tr>
+<tr>
+<td>Ctrl+C</td>
+<td>中止当前命令</td>
+</tr>
+<tr>
+<td>&gt; 文件名</td>
+<td>输出重定向到文件（覆盖）</td>
+</tr>
+<tr>
+<td>&gt;&gt; 文件名</td>
+<td>输出追加到文件</td>
+</tr>
+<tr>
+<td>|</td>
+<td>管道，把前面命令结果给后面命令</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>前一条命令成功才执行后一条</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>不管前面成功与否都执行后面</td>
+</tr>
+</tbody></table>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /d %userprofile%\Desktop          <span class="comment"># 快速回到桌面</span></span><br><span class="line"><span class="built_in">dir</span> /s /b *.java &gt; javafiles.txt     <span class="comment"># 把当前目录及子目录所有.java文件路径输出到txt</span></span><br><span class="line">del /q /s /f *.class                 <span class="comment"># 删除当前目录及子目录所有.class文件（小心！）</span></span><br><span class="line">ipconfig /flushdns                   <span class="comment"># 清除DNS缓存（网站打不开很常用）</span></span><br><span class="line">taskkill /f /im 进程名.exe           <span class="comment"># 强制结束程序</span></span><br></pre></td></tr></table></figure>
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>基础的DOS命令</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9A%84DOS%E5%91%BD%E4%BB%A4%EF%BC%88Windows%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">基础的DOS命令（Windows命令提示符常用命令）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A3%81%E7%9B%98%E4%B8%8E%E8%B7%AF%E5%BE%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">1. 磁盘与路径操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E4%B8%8E%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.</span> <span class="nav-text">2. 系统信息与状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B%E4%B8%8E%E7%BC%96%E8%BE%91"><span class="nav-number">1.3.</span> <span class="nav-text">3. 文件内容查看与编辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%9B%B8%E5%85%B3"><span class="nav-number">1.4.</span> <span class="nav-text">4. 进程与服务相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E7%BB%84%E5%90%88"><span class="nav-number">1.5.</span> <span class="nav-text">5. 常用快捷组合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

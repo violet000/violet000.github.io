@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"violet000.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="步骤1：安装 JDK（Java Development Kit）   版本 类型 推荐场景 下载地址（官方）    JDK 21 LTS 零基础&#x2F;大多数公司项目&#x2F;最稳 https:&#x2F;&#x2F;www.oracle.com&#x2F;java&#x2F;technologies&#x2F;downloads&#x2F;   JDK 25 最新 LTS 想用最新特性&#x2F;新项目&#x2F;性能更好 同上（选 JDK 25）">
+<meta property="og:type" content="website">
+<meta property="og:title" content="安装Java开发环境">
+<meta property="og:url" content="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">
+<meta property="og:site_name" content="Klein&#39;s-blue的博客">
+<meta property="og:description" content="步骤1：安装 JDK（Java Development Kit）   版本 类型 推荐场景 下载地址（官方）    JDK 21 LTS 零基础&#x2F;大多数公司项目&#x2F;最稳 https:&#x2F;&#x2F;www.oracle.com&#x2F;java&#x2F;technologies&#x2F;downloads&#x2F;   JDK 25 最新 LTS 想用最新特性&#x2F;新项目&#x2F;性能更好 同上（选 JDK 25）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T05:19:51.584Z">
+<meta property="article:author" content="Klein&#39;s-blue">
+<meta property="article:tag" content="博客,技术,编程,学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://violet000.top/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>安装Java开发环境 | Klein's-blue的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Klein's-blue的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享技术</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-front-enddevelopment">
+
+    <a href="/Front-enddevelopment/" rel="section"><i class="fa fa-code fa-fw"></i>前端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-back-enddevelopment">
+
+    <a href="/Back-enddevelopment/" rel="section"><i class="fa fa-server fa-fw"></i>后端开发</a>
+
+  </li>
+        <li class="menu-item menu-item-mobiledevelopment">
+
+    <a href="/Mobiledevelopment/" rel="section"><i class="fa fa-mobile fa-fw"></i>移动开发</a>
+
+  </li>
+        <li class="menu-item menu-item-aidevelopment">
+
+    <a href="/AIdevelopment/" rel="section"><i class="fa fa-brain fa-fw"></i>AI开发</a>
+
+  </li>
+        <li class="menu-item menu-item-gamedevelopment">
+
+    <a href="/Gamedevelopment/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏开发</a>
+
+  </li>
+        <li class="menu-item menu-item-othersdevelopment">
+
+    <a href="/Othersdevelopment/" rel="section"><i class="fa fa-globe fa-fw"></i>其他开发</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">安装Java开发环境
+</h1>
+
+<div class="post-meta">
+  
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>安装开发环境</li>
+          
+  </ul>
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+            <h2 id="步骤1：安装-JDK（Java-Development-Kit）"><a href="#步骤1：安装-JDK（Java-Development-Kit）" class="headerlink" title="步骤1：安装 JDK（Java Development Kit）"></a>步骤1：安装 JDK（Java Development Kit）</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>类型</th>
+<th>推荐场景</th>
+<th>下载地址（官方）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JDK 21</td>
+<td>LTS</td>
+<td>零基础&#x2F;大多数公司项目&#x2F;最稳</td>
+<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/">https://www.oracle.com/java/technologies/downloads/</a></td>
+</tr>
+<tr>
+<td>JDK 25</td>
+<td>最新 LTS</td>
+<td>想用最新特性&#x2F;新项目&#x2F;性能更好</td>
+<td>同上（选 JDK 25）</td>
+</tr>
+<tr>
+<td>OpenJDK</td>
+<td>免费替代</td>
+<td>不想登录 Oracle &#x2F; 完全开源</td>
+<td><a target="_blank" rel="noopener" href="https://adoptium.net/">https://adoptium.net/</a> (Eclipse Temurin)</td>
+</tr>
+</tbody></table>
+<h3 id="Windows-安装步骤："><a href="#Windows-安装步骤：" class="headerlink" title="Windows 安装步骤："></a>Windows 安装步骤：</h3><ol>
+<li>打开浏览器 → 访问：<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/">https://www.oracle.com/java/technologies/downloads/</a></li>
+<li>选择 JDK 21 或 JDK 25 → 点 Windows x64 Installer（.exe 文件）</li>
+<li>下载完成后双击运行 → 一直 Next → 安装完成（默认路径通常是 <code>C:\Program Files\Java\jdk-25</code>）</li>
+<li><strong>配置环境变量（非常重要！）</strong>：<ul>
+<li>右键「此电脑」→ 属性 → 高级系统设置 → 环境变量</li>
+<li>在系统变量中：<ul>
+<li>新建 <code>JAVA_HOME</code> &#x3D; <code>C:\Program Files\Java\jdk-25</code>（改成你的实际路径）</li>
+<li>编辑 <code>Path</code> → 新增 <code>%JAVA_HOME%\bin</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="验证安装成功："><a href="#验证安装成功：" class="headerlink" title="验证安装成功："></a>验证安装成功：</h3><ol>
+<li>打开命令提示符（cmd）或 PowerShell</li>
+<li>输入下面两条命令（回车）：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br><span class="line">javac -version</span><br></pre></td></tr></table></figure></li>
+<li>看到类似下面输出就成功了：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version <span class="string">&quot;25.0.1&quot;</span> 2025-10-21 LTS</span><br><span class="line">Java(TM) SE Runtime Environment (build 25.0.1+7-LTS-1)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.0.1+7-LTS-1, mixed mode, sharing)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="macOS："><a href="#macOS：" class="headerlink" title="macOS："></a>macOS：</h3><ul>
+<li>下载 .dmg 文件 → 双击安装 → 自动完成</li>
+<li>环境变量配置在 ~&#x2F;.zshrc 或 ~&#x2F;.bash_profile：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=$(/usr/libexec/java_home -v 25)</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后 <code>source ~/.zshrc</code> 生效</li>
+</ul>
+<h3 id="Linux（Ubuntu-Debian）："><a href="#Linux（Ubuntu-Debian）：" class="headerlink" title="Linux（Ubuntu&#x2F;Debian）："></a>Linux（Ubuntu&#x2F;Debian）：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install openjdk-21-jdk   <span class="comment"># 或 openjdk-25-jdk 如果有</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤2：安装-IntelliJ-IDEA-Community-Edition（免费版）"><a href="#步骤2：安装-IntelliJ-IDEA-Community-Edition（免费版）" class="headerlink" title="步骤2：安装 IntelliJ IDEA Community Edition（免费版）"></a>步骤2：安装 IntelliJ IDEA Community Edition（免费版）</h2><p><strong>下载地址（官方，2026年1月最新）</strong>：<a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/download/">https://www.jetbrains.com/idea/download/</a></p>
+<h3 id="下载与安装："><a href="#下载与安装：" class="headerlink" title="下载与安装："></a>下载与安装：</h3><ol>
+<li>选择 <strong>Community（免费版）</strong> → 下载对应系统安装包<ul>
+<li>Windows：<code>.exe</code></li>
+<li>macOS：<code>.dmg</code></li>
+<li>Linux：<code>.tar.gz</code> 或 <code>snap</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="Windows-安装步骤：-1"><a href="#Windows-安装步骤：-1" class="headerlink" title="Windows 安装步骤："></a>Windows 安装步骤：</h3><ol>
+<li><p>双击 <code>.exe</code> → 一直 Next → 建议勾选：</p>
+<ul>
+<li>64-bit launcher</li>
+<li>Add launchers dir to the PATH</li>
+<li><code>.java / .groovy / .kt</code> 关联</li>
+</ul>
+</li>
+<li><p>安装完成 → 第一次启动会让你配置</p>
+</li>
+</ol>
+<h3 id="第一次打开-IntelliJ-IDEA："><a href="#第一次打开-IntelliJ-IDEA：" class="headerlink" title="第一次打开 IntelliJ IDEA："></a>第一次打开 IntelliJ IDEA：</h3><ol>
+<li>选择 <strong>Do not import settings</strong></li>
+<li>主题选 <strong>Dark</strong> 或 <strong>Light</strong>（随你）</li>
+<li>插件可以先跳过（后期需要再装）</li>
+<li><strong>关键</strong>：在配置 JDK 时，选择刚才安装的 JDK 路径（IntelliJ 会自动检测大部分情况）</li>
+</ol>
+<h2 id="步骤3：验证整个环境（Hello-World-测试）"><a href="#步骤3：验证整个环境（Hello-World-测试）" class="headerlink" title="步骤3：验证整个环境（Hello World 测试）"></a>步骤3：验证整个环境（Hello World 测试）</h2><ol>
+<li>打开 IntelliJ IDEA</li>
+<li>点击 <strong>New Project</strong> → <strong>Java</strong> → <strong>Empty Project</strong> → <strong>Next</strong></li>
+<li>项目名随便取 → 语言选 <strong>Java</strong> → JDK 选你刚装的 <strong>21&#x2F;25</strong> → <strong>Create</strong></li>
+<li>右键 <code>src</code> → <strong>New</strong> → <strong>Java Class</strong> → 命名为 <code>HelloWorld</code></li>
+<li>粘贴下面代码：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello Java 2026! 当前JDK版本: &quot;</span> + System.getProperty(<span class="string">&quot;java.version&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>右键类名 → <strong>Run ‘HelloWorld.main()’</strong></li>
+<li>看到控制台输出 <code>Hello Java 2026!</code> 就说明环境完全 OK！</li>
+</ol>
+<h2 id="CMD-PowerShell-命令符执行java代码时出现中文乱码，解决方案："><a href="#CMD-PowerShell-命令符执行java代码时出现中文乱码，解决方案：" class="headerlink" title=" CMD&#x2F;PowerShell 命令符执行java代码时出现中文乱码，解决方案： "></a><span style="color: red"> CMD&#x2F;PowerShell 命令符执行java代码时出现中文乱码，解决方案： </span></h2><h3 id="PowerShell-解决方案一-仅为执行单一程序"><a href="#PowerShell-解决方案一-仅为执行单一程序" class="headerlink" title="PowerShell 解决方案一(仅为执行单一程序)"></a>PowerShell 解决方案一(仅为执行单一程序)</h3><ul>
+<li><span style="color: red">第一步（关键！）：设置 PowerShell 的输出编码为 UTF-8</span></li>
+<li>在你的 PowerShell 窗口中直接粘贴下面这一行命令并回车：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OutputEncoding</span> = [console]::OutputEncoding = [Text.UTF8Encoding]::UTF8</span><br></pre></td></tr></table></figure>
+或者更彻底的一行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Console]::OutputEncoding = [System.Text.Encoding]::UTF8</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>第二步：<span style="color: red">运行你的 Java 程序（再加一个保险参数）</span></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java <span class="string">&quot;-Dfile.encoding=UTF-8&quot;</span> HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="PowerShell-解决方案二-能够频繁多次执行"><a href="#PowerShell-解决方案二-能够频繁多次执行" class="headerlink" title="PowerShell 解决方案二(能够频繁多次执行)"></a>PowerShell 解决方案二(能够频繁多次执行)</h3><ul>
+<li><p>第一步的命令写进你的 PowerShell 配置文件，让每次打开 PowerShell 都自动执行。</p>
+</li>
+<li><ol>
+<li>在PowerShell中输入下面命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad <span class="variable">$PROFILE</span></span><br></pre></td></tr></table></figure>
+（如果提示文件不存在，选“是”创建）</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>在打开的记事本里粘贴下面这几行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 永久解决 Java 中文乱码</span></span><br><span class="line">[Console]::OutputEncoding = [System.Text.Encoding]::UTF8</span><br><span class="line"><span class="variable">$OutputEncoding</span> = [Console]::OutputEncoding</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>保存并关闭记事本</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>重启 PowerShell（关掉再开一个新的）</li>
+</ol>
+</li>
+</ul>
+
+      </div>
+      
+      
+      
+    </div>
+    
+  <ul class="breadcrumb">
+          
+            <li><a href="/Back-enddevelopment/">BACK-ENDDEVELOPMENT</a></li>
+            <li><a href="/Back-enddevelopment/Java%20%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80/">JAVA 核心基础</a></li>
+            <li>安装开发环境</li>
+          
+  </ul>
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E5%AE%89%E8%A3%85-JDK%EF%BC%88Java-Development-Kit%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">步骤1：安装 JDK（Java Development Kit）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">Windows 安装步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">验证安装成功：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#macOS%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">macOS：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%EF%BC%88Ubuntu-Debian%EF%BC%89%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">Linux（Ubuntu&#x2F;Debian）：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E5%AE%89%E8%A3%85-IntelliJ-IDEA-Community-Edition%EF%BC%88%E5%85%8D%E8%B4%B9%E7%89%88%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">步骤2：安装 IntelliJ IDEA Community Edition（免费版）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">下载与安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%EF%BC%9A-1"><span class="nav-number">2.2.</span> <span class="nav-text">Windows 安装步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%89%93%E5%BC%80-IntelliJ-IDEA%EF%BC%9A"><span class="nav-number">2.3.</span> <span class="nav-text">第一次打开 IntelliJ IDEA：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E9%AA%8C%E8%AF%81%E6%95%B4%E4%B8%AA%E7%8E%AF%E5%A2%83%EF%BC%88Hello-World-%E6%B5%8B%E8%AF%95%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">步骤3：验证整个环境（Hello World 测试）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMD-PowerShell-%E5%91%BD%E4%BB%A4%E7%AC%A6%E6%89%A7%E8%A1%8Cjava%E4%BB%A3%E7%A0%81%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%EF%BC%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text"> CMD&#x2F;PowerShell 命令符执行java代码时出现中文乱码，解决方案： </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%B8%80-%E4%BB%85%E4%B8%BA%E6%89%A7%E8%A1%8C%E5%8D%95%E4%B8%80%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.1.</span> <span class="nav-text">PowerShell 解决方案一(仅为执行单一程序)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BA%8C-%E8%83%BD%E5%A4%9F%E9%A2%91%E7%B9%81%E5%A4%9A%E6%AC%A1%E6%89%A7%E8%A1%8C"><span class="nav-number">4.2.</span> <span class="nav-text">PowerShell 解决方案二(能够频繁多次执行)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Klein's-blue</p>
+  <div class="site-description" itemprop="description">专注、思考、分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Klein's-blue love Ms. Wang</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
